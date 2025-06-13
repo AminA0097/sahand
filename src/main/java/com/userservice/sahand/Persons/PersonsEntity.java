@@ -1,6 +1,6 @@
 package com.userservice.sahand.Persons;
 
-import com.userservice.sahand.Bases.BaseEntity;
+import com.userservice.sahand.Bases.BasesEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CORE_PERSONS")
-public class PersonEntity extends BaseEntity {
+public class PersonsEntity extends BasesEntity {
     @Id
     @Column(name = "FLD_PERSON_ID")
     private long personId;

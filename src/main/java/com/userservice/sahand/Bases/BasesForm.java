@@ -1,31 +1,13 @@
 package com.userservice.sahand.Bases;
 
-import com.userservice.sahand.Utils.IsBoolean;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.MappedSuperclass;
-
 import java.util.Date;
 
-@MappedSuperclass
-public class BaseEntity {
-    @Column(name = "FLD_CREATED_BY")
+public class BasesForm {
     private String createdBy;
-
-    @Column(name = "FLD_UPDATED_BY")
     private String updatedBy;
-
-    @Column(name = "FLD_DELETED")
-    @IsBoolean()
     private Boolean deleted;
-
-    @Column(name = "FLD_CREATED_DATE")
     private Date createdData;
-
-    @Column(name = "FLD_UPDATED_DATE")
     private Date updatedData;
-
-    @Column(name = "FLD_DELETED_DATE")
     private Date deletedData;
 
     public String getCreatedBy() {

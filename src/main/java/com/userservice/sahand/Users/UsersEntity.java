@@ -1,15 +1,15 @@
 package com.userservice.sahand.Users;
 
-import com.userservice.sahand.Bases.BaseEntity;
+import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.CoreCombo.CoreComboEntity;
-import com.userservice.sahand.Persons.PersonEntity;
+import com.userservice.sahand.Persons.PersonsEntity;
 import com.userservice.sahand.Action.ActionEntity;
 import com.userservice.sahand.Roles.RolesEntity;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "CORE_USERS")
-public class UsersEntity extends BaseEntity {
+public class UsersEntity extends BasesEntity {
     @Id
     @Column(name = "FLD_USER_ID")
     private long userId;
@@ -33,7 +33,7 @@ public class UsersEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "FLD_PERSON_ID")
-    private PersonEntity person;
+    private PersonsEntity person;
 
     @ManyToOne
     @JoinColumn(name = "FLD_ACTION_ID")
