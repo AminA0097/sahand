@@ -16,7 +16,7 @@ public class BasesEntity {
 
     @Column(name = "FLD_DELETED")
     @IsBoolean()
-    private Boolean deleted;
+    private boolean deleted;
 
     @Column(name = "FLD_CREATED_DATE")
     private Date createdData;
@@ -26,6 +26,10 @@ public class BasesEntity {
 
     @Column(name = "FLD_DELETED_DATE")
     private Date deletedData;
+
+    @Column(name = "FLD_ENABLED")
+    @IsBoolean()
+    private boolean enabled;
 
     public String getCreatedBy() {
         return createdBy;
@@ -43,11 +47,11 @@ public class BasesEntity {
         this.updatedBy = updatedBy;
     }
 
-    public Boolean getDeleted() {
+    public boolean isDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 
@@ -73,5 +77,13 @@ public class BasesEntity {
 
     public void setDeletedData(Date deletedData) {
         this.deletedData = deletedData;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
