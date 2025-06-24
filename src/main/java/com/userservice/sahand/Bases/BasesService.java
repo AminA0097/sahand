@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public abstract class BasesService<T> implements BasesInterface<T> {
+public  class BasesService<T> implements BasesInterface<T> {
     @Autowired
     private EntityManager entityManager;
-    protected abstract BaseRepo<T> getRepository();
     @Override
     public List<?> getList(String filter, int start, int end) throws Exception {
         Class <?> interfaceClass = Remote.getClass(this.getClass(),"Interface");
@@ -30,6 +29,7 @@ public abstract class BasesService<T> implements BasesInterface<T> {
     @Override
     public String save(BasesForm basesForm) throws Exception {
         Class <?> entityClass = Remote.getClass(this.getClass(),"Entity");
+        System.out.println(basesForm.getClass().getSimpleName());
         System.out.println(entityClass.getName());
         return "";
     }

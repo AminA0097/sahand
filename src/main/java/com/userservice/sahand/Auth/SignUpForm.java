@@ -7,6 +7,8 @@ import com.userservice.sahand.Utils.FormFiled;
 
 public class SignUpForm extends BasesForm {
     @FormFiled(EntityName = UsersEntity.class)
+    private Long userId;
+    @FormFiled(EntityName = UsersEntity.class)
     private String userName;
 
     @FormFiled(EntityName = UsersEntity.class)
@@ -103,5 +105,13 @@ public class SignUpForm extends BasesForm {
 
     public void setStatusId(Long statusId) {
         this.statusId = statusId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

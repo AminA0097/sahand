@@ -36,4 +36,7 @@ public class Remote {
         Object instance = SpringContextHelper.getContext().getBean(implClass);
         return clazz.cast(instance);
     }
+    public Class<?> copyToEntity(Class<?> form)throws Exception{
+        return null;
+    }
 }

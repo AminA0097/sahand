@@ -6,5 +6,5 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public interface UsersInterface extends BasesInterface<UsersEntity> {
     public UsersEntity findUsername(String username) throws UsernameNotFoundException;
-    public boolean register(SignUpForm signUpForm) throws Exception;
+    public boolean setEntity(SignUpForm signUpForm) throws Exception;
 }

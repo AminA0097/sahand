@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public abstract class UsersService extends BasesService<UsersEntity> implements UsersInterface {
+public  class UsersService extends BasesService<UsersEntity> implements UsersInterface {
     @Autowired
     EntityManager entityManager;
     @Override
@@ -30,10 +30,13 @@ public abstract class UsersService extends BasesService<UsersEntity> implements 
 
     @Override
     @Transactional
-    public boolean register(SignUpForm signUpForm) throws Exception {
+    public boolean setEntity(SignUpForm signUpForm) throws Exception {
         PersonsInterface personsInterface = (PersonsInterface) Remote.makeRemote(PersonsInterface.class);
         UsersInterface usersInterface = (UsersInterface) Remote.makeRemote(UsersInterface.class);
-        personsInterface.save(signUpForm);
+        if(signUpForm.getUserId() == -1){
+
+        }
+        else
         usersInterface.save(signUpForm);
         return false;
     }

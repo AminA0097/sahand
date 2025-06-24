@@ -6,6 +6,6 @@ import com.userservice.sahand.Users.UsersInterface;
 import org.springframework.stereotype.Service;
 
 @Service
-public abstract class PersonsService extends BasesService<PersonsEntity> implements PersonsInterface {
+public  class PersonsService extends BasesService<PersonsEntity> implements PersonsInterface {
 
 }
