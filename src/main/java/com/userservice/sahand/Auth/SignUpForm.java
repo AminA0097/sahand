@@ -1,39 +1,21 @@
 package com.userservice.sahand.Auth;
 
 import com.userservice.sahand.Bases.BasesForm;
-import com.userservice.sahand.Persons.PersonsEntity;
-import com.userservice.sahand.Users.UsersEntity;
-import com.userservice.sahand.Utils.FormFiled;
 
-public class SignUpForm extends BasesForm {
-    @FormFiled(EntityName = UsersEntity.class)
+
+public  class SignUpForm extends BasesForm {
     private Long userId;
-    @FormFiled(EntityName = UsersEntity.class)
     private String userName;
-
-    @FormFiled(EntityName = UsersEntity.class)
     private String password;
-
-    @FormFiled(EntityName = UsersEntity.class)
     private boolean isSysAdmin;
-
-    @FormFiled(EntityName = UsersEntity.class)
     private String userAccess;
-
-    @FormFiled(EntityName = UsersEntity.class)
     private Long roleId;
-
-    @FormFiled(EntityName = PersonsEntity.class)
     private String firstName;
-
-    @FormFiled(EntityName = PersonsEntity.class)
     private String lastName;
-
-    @FormFiled(EntityName = PersonsEntity.class)
     private String companyName;
 
-    @FormFiled(EntityName = UsersEntity.class)
     private Long statusId;
+
 
     public String getUserName() {
         return userName;
@@ -113,5 +95,9 @@ public class SignUpForm extends BasesForm {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+    @Override
+    public Long getId() {
+        return this.userId;
     }
 }

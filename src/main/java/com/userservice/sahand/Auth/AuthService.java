@@ -36,12 +36,8 @@ public class AuthService implements AuthInterface{
     }
 
     @Override
-    public boolean signUp(SignUpForm signUpForm) throws Exception {
+    public String signUp(SignUpForm signUpForm) throws Exception {
         UsersInterface usersInterface = (UsersInterface) Remote.makeRemote(UsersInterface.class);
-        UsersEntity usersEntities = usersInterface.findUsername(signUpForm.getUserName());
-        if(usersEntities != null){
-            return false;
-        }
-        return usersInterface.setEntity(signUpForm);
+        return usersInterface.registraion(signUpForm);
     }
 }

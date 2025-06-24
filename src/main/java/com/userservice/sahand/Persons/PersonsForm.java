@@ -39,4 +39,8 @@ public class PersonsForm extends BasesForm {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+    @Override
+    public Long getId(){
+        return this.personId;
+    }
 }

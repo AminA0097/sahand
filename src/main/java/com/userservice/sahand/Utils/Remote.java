@@ -16,7 +16,12 @@ public class Remote {
                 outClass = simpleName.replace("Service", whatClass);
             } else if (simpleName.endsWith("Controller")) {
                 outClass = simpleName.replace("Controller", whatClass);
-            } else {
+            } else if (simpleName.endsWith("Form")) {
+                outClass = simpleName.replace("Form", whatClass);
+            }else if (simpleName.endsWith("Simple")) {
+                outClass = simpleName.replace("Simple", whatClass);
+            }
+            else {
                 throw new IllegalArgumentException("Class must end with 'Service' or 'Controller'");
             }
 

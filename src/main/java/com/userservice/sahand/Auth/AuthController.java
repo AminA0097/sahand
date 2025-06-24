@@ -15,7 +15,7 @@ public class AuthController {
         return authService.login(loginForm);
     }
     @PostMapping(Roots.SIGN_UP_ROOT)
-    public boolean signUp(@RequestBody SignUpForm signUpForm) throws Exception {
+    public String signUp(@RequestBody SignUpForm signUpForm) throws Exception {
         return authService.signUp(signUpForm);
     }
     @GetMapping("/test")

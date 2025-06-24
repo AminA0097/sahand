@@ -2,7 +2,7 @@ package com.userservice.sahand.Bases;
 
 import java.util.Date;
 
-public class BasesForm {
+public abstract  class BasesForm {
     private String createdBy;
     private String updatedBy;
     private Boolean deleted;
@@ -57,4 +57,6 @@ public class BasesForm {
     public void setDeletedData(Date deletedData) {
         this.deletedData = deletedData;
     }
+    public abstract Long getId();
+
 }

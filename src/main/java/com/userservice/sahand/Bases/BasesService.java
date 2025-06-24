@@ -1,11 +1,13 @@
 package com.userservice.sahand.Bases;
 
+import com.userservice.sahand.Utils.Mapper;
 import com.userservice.sahand.Utils.Remote;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,9 +30,12 @@ public  class BasesService<T> implements BasesInterface<T> {
 
     @Override
     public String save(BasesForm basesForm) throws Exception {
-        Class <?> entityClass = Remote.getClass(this.getClass(),"Entity");
-        System.out.println(basesForm.getClass().getSimpleName());
-        System.out.println(entityClass.getName());
-        return "";
+        Class <?> entityClassName = Remote.getClass(this.getClass(),"Entity");
+        if (basesForm.getId() == -1) {
+            Object entityClass =  Mapper.copyFormToEntity(basesForm,entityClassName);
+//            entityManager.persist(entityClass);
+        }
+        return "This Form Is Updated";
+
     }
 }

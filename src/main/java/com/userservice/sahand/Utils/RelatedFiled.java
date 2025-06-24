@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FormFiled {
+public @interface RelatedFiled {
     Class<?> EntityName();
+    String field();
 }
