@@ -6,11 +6,12 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: false
         show_sql: true
+      leve
 #  security:
 #    user:
 #      name: admin

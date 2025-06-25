@@ -31,4 +31,9 @@ public class CoreComboEntity extends BasesEntity {
     public void setCoreComboName(String coreComboName) {
         this.coreComboName = coreComboName;
     }
+
+    @Override
+    public Long getId() {
+        return this.coreComboId;
+    }
 }

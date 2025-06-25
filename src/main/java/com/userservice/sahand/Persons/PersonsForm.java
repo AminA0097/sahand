@@ -3,16 +3,16 @@ package com.userservice.sahand.Persons;
 import com.userservice.sahand.Bases.BasesForm;
 
 public class PersonsForm extends BasesForm {
-    private long personId;
+    private Long personId;
     private String firstName;
     private String lastName;
     private String companyName;
 
-    public long getPersonId() {
+    public Long getPersonId() {
         return personId;
     }
 
-    public void setPersonId(long personId) {
+    public void setPersonId(Long personId) {
         this.personId = personId;
     }
 

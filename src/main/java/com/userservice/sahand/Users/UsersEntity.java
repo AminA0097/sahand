@@ -121,4 +121,9 @@ public class UsersEntity extends BasesEntity {
     public void setRole(RolesEntity role) {
         this.role = role;
     }
+
+    @Override
+    public Long getId() {
+        return this.userId;
+    }
 }

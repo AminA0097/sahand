@@ -7,7 +7,7 @@ import jakarta.persistence.MappedSuperclass;
 import java.util.Date;
 
 @MappedSuperclass
-public class BasesEntity {
+public abstract class BasesEntity {
     @Column(name = "FLD_CREATED_BY")
     private String createdBy;
 
@@ -86,4 +86,5 @@ public class BasesEntity {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+    public abstract Long getId();
 }

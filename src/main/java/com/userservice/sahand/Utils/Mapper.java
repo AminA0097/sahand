@@ -1,27 +1,23 @@
 package com.userservice.sahand.Utils;
 
+import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.Bases.BasesForm;
 import java.lang.reflect.Field;
 
 public class Mapper {
-    public static Object copyFormToEntity(BasesForm form, Class<?> entity) throws Exception{
-        Class<?> entityClass =  Remote.getClass(form.getClass(),"Entity");
-        Object entityInstance = entityClass.getDeclaredConstructor().newInstance();
-        Field[] entityFields = entityClass.getDeclaredFields();
+    public static boolean copyFormToEntity(BasesForm form, BasesEntity basesEntity) throws Exception{
+        Field[] fields = basesEntity.getClass().getDeclaredFields();
         Field[] formFields = form.getClass().getDeclaredFields();
-        for(Field ef : entityFields){
-            ef.setAccessible(true);
-            String entityFieldName = ef.getName();
-            if(!ef.isAnnotationPresent(RelatedFiled.class)){
-                for(Field formField : formFields){
-                    if(formField.getName().equals(entityFieldName)){
-                        Object formFieldValue = formField.get(form);
-                        ef.set(entityInstance, formFieldValue);
-                        break;
-                    }
+        for (Field field : fields) {
+            field.setAccessible(true);
+            String fieldName = field.getName();
+            for (Field formField : formFields) {
+                if (fieldName.equals(formField.getName())) {
+                    formField.setAccessible(true);
+                    field.set(basesEntity, formField.get(form));
                 }
             }
         }
-        return entityInstance;
+        return true;
     }
 }

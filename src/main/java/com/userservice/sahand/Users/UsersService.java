@@ -32,15 +32,15 @@ public  class UsersService extends BasesService<UsersEntity> implements UsersInt
     @Transactional
     public String registraion(SignUpForm signUpForm) throws Exception {
         UsersEntity usersEntity = findUsername(signUpForm.getUserName());
-        if (usersEntity != null) {
-            throw new Exception("Username already exists");
-        }
         PersonsInterface personsInterface = (PersonsInterface) Remote.makeRemote(PersonsInterface.class);
         PersonsForm personsForm = new PersonsForm();
-        personsForm.setPersonId(-1);
-        personsForm.setFirstName(signUpForm.getFirstName());
-        personsForm.setLastName(signUpForm.getLastName());
-        personsForm.setCompanyName(signUpForm.getCompanyName());
+        if(signUpForm.getId() == -1) {
+            personsForm.setPersonId(null);
+            personsForm.setFirstName(signUpForm.getFirstName());
+            personsForm.setLastName(signUpForm.getLastName());
+            personsForm.setCompanyName(signUpForm.getCompanyName());
+
+        }
         String personId =  personsInterface.save(personsForm);
         return personId;
     }

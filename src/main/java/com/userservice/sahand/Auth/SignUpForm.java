@@ -5,6 +5,7 @@ import com.userservice.sahand.Bases.BasesForm;
 
 public  class SignUpForm extends BasesForm {
     private Long userId;
+    private Long personId;
     private String userName;
     private String password;
     private boolean isSysAdmin;
@@ -16,6 +17,13 @@ public  class SignUpForm extends BasesForm {
 
     private Long statusId;
 
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
 
     public String getUserName() {
         return userName;
@@ -98,6 +106,6 @@ public  class SignUpForm extends BasesForm {
     }
     @Override
     public Long getId() {
-        return this.userId;
+        return this.personId;
     }
 }

@@ -30,4 +30,8 @@ public class ChatsEntity extends BasesEntity {
             inverseJoinColumns = @JoinColumn(name = "FLD_RECEIVER_ID"))
     private List<UsersEntity> receivers;
 
+    @Override
+    public Long getId() {
+        return this.chatId;
+    }
 }

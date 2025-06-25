@@ -31,4 +31,9 @@ public class RolesEntity extends BasesEntity {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
+
+    @Override
+    public Long getId() {
+        return this.roleId;
+    }
 }

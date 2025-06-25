@@ -1,17 +1,15 @@
 package com.userservice.sahand.Persons;
 
 import com.userservice.sahand.Bases.BasesEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "CORE_PERSONS")
 public class PersonsEntity extends BasesEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "FLD_PERSON_ID")
-    private long personId;
+    private Long personId;
 
     @Column(name = "FLD_PERSON_NAME")
     private String firstName;
@@ -22,11 +20,11 @@ public class PersonsEntity extends BasesEntity {
     @Column(name = "FLD_COMPANY_NAME")
     private String companyName;
 
-    public long getPersonId() {
+    public Long getPersonId() {
         return personId;
     }
 
-    public void setPersonId(long personId) {
+    public void setPersonId(Long personId) {
         this.personId = personId;
     }
 
@@ -52,5 +50,10 @@ public class PersonsEntity extends BasesEntity {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    @Override
+    public Long getId(){
+        return this.personId;
     }
 }

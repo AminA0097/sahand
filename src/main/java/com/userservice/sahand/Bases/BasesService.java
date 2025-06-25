@@ -3,6 +3,8 @@ package com.userservice.sahand.Bases;
 import com.userservice.sahand.Utils.Mapper;
 import com.userservice.sahand.Utils.Remote;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +13,9 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public  class BasesService<T> implements BasesInterface<T> {
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
     @Override
     public List<?> getList(String filter, int start, int end) throws Exception {
@@ -31,11 +34,26 @@ public  class BasesService<T> implements BasesInterface<T> {
     @Override
     public String save(BasesForm basesForm) throws Exception {
         Class <?> entityClassName = Remote.getClass(this.getClass(),"Entity");
-        if (basesForm.getId() == -1) {
-            Object entityClass =  Mapper.copyFormToEntity(basesForm,entityClassName);
-//            entityManager.persist(entityClass);
+        BasesEntity basesEntity = (BasesEntity) entityClassName.getDeclaredConstructor().newInstance();
+        if (basesForm.getId() == null || basesForm.getId() == -1) {
+
         }
-        return "This Form Is Updated";
+        Mapper.copyFormToEntity(basesForm,basesEntity);
+        if (basesEntity.getId() == null || basesEntity.getId() == -1) {
+            basesEntity.setDeleted(false);
+            basesEntity.setDeletedData(new Date());
+            basesEntity.setCreatedBy("Amin");
+            basesEntity.setCreatedData(new Date());
+            entityManager.persist(basesEntity);
+            entityManager.flush();
+        }
+        else{
+            basesEntity.setUpdatedBy("Amin");
+            basesEntity.setUpdatedData(new Date());
+            entityManager.merge(basesEntity);
+            basesEntity.getId();
+        }
+        return basesEntity.getId().toString();
 
     }
 }
