@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-@Transactional
+
 public  class BasesService<T> implements BasesInterface<T> {
     @PersistenceContext
     private EntityManager entityManager;
@@ -32,6 +32,7 @@ public  class BasesService<T> implements BasesInterface<T> {
     }
 
     @Override
+    @Transactional
     public String save(BasesForm basesForm) throws Exception {
         Class <?> entityClassName = Remote.getClass(this.getClass(),"Entity");
         BasesEntity basesEntity = (BasesEntity) entityClassName.getDeclaredConstructor().newInstance();
@@ -45,7 +46,7 @@ public  class BasesService<T> implements BasesInterface<T> {
             basesEntity.setCreatedBy("Amin");
             basesEntity.setCreatedData(new Date());
             entityManager.persist(basesEntity);
-            entityManager.flush();
+
         }
         else{
             basesEntity.setUpdatedBy("Amin");
