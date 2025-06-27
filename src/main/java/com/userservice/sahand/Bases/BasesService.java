@@ -51,6 +51,7 @@ public  class BasesService<T> implements BasesInterface<T> {
             basesEntity.setUpdatedData(new Date());
             entityManager.merge(basesEntity);
             entityManager.flush();
+
         }
         return basesEntity.getId().toString();
 

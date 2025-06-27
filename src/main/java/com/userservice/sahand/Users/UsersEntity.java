@@ -1,14 +1,12 @@
 package com.userservice.sahand.Users;
 
+import com.userservice.sahand.Action.ActionsEntity;
 import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.CoreCombo.CoreComboEntity;
 import com.userservice.sahand.Persons.PersonsEntity;
-import com.userservice.sahand.Action.ActionEntity;
 import com.userservice.sahand.Roles.RolesEntity;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Columns;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -53,7 +51,7 @@ public class UsersEntity extends BasesEntity {
             name = "CORE_USERS_ACTIONS",
     joinColumns = @JoinColumn(name = "FLD_USER_ID"),
     inverseJoinColumns = @JoinColumn(name = "FLD_ACTION_ID"))
-    private List<ActionEntity> actions;
+    private Set<ActionsEntity> actions;
 
     @ManyToOne
     @JoinColumn(name = "FLD_ROLE_ID")
@@ -115,11 +113,11 @@ public class UsersEntity extends BasesEntity {
         this.person = person;
     }
 
-    public List<ActionEntity> getActions() {
+    public Set<ActionsEntity> getActions() {
         return actions;
     }
 
-    public void setActions(List<ActionEntity> actions) {
+    public void setActions(Set<ActionsEntity> actions) {
         this.actions = actions;
     }
 

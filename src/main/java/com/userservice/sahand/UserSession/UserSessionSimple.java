@@ -1,16 +1,15 @@
 package com.userservice.sahand.UserSession;
 
-import com.userservice.sahand.Action.ActionEntity;
+import com.userservice.sahand.Action.ActionsEntity;
 import com.userservice.sahand.Users.UsersEntity;
 
-import java.util.List;
 import java.util.Set;
 
 public class UserSessionSimple {
     public String username;
     public long userid;
     public long roleId;
-    public List<ActionEntity> actions;
+    public Set<ActionsEntity> actions;
 
     public UserSessionSimple(UsersEntity e) {
         this.username = e.getUserName();
@@ -43,11 +42,11 @@ public class UserSessionSimple {
         this.roleId = roleId;
     }
 
-    public List<ActionEntity> getActions() {
+    public Set<ActionsEntity> getActions() {
         return actions;
     }
 
-    public void setActions(List<ActionEntity> actions) {
+    public void setActions(Set<ActionsEntity> actions) {
         this.actions = actions;
     }
 }

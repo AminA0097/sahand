@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CORE_ACTIONS")
-public class ActionEntity {
+public class ActionsEntity {
     @Id
     @Column(name = "FLD_ACTION_ID")
     private long actionId;

@@ -1,9 +1,7 @@
 package com.userservice.sahand.Users;
 
-import com.userservice.sahand.Action.ActionEntity;
-import com.userservice.sahand.Action.ActionSimple;
+import com.userservice.sahand.Action.ActionsEntity;
 
-import java.util.List;
 import java.util.Set;
 
 public class UsersSimple {
@@ -14,7 +12,7 @@ public class UsersSimple {
     private String password;
     private long roleId;
     private String roleName;
-    private List<ActionEntity> actions;
+    private Set<ActionsEntity> actions;
 
     public UsersSimple(UsersEntity e) {
         this.firstName = e.getPerson().getFirstName();
@@ -83,11 +81,11 @@ public class UsersSimple {
         this.roleName = roleName;
     }
 
-    public List<ActionEntity> getActions() {
+    public Set<ActionsEntity> getActions() {
         return actions;
     }
 
-    public void setActions(List<ActionEntity> actions) {
+    public void setActions(Set<ActionsEntity> actions) {
         this.actions = actions;
     }
 }

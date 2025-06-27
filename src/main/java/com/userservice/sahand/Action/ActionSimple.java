@@ -3,7 +3,7 @@ package com.userservice.sahand.Action;
 public class ActionSimple {
     private long actionId;
     private String actionName;
-    public ActionSimple(ActionEntity e) {
+    public ActionSimple(ActionsEntity e) {
         this.actionId = e.getActionId();
         this.actionName = e.getActionName();
     }
