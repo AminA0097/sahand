@@ -1,7 +1,10 @@
 package com.userservice.sahand.Utils;
 
+import com.userservice.sahand.Auth.SignUpForm;
 import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.Bases.BasesForm;
+import com.userservice.sahand.Persons.PersonsForm;
+
 import java.lang.reflect.Field;
 
 public class Mapper {
@@ -18,6 +21,10 @@ public class Mapper {
                 }
             }
         }
+        return true;
+    }
+
+    public static boolean findFormToForm(BasesForm basesForm , BasesForm form) throws Exception {
         return true;
     }
 }

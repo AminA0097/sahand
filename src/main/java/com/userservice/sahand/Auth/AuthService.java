@@ -38,6 +38,6 @@ public class AuthService implements AuthInterface{
     @Override
     public String signUp(SignUpForm signUpForm) throws Exception {
         UsersInterface usersInterface = (UsersInterface) Remote.makeRemote(UsersInterface.class);
-        return usersInterface.registraion(signUpForm);
+        return usersInterface.registration(signUpForm);
     }
 }

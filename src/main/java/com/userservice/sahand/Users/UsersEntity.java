@@ -13,8 +13,17 @@ import java.util.Set;
 
 @Entity
 @Table(name = "CORE_USERS")
+@TableGenerator(
+        name = "CORE_USER_SEQ",
+        table = "CORE_SEQ",
+        pkColumnName = "TABLE_NAME",
+        valueColumnName = "SEQ_COUNT",
+        pkColumnValue = "UsersEntitySeq",
+        allocationSize = 1
+)
 public class UsersEntity extends BasesEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_USER_SEQ")
     @Column(name = "FLD_USER_ID")
     private long userId;
 

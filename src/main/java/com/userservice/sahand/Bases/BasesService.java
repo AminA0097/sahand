@@ -36,9 +36,6 @@ public  class BasesService<T> implements BasesInterface<T> {
     public String save(BasesForm basesForm) throws Exception {
         Class <?> entityClassName = Remote.getClass(this.getClass(),"Entity");
         BasesEntity basesEntity = (BasesEntity) entityClassName.getDeclaredConstructor().newInstance();
-        if (basesForm.getId() == null || basesForm.getId() == -1) {
-
-        }
         Mapper.copyFormToEntity(basesForm,basesEntity);
         if (basesEntity.getId() == null || basesEntity.getId() == -1) {
             basesEntity.setDeleted(false);
@@ -46,13 +43,14 @@ public  class BasesService<T> implements BasesInterface<T> {
             basesEntity.setCreatedBy("Amin");
             basesEntity.setCreatedData(new Date());
             entityManager.persist(basesEntity);
+            entityManager.flush();
 
         }
         else{
             basesEntity.setUpdatedBy("Amin");
             basesEntity.setUpdatedData(new Date());
             entityManager.merge(basesEntity);
-            basesEntity.getId();
+            entityManager.flush();
         }
         return basesEntity.getId().toString();
 

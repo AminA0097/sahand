@@ -5,17 +5,17 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "CORE_PERSONS")
+@TableGenerator(
+        name = "CORE_PERSON_SEQ",
+        table = "CORE_SEQ",
+        pkColumnName = "TABLE_NAME",
+        valueColumnName = "SEQ_COUNT",
+        pkColumnValue = "PersonsEntitySeq",
+        allocationSize = 1
+)
 public class PersonsEntity extends BasesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_PERSON_SEQ")
-    @TableGenerator(
-            name = "CORE_PERSON_SEQ",
-            table = "CORE_SEQ",
-            pkColumnName = "TABLE_NAME",
-            valueColumnName = "SEQ_COUNT",
-            pkColumnValue = "PersonsEntitySeq",
-            allocationSize = 1
-    )
     @Column(name = "FLD_PERSON_ID")
     private Long personId;
 
