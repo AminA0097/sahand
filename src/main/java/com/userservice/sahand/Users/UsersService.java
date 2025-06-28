@@ -1,7 +1,6 @@
 package com.userservice.sahand.Users;
 
 import com.userservice.sahand.Auth.SignUpForm;
-import com.userservice.sahand.Bases.BasesForm;
 import com.userservice.sahand.Bases.BasesService;
 import com.userservice.sahand.Persons.PersonsEntity;
 import com.userservice.sahand.Persons.PersonsForm;
@@ -32,21 +31,11 @@ public  class UsersService extends BasesService<UsersEntity> implements UsersInt
 
     @Override
     @Transactional
-    public String registration(SignUpForm signUpForm) throws Exception {
-        UsersEntity usersEntity = findUsername(signUpForm.getUserName());
+    public String personRegistration(PersonsForm person) throws Exception {
         PersonsInterface personsInterface = (PersonsInterface) Remote.makeRemote(PersonsInterface.class);
-        UsersInterface usersInterface = (UsersInterface) Remote.makeRemote(UsersInterface.class);
-        PersonsForm personsForm = new PersonsForm();
-        UsersForm usersForm = new UsersForm();
-        Mapper.findFormToForm(signUpForm,personsForm);
-        Mapper.findFormToForm(signUpForm,usersForm);
-        if(signUpForm.getId() == -1) {
-            personsForm.setPersonId(null);
-            personsForm.setFirstName(signUpForm.getFirstName());
-            personsForm.setLastName(signUpForm.getLastName());
-            personsForm.setCompanyName(signUpForm.getCompanyName());
-            return personsInterface.save(personsForm);
+        if (person.getId() == -1){
+            person.setPersonId(null);
         }
-        return personsInterface.save(signUpForm);
+        return personsInterface.save(person);
     }
 }

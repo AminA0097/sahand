@@ -1,7 +1,7 @@
 package com.userservice.sahand.Auth;
 
+import com.userservice.sahand.Persons.PersonsForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,9 +14,10 @@ public class AuthController {
     public String login(@RequestBody LoginForm loginForm) throws Exception {
         return authService.login(loginForm);
     }
-    @PostMapping(Roots.SIGN_UP_ROOT)
-    public String signUp(@RequestBody SignUpForm signUpForm) throws Exception {
-        return authService.signUp(signUpForm);
+    @PostMapping(Roots.SIGN_UP_PERSON_ROOT)
+    public String signUpPerson(@RequestBody PersonsForm personsForm) throws Exception {
+        return authService.signUpPerson(personsForm);
+//        Amin
     }
     @GetMapping("/test")
     public String test() throws Exception {

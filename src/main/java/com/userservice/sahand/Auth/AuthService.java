@@ -1,5 +1,6 @@
 package com.userservice.sahand.Auth;
 
+import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.UserSession.UserSessionSimple;
 import com.userservice.sahand.UserSession.UsersSession;
 import com.userservice.sahand.Users.UsersEntity;
@@ -36,8 +37,8 @@ public class AuthService implements AuthInterface{
     }
 
     @Override
-    public String signUp(SignUpForm signUpForm) throws Exception {
+    public String signUpPerson(PersonsForm personsForm) throws Exception {
         UsersInterface usersInterface = (UsersInterface) Remote.makeRemote(UsersInterface.class);
-        return usersInterface.registration(signUpForm);
+        return usersInterface.personRegistration(personsForm);
     }
 }

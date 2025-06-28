@@ -2,6 +2,7 @@ package com.userservice.sahand.Persons;
 
 import com.userservice.sahand.Bases.BasesEntity;
 import jakarta.persistence.*;
+import org.checkerframework.checker.units.qual.C;
 
 @Entity
 @Table(name = "CORE_PERSONS")
@@ -27,6 +28,17 @@ public class PersonsEntity extends BasesEntity {
 
     @Column(name = "FLD_COMPANY_NAME")
     private String companyName;
+
+    @Column(name = "FLD_NATIONAL_NUMBER")
+    private String nationalNumber;
+
+    public String getNationalNumber() {
+        return nationalNumber;
+    }
+
+    public void setNationalNumber(String nationalNumber) {
+        this.nationalNumber = nationalNumber;
+    }
 
     public Long getPersonId() {
         return personId;

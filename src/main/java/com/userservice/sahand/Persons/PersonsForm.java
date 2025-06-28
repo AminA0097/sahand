@@ -7,6 +7,15 @@ public class PersonsForm extends BasesForm {
     private String firstName;
     private String lastName;
     private String companyName;
+    private String nationalNumber;
+
+    public String getNationalNumber() {
+        return nationalNumber;
+    }
+
+    public void setNationalNumber(String nationalNumber) {
+        this.nationalNumber = nationalNumber;
+    }
 
     public Long getPersonId() {
         return personId;

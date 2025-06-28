@@ -1,11 +1,14 @@
 package com.userservice.sahand.Bases;
 
-import java.util.Date;
+import jakarta.persistence.MappedSuperclass;
 
+import java.util.Date;
+@MappedSuperclass
 public abstract  class BasesForm {
     private String createdBy;
     private String updatedBy;
     private Boolean deleted;
+    private Boolean enabled;
     private Date createdData;
     private Date updatedData;
     private Date deletedData;
@@ -34,6 +37,14 @@ public abstract  class BasesForm {
         this.deleted = deleted;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public Date getCreatedData() {
         return createdData;
     }
@@ -57,6 +68,7 @@ public abstract  class BasesForm {
     public void setDeletedData(Date deletedData) {
         this.deletedData = deletedData;
     }
+
     public abstract Long getId();
 
 }

@@ -2,20 +2,31 @@ package com.userservice.sahand.Auth;
 
 import com.userservice.sahand.Bases.BasesForm;
 
+import java.util.Set;
+
 
 public  class SignUpForm extends BasesForm {
-    private Long userId;
     private Long personId;
+    private String firstName;
+    private String lastName;
+    private String companyName;
+
+    private Long userId;
     private String userName;
     private String password;
     private boolean isSysAdmin;
     private String userAccess;
     private Long roleId;
-    private String firstName;
-    private String lastName;
-    private String companyName;
-
     private Long statusId;
+    private Set<Long> actions;
+
+    public Set<Long> getActions() {
+        return actions;
+    }
+
+    public void setActions(Set<Long> actions) {
+        this.actions = actions;
+    }
 
     public Long getPersonId() {
         return personId;

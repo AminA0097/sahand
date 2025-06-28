@@ -2,9 +2,10 @@ package com.userservice.sahand.Users;
 
 import com.userservice.sahand.Auth.SignUpForm;
 import com.userservice.sahand.Bases.BasesInterface;
+import com.userservice.sahand.Persons.PersonsForm;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public interface UsersInterface extends BasesInterface<UsersEntity> {
     public UsersEntity findUsername(String username) throws UsernameNotFoundException;
-    public String registration(SignUpForm signUpForm) throws Exception;
+    public String personRegistration(PersonsForm personsForm) throws Exception;
 }

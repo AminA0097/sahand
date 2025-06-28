@@ -1,11 +1,11 @@
 package com.userservice.sahand.Utils;
 
-import com.userservice.sahand.Auth.SignUpForm;
 import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.Bases.BasesForm;
-import com.userservice.sahand.Persons.PersonsForm;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Mapper {
     public static boolean copyFormToEntity(BasesForm form, BasesEntity basesEntity) throws Exception{
@@ -24,7 +24,40 @@ public class Mapper {
         return true;
     }
 
-    public static boolean findFormToForm(BasesForm basesForm , BasesForm form) throws Exception {
+    public static boolean fillFormToForm(BasesForm fromForm , BasesForm toForm) throws Exception {
+        Field[] toFormFields = toForm.getClass().getDeclaredFields();
+        Field[] fromFormFields = fromForm.getClass().getDeclaredFields();
+        Map<String, Field> fromFieldMap = new HashMap<>();
+        for (Field f : fromFormFields) {
+            f.setAccessible(true);
+            fromFieldMap.put(f.getName(), f);
+        }
+        for (Field toField : toFormFields) {
+            toField.setAccessible(true);
+            Field fromField = fromFieldMap.get(toField.getName());
+            if (fromField == null) {
+                continue;
+            }
+            try{
+                Object value = fromField.get(fromForm);
+                if(fromField.getType().equals(toField.getType())){
+                    toField.set(toForm, value);
+                }
+                else if (toField.isAnnotationPresent(RelatedFiled.class)) {
+                    System.out.println(toField.getAnnotation(RelatedFiled.class).EntityName());
+                }
+            }catch (IllegalAccessException e) {
+                return false;
+            }
+            if (fromField != null && fromField.getType().equals(toField.getType())) {
+                try {
+                    Object value = fromField.get(fromForm);
+                    toField.set(toForm, value);
+                } catch (IllegalAccessException e) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 }
