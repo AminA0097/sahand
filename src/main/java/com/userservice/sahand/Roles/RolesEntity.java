@@ -1,16 +1,22 @@
 package com.userservice.sahand.Roles;
 
 import com.userservice.sahand.Bases.BasesEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "CORE_ROLES")
+@TableGenerator(
+        name = "CORE_ROLE_SEQ",
+        table = "CORE_SEQ",
+        pkColumnName = "TABLE_NAME",
+        valueColumnName = "SEQ_COUNT",
+        pkColumnValue = "PersonsEntitySeq",
+        allocationSize = 1
+)
 public class RolesEntity extends BasesEntity {
     @Id
     @Column(name = "FLD_ROLE_ID")
+    @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_ROLE_SEQ")
     private long roleId;
 
     @Column(name = "ROLE_NAME")

@@ -1,16 +1,22 @@
 package com.userservice.sahand.CoreCombo;
 
 import com.userservice.sahand.Bases.BasesEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "CORE_ROLES")
+@TableGenerator(
+        name = "CORE_CORE_COMBO_SEQ",
+        table = "CORE_SEQ",
+        pkColumnName = "TABLE_NAME",
+        valueColumnName = "SEQ_COUNT",
+        pkColumnValue = "CoreComboEntitySeq",
+        allocationSize = 1
+)
 public class CoreComboEntity extends BasesEntity {
     @Id
     @Column(name = "FLD_CORE_COMBO_ID")
+    @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_CORE_COMBO_SEQ")
     private long coreComboId;
 
     @Column(name = "FLD_CORE_COMBO_NAME")

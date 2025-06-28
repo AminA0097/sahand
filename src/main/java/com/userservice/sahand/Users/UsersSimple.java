@@ -1,6 +1,6 @@
 package com.userservice.sahand.Users;
 
-import com.userservice.sahand.Action.ActionsEntity;
+import com.userservice.sahand.Actions.ActionsEntity;
 
 import java.util.Set;
 

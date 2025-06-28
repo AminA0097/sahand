@@ -1,6 +1,6 @@
 package com.userservice.sahand.Users;
 
-import com.userservice.sahand.Action.ActionsEntity;
+import com.userservice.sahand.Actions.ActionsEntity;
 import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.CoreCombo.CoreComboEntity;
 import com.userservice.sahand.Persons.PersonsEntity;

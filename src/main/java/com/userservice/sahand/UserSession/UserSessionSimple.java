@@ -1,6 +1,6 @@
 package com.userservice.sahand.UserSession;
 
-import com.userservice.sahand.Action.ActionsEntity;
+import com.userservice.sahand.Actions.ActionsEntity;
 import com.userservice.sahand.Users.UsersEntity;
 
 import java.util.Set;

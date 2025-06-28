@@ -8,9 +8,18 @@ import java.util.List;
 
 @Entity
 @Table(name = "CHATS_ENTITY")
+@TableGenerator(
+        name = "CORE_CHAT_SEQ",
+        table = "CORE_SEQ",
+        pkColumnName = "TABLE_NAME",
+        valueColumnName = "SEQ_COUNT",
+        pkColumnValue = "ChatsEntitySeq",
+        allocationSize = 1
+)
 public class ChatsEntity extends BasesEntity {
     @Id
     @Column(name = "FLD_CHAT_ID")
+    @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_CHAT_SEQ")
     private long chatId;
 
     @Column(name = "FLD_CHAT_TITLE")

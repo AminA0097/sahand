@@ -1,21 +1,12 @@
-package com.userservice.sahand.Action;
+package com.userservice.sahand.Actions;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "CORE_ACTIONS")
-public class ActionsEntity {
-    @Id
-    @Column(name = "FLD_ACTION_ID")
+public class ActionSimple {
     private long actionId;
-
-    @Column(name = "ACTION_NAME")
     private String actionName;
-
+    public ActionSimple(ActionsEntity e) {
+        this.actionId = e.getActionId();
+        this.actionName = e.getActionName();
+    }
     public long getActionId() {
         return actionId;
     }
