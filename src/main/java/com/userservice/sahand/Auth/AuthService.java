@@ -38,7 +38,6 @@ public class AuthService implements AuthInterface{
 
     @Override
     public String signUpPerson(PersonsForm personsForm) throws Exception {
-        UsersInterface usersInterface = (UsersInterface) Remote.makeRemote(UsersInterface.class);
-        return usersInterface.personRegistration(personsForm);
+        return usersService.personRegistration(personsForm);
     }
 }

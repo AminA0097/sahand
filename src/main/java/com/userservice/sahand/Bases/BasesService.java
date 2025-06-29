@@ -14,8 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-
-public  class BasesService<T> implements BasesInterface<T> {
+public abstract class BasesService<T> implements BasesInterface<T> {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
@@ -35,25 +34,32 @@ public  class BasesService<T> implements BasesInterface<T> {
     @Override
     @Transactional
     public String save(BasesForm basesForm) throws Exception {
-        Class <?> entityClassName = Remote.getClass(this.getClass(),"Entity");
-        if(basesForm.getId() == null || basesForm.getId() == -1){
+        Class<?> entityClassName = Remote.getClass(this.getClass(), "Entity");
+        if (basesForm.getId() == null || basesForm.getId() == -1) {
             BasesEntity basesEntityInject = (BasesEntity) entityClassName.getDeclaredConstructor().newInstance();
-            Mapper.copyFormToEntity(basesForm,basesEntityInject);
+            Mapper.copyFormToEntity(basesForm, basesEntityInject);
             basesEntityInject.setCreatedBy("Amin");
             basesEntityInject.setCreatedData(new Date());
             basesEntityInject.setEnabled(true);
-            entityManager.persist(basesEntityInject);
-            entityManager.flush();
+            try{
+                entityManager.persist(basesEntityInject);
+                entityManager.flush();
+            }
+            catch(Exception e){
+                return e.getMessage();
+            }
             return basesEntityInject.getId().toString();
         }
-        if(basesForm.getId() != null || basesForm.getId() != -1){
+
+        if (basesForm.getId() != null && basesForm.getId() != -1) {
             BasesEntity loadedEntity = (BasesEntity) find(" e.id = " + basesForm.getId().toString());
-            Mapper.copyFormToEntity(basesForm,loadedEntity);
+            Mapper.copyFormToEntity(basesForm, loadedEntity);
             loadedEntity.setUpdatedBy("Amin");
             loadedEntity.setUpdatedData(new Date());
             entityManager.merge(loadedEntity);
             entityManager.flush();
         }
+
         return null;
     }
 

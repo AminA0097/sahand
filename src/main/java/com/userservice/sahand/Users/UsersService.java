@@ -32,10 +32,9 @@ public  class UsersService extends BasesService<UsersEntity> implements UsersInt
     @Override
     @Transactional
     public String personRegistration(PersonsForm person) throws Exception {
-        PersonsInterface personsInterface = (PersonsInterface) Remote.makeRemote(PersonsInterface.class);
         if (person.getId() == -1){
             person.setPersonId(null);
         }
-        return personsInterface.save(person);
+        return super.save(person);
     }
 }
