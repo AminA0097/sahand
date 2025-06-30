@@ -1,34 +1,14 @@
 package com.userservice.sahand.CoreCombo;
 
-import com.userservice.sahand.Bases.BasesEntity;
-import jakarta.persistence.*;
+import com.userservice.sahand.Bases.BasesForm;
 
-@Entity
-@Table(name = "CORE_COMBO")
-@TableGenerator(
-        name = "CORE_CORE_COMBO_SEQ",
-        table = "CORE_SEQ",
-        pkColumnName = "TABLE_NAME",
-        valueColumnName = "SEQ_COUNT",
-        pkColumnValue = "CoreComboEntitySeq",
-        allocationSize = 1
-)
-public class CoreComboEntity extends BasesEntity {
-    @Id
-    @Column(name = "FLD_CORE_COMBO_ID")
-    @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_CORE_COMBO_SEQ")
+public class CoreComboForm extends BasesForm {
     private Long coreComboId;
-
-    @Column(name = "FLD_CORE_COMBO_NAME")
     private String coreComboName;
-
-    @Column(name = "FLD_CORE_COMBO_TITLE")
     private String coreComboTitle;
-
     public Long getCoreComboId() {
         return coreComboId;
     }
-
     public void setCoreComboId(Long coreComboId) {
         this.coreComboId = coreComboId;
     }

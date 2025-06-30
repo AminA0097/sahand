@@ -46,6 +46,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST,"/auth/signupPerson").permitAll()
                 .requestMatchers(HttpMethod.POST,"/action/add").permitAll()
+                .requestMatchers(HttpMethod.POST,"/combo/add").permitAll()
+                .requestMatchers(HttpMethod.POST,"/roles/add").permitAll()
                 .anyRequest().authenticated());
         http.authenticationProvider(authenticationProvider());
 //        http.logout(logout -> logout.logoutSuccessUrl("/users/signin/")
