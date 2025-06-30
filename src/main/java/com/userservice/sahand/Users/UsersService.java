@@ -30,11 +30,10 @@ public  class UsersService extends BasesService<UsersEntity> implements UsersInt
     }
 
     @Override
-    @Transactional
-    public String personRegistration(PersonsForm person) throws Exception {
-        if (person.getId() == -1){
-            person.setPersonId(null);
-        }
-        return super.save(person);
+    public boolean userRegistration(UsersForm usersForm) throws Exception {
+        if(findUsername(usersForm.getUserName()) != null){
+            return false;
+        };
+        return true;
     }
 }

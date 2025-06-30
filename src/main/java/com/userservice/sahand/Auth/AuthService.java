@@ -4,6 +4,7 @@ import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.UserSession.UserSessionSimple;
 import com.userservice.sahand.UserSession.UsersSession;
 import com.userservice.sahand.Users.UsersEntity;
+import com.userservice.sahand.Users.UsersForm;
 import com.userservice.sahand.Users.UsersInterface;
 import com.userservice.sahand.Users.UsersService;
 import com.userservice.sahand.Utils.Remote;
@@ -37,7 +38,7 @@ public class AuthService implements AuthInterface{
     }
 
     @Override
-    public String signUpPerson(PersonsForm personsForm) throws Exception {
-        return usersService.personRegistration(personsForm);
+    public boolean signUp(UsersForm usersForm) throws Exception {
+        return usersService.userRegistration(usersForm);
     }
 }
