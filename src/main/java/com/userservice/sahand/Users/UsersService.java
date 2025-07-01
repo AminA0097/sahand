@@ -20,6 +20,14 @@ public  class UsersService extends BasesService<UsersEntity> implements UsersInt
     @Autowired
     EntityManager entityManager;
     @Override
+    public UsersEntity findUserId(String userId) throws UsernameNotFoundException {
+        UsersEntity user = entityManager.
+                createQuery("select u from UsersEntity u " +
+                                "where u.userId = :userId and u.deleted = false and u.enabled = true",
+                        UsersEntity.class).setParameter("userId", userId).getResultList().get(0);
+        return user == null ? null : user;
+    }
+    @Override
     public UsersEntity findUsername(String username) throws UsernameNotFoundException {
         List<UsersEntity> user =  entityManager.
                 createQuery("select u from UsersEntity u " +
@@ -30,10 +38,14 @@ public  class UsersService extends BasesService<UsersEntity> implements UsersInt
     }
 
     @Override
-    public boolean userRegistration(UsersForm usersForm) throws Exception {
+    public String userRegistration(UsersForm usersForm) throws Exception {
         if(findUsername(usersForm.getUserName()) != null){
-            return false;
+            return "-1";
         };
-        return true;
+        String id = super.save(usersForm);
+        if(id != null){
+            return id;
+        }
+        return "-1";
     }
 }

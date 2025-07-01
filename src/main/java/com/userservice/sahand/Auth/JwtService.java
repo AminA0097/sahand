@@ -20,8 +20,10 @@ import java.util.function.Function;
 public class JwtService {
     private String secret = "Ece72f7qGgGHtL3iDzu4G9dTG8JEehJxq7Vdn7ElDuo";
     private long expiration = 1000 * 60 * 5;
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(),userDetails);
+    public String generateToken(UserDetails userDetails,String uuid) {
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("uuid", uuid);
+        return generateToken(extraClaims,userDetails);
     }
     public String generateToken(
             Map<String, Object> extraClaims,
@@ -31,13 +33,9 @@ public class JwtService {
     }
 
     private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
-        String uuid = UUID.randomUUID().toString();
-        Map<String, Object> UUIDClaim = new HashMap<>();
-        Map<String, Object> userIdClaim = new HashMap<>();
-        UUIDClaim.put("uuid",uuid);
         return Jwts
                 .builder()
-                .setClaims(UUIDClaim)
+                .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))

@@ -13,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class AuthService implements AuthInterface{
     @Autowired
@@ -33,12 +35,22 @@ public class AuthService implements AuthInterface{
             return null;
         }
         UserSessionSimple userSessionSimple = new UserSessionSimple(users);
-
-        return jwtService.generateToken(new CustomUserDetail(users));
+        String uuid = UUID.randomUUID().toString();
+        return jwtService.generateToken(new CustomUserDetail(users),uuid);
     }
 
     @Override
-    public boolean signUp(UsersForm usersForm) throws Exception {
-        return usersService.userRegistration(usersForm);
+    public String signUp(UsersForm usersForm) throws Exception {
+//        SubmitUser
+        String userId =  usersService.userRegistration(usersForm);
+        if(userId == null || userId.equals("-1")){
+            throw new Exception("User registration failed");
+            return "failed";
+        }
+//        GenerateJWT
+        String uuid = UUID.randomUUID().toString();
+        UsersEntity users = (UsersEntity) usersService.find(" e.userId = "+ userId);
+        String token =  jwtService.generateToken(new CustomUserDetail(users),uuid);
+//        FillUserSession
     }
 }
