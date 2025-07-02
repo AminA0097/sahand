@@ -2,6 +2,7 @@ package com.userservice.sahand.Utils;
 
 import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.Bases.BasesForm;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -16,17 +17,18 @@ public class Mapper {
             String fieldName = field.getName();
             for (Field formField : formFields) {
                 formField.setAccessible(true);
-//                DateMapper -> Map PersianCalender To Gregorian
-//                Related Filed
-//                ManyToMany Filed
+//               Related Filed
+                if(formField.isAnnotationPresent(RelatedFiled.class)){
+                    RelatedFiled relatedFiled = formField.getAnnotation(RelatedFiled.class);
+                    Class<?> relatedClass = relatedFiled.EntityName();
+                    Object id = formField.get(form);
+                    relatedClass.getMethods();
+
+                }
 //                Simple Filed
-
-
-
-
-//                if (fieldName.equals(formField.getName())) {
+                else{
                     field.set(basesEntity, formField.get(form));
-//                }
+                }
             }
         }
         return true;

@@ -11,6 +11,11 @@ import com.userservice.sahand.Utils.RelatedManyToMany;
 import java.util.Set;
 
 public class UsersForm extends BasesForm {
+    @RelatedFiled(EntityName = PersonsEntity.class)
+    private Long person;
+
+    @RelatedFiled(EntityName = RolesEntity.class)
+    private Long role;
     private Long userId;
 
     private String userName;
@@ -23,12 +28,6 @@ public class UsersForm extends BasesForm {
 
     @RelatedFiled(EntityName = CoreComboEntity.class)
     private Long userStatus;
-
-    @RelatedFiled(EntityName = PersonsEntity.class)
-    private Long person;
-
-    @RelatedFiled(EntityName = RolesEntity.class)
-    private Long role;
 
     @RelatedManyToMany(EntityName = ActionsEntity.class,M2mTable = "core_users_actions")
     private Set<Long> actions;
