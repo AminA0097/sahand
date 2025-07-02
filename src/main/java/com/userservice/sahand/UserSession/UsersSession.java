@@ -1,5 +1,6 @@
 package com.userservice.sahand.UserSession;
 
+import com.userservice.sahand.Users.UsersEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import com.google.common.cache.CacheBuilder;
@@ -27,11 +28,18 @@ public class UsersSession implements UserSessionInterface {
 
     @Override
     public boolean saveToCacheSession(String uuid, UserSessionSimple userSessionSimple) throws Exception {
-        return false;
+        try {
+            cacheSession.put(uuid,userSessionSimple);
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public Authentication checkExist(String uuid) throws Exception {
         return cachePrincipal.getIfPresent(uuid);
     }
+
 }
