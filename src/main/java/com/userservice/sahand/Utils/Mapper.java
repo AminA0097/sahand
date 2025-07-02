@@ -9,16 +9,24 @@ import java.util.Map;
 
 public class Mapper {
     public static boolean copyFormToEntity(BasesForm form, BasesEntity basesEntity) throws Exception{
-        Field[] fields = basesEntity.getClass().getDeclaredFields();
+        Field[] entityfields = basesEntity.getClass().getDeclaredFields();
         Field[] formFields = form.getClass().getDeclaredFields();
-        for (Field field : fields) {
+        for (Field field : entityfields) {
             field.setAccessible(true);
             String fieldName = field.getName();
             for (Field formField : formFields) {
-                if (fieldName.equals(formField.getName())) {
-                    formField.setAccessible(true);
+                formField.setAccessible(true);
+//                DateMapper -> Map PersianCalender To Gregorian
+//                Related Filed
+//                ManyToMany Filed
+//                Simple Filed
+
+
+
+
+//                if (fieldName.equals(formField.getName())) {
                     field.set(basesEntity, formField.get(form));
-                }
+//                }
             }
         }
         return true;

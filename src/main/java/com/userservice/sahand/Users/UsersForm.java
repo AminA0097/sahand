@@ -30,7 +30,7 @@ public class UsersForm extends BasesForm {
     @RelatedFiled(EntityName = RolesEntity.class)
     private Long role;
 
-    @RelatedManyToMany(EntityName = ActionsEntity.class)
+    @RelatedManyToMany(EntityName = ActionsEntity.class,M2mTable = "core_users_actions")
     private Set<Long> actions;
 
     public Long getUserId() {
