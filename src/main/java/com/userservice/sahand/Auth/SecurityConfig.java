@@ -44,6 +44,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authReq -> authReq
                 .requestMatchers(HttpMethod.GET,"/auth/test").permitAll()
                 .requestMatchers(HttpMethod.POST,"/auth/signUp").permitAll()
+                .requestMatchers(HttpMethod.POST,"/auth/signUp/person").permitAll()
                 .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST,"/auth/signupPerson").permitAll()
                 .requestMatchers(HttpMethod.POST,"/action/add").permitAll()
