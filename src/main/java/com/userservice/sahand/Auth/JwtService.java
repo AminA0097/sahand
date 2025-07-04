@@ -70,6 +70,7 @@ public class JwtService {
     }
     public boolean validationToken(String jwt, UserDetails userDetails) {
         final String userName = extractUserName(jwt);
+        Jwts.parser().setSigningKey(secret).parseClaimsJws(jwt);
         return (userName.equals(userDetails.getUsername())) && !isTokenExpired(jwt);
     }
     private boolean isTokenExpired(String jwt) {
