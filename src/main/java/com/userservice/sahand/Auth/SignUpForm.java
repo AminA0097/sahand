@@ -7,10 +7,6 @@ import java.util.Set;
 
 public  class SignUpForm extends BasesForm {
     private Long personId;
-    private String firstName;
-    private String lastName;
-    private String companyName;
-
     private Long userId;
     private String userName;
     private String password;
@@ -74,30 +70,6 @@ public  class SignUpForm extends BasesForm {
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
     }
 
     public Long getStatusId() {

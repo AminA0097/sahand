@@ -3,6 +3,7 @@ package com.userservice.sahand.Auth;
 import com.userservice.sahand.Users.UsersEntity;
 import com.userservice.sahand.Users.UsersService;
 import jakarta.persistence.EntityManager;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +13,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailServiceImpl {
 
-    private UsersService usersService;
+    private final UsersService usersService;
+    @Autowired
+    public UserDetailServiceImpl(UsersService usersService) {
+        this.usersService = usersService;
+    }
+
     public UserDetailsService getUserDetailsService() {
         return new UserDetailsService() {
             @Override

@@ -48,4 +48,13 @@ public class CustomUserDetail implements UserDetails {
     public String getUsername() {
         return usersEntity.getUserName();
     }
+    private String uuid;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 }

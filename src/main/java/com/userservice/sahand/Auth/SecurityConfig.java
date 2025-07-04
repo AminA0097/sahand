@@ -40,22 +40,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable());
+
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         http.authorizeHttpRequests(authReq -> authReq
-                .requestMatchers(HttpMethod.GET,"/auth/test").permitAll()
-                .requestMatchers(HttpMethod.POST,"/auth/signUp").permitAll()
-                .requestMatchers(HttpMethod.POST,"/auth/signUp/person").permitAll()
-                .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
-                .requestMatchers(HttpMethod.POST,"/auth/signupPerson").permitAll()
-                .requestMatchers(HttpMethod.POST,"/action/add").permitAll()
-                .requestMatchers(HttpMethod.POST,"/combo/add").permitAll()
-                .requestMatchers(HttpMethod.POST,"/roles/add").permitAll()
-                .anyRequest().authenticated());
+                .requestMatchers(HttpMethod.POST, "/auth/signup", "/auth/login", "/auth/signupPerson", "/auth/signUp/person").permitAll()
+                .requestMatchers(HttpMethod.GET, "/auth/test").permitAll()
+                .requestMatchers(HttpMethod.POST, "/action/add", "/combo/add", "/roles/add").permitAll()
+                .anyRequest().authenticated()
+        );
         http.authenticationProvider(authenticationProvider());
-//        http.logout(logout -> logout.logoutSuccessUrl("/users/signin/")
-//                .invalidateHttpSession(true)
-//                .deleteCookies("JSESSIONID")
-//        );
         http.headers(headers -> headers.cacheControl(cash -> cash.disable()));
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

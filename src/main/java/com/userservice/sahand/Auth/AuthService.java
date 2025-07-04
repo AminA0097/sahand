@@ -33,15 +33,15 @@ public class AuthService implements AuthInterface{
 
     @Override
     public String login(LoginForm loginForm) throws Exception{
-        UsersInterface usersInterface = (UsersInterface) Remote.makeRemote(UsersInterface.class);
         authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
-        UsersEntity users = usersInterface.findUsername(loginForm.getUsername());
+        UsersEntity users = usersService.findUsername(loginForm.getUsername());
         if(users == null){
             return null;
         }
         UserSessionSimple userSessionSimple = new UserSessionSimple(users);
         String uuid = UUID.randomUUID().toString();
+        usersSession.saveToCacheSession(uuid, userSessionSimple);
         return jwtService.generateToken(new CustomUserDetail(users),uuid);
     }
 

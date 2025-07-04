@@ -38,8 +38,13 @@ public class UsersSession implements UserSessionInterface {
     }
 
     @Override
-    public Authentication checkExist(String uuid) throws Exception {
+    public UserSessionSimple checkExistUserSession(String uuid) {
+        return cacheSession.getIfPresent(uuid);
+    }
+    @Override
+    public Authentication checkExist(String uuid) {
         return cachePrincipal.getIfPresent(uuid);
+
     }
 
 }

@@ -36,39 +36,37 @@ public class JwtFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String uuid;
-        final String userName;
+        String jwt;
+        String username;
+        String uuid;
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
+
         jwt = authHeader.substring(7);
         uuid = jwtService.extractUUID(jwt);
-        userName = jwtService.extractUserName(jwt);
-        if (uuid != null && userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            try {
-                Authentication authentication = usersSession.checkExist(uuid);
-                if (authentication != null) {
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else {
-                    CustomUserDetail userDetail = (CustomUserDetail) userDetailService
-                            .getUserDetailsService().loadUserByUsername(userName);
-
-                    if(jwtService.validationToken(jwt,userDetail)){
-                        UsernamePasswordAuthenticationToken newAuthentication = new UsernamePasswordAuthenticationToken(
-                                userDetail, null, userDetail.getAuthorities());
-                        newAuthentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                        usersSession.saveToCachePrincipal(uuid, newAuthentication);
-                        SecurityContextHolder.getContext().setAuthentication(newAuthentication);
-                    }
+        username = jwtService.extractUserName(jwt);
+        try {
+            Authentication authFromCache = usersSession.checkExist(uuid);
+            if (authFromCache != null) {
+                if(username.equals(authFromCache.getName())){
+                SecurityContextHolder.getContext().setAuthentication(authFromCache);
                 }
-            } catch (Exception e) {
-                log.error("JWT filter error: {}", e.getMessage(), e);
             }
+            else{
+                CustomUserDetail userDetail = (CustomUserDetail) userDetailService.getUserDetailsService().loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetail, null, userDetail.getAuthorities());
+                authentication.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
-
         filterChain.doFilter(request, response);
     }
 }
