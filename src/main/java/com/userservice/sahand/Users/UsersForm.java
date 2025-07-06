@@ -12,7 +12,8 @@ import java.util.Set;
 
 public class UsersForm extends BasesForm {
     @RelatedFiled(EntityName = PersonsEntity.class)
-    private Long person;
+    private Long personId;
+    private String personTitle;
 
     @RelatedFiled(EntityName = RolesEntity.class)
     private Long role;
