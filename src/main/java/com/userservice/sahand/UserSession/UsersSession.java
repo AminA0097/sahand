@@ -9,13 +9,13 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class UsersSession implements UserSessionInterface {
-    private final static  Cache<String, Principal> cachePrincipal =
+    private final static  Cache<String, PrincipalSimple> cachePrincipal =
             CacheBuilder.newBuilder().expireAfterAccess(5, TimeUnit.MINUTES).build();
     private final static  Cache<String,Authentication> cacheAuthentication =
             CacheBuilder.newBuilder().expireAfterAccess(5, TimeUnit.MINUTES).build();
 
     @Override
-    public boolean saveToCachePrincipal(String uuid, Principal principal) throws Exception {
+    public boolean saveToCachePrincipal(String uuid, PrincipalSimple principal) throws Exception {
         try {
             cachePrincipal.put(uuid,principal);
             return true;
@@ -26,7 +26,7 @@ public class UsersSession implements UserSessionInterface {
     }
 
     @Override
-    public boolean saveToCacheSession(String uuid, Authentication authentication) throws Exception {
+    public boolean saveToCacheAuth(String uuid, Authentication authentication) throws Exception {
         try {
             cacheAuthentication.put(uuid, authentication);
             return true;
@@ -37,7 +37,7 @@ public class UsersSession implements UserSessionInterface {
     }
 
     @Override
-    public Principal checkExistUserSession(String uuid) {
+    public PrincipalSimple checkExistUserSession(String uuid) {
         return cachePrincipal.getIfPresent(uuid);
     }
     @Override

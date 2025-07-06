@@ -27,7 +27,11 @@ public class UserDetailServiceImpl {
                 if (usersEntity == null) {
                     throw new UsernameNotFoundException("User not found: " + username);
                 }
-                return new CustomUserDetail(usersEntity);
+                CustomUserDetail customUserDetail = new CustomUserDetail();
+                customUserDetail.setUsername(usersEntity.getUserName());
+                customUserDetail.setPassword(usersEntity.getPassword());
+                customUserDetail.setRole(usersEntity.getRole().getRoleName());
+                return customUserDetail;
             }
         };
     }

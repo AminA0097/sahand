@@ -5,17 +5,27 @@ import com.userservice.sahand.Users.UsersEntity;
 
 import java.util.Set;
 
-public class Principal {
+public class PrincipalSimple {
     public String username;
     public long userid;
     public long roleId;
     public Set<ActionsEntity> actions;
+    public String roleName;
 
-    public Principal(UsersEntity e) {
+    public PrincipalSimple(UsersEntity e) {
         this.username = e.getUserName();
         this.userid = e.getUserId();
         this.roleId = e.getRole().getRoleId();
         this.actions = e.getActions();
+        this.roleName = e.getRole().getRoleName();
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public String getUsername() {

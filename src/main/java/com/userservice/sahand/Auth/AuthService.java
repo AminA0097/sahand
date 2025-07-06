@@ -4,7 +4,7 @@ import com.userservice.sahand.Persons.PersonsEntity;
 import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Persons.PersonsInterface;
 import com.userservice.sahand.UserSession.UserSessionInterface;
-import com.userservice.sahand.UserSession.Principal;
+import com.userservice.sahand.UserSession.PrincipalSimple;
 import com.userservice.sahand.Users.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,13 +39,11 @@ public class AuthService implements AuthInterface{
         if(users == null){
             return null;
         }
+        CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
         String uuid = UUID.randomUUID().toString();
-        String token = jwtService.generateToken(new CustomUserDetail(users),uuid);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        Principal principal = new Principal(users);
-        CustomUserDetail userDetail = (CustomUserDetail) authentication.getPrincipal();
-        userDetail.setUuid(uuid);
-
+        String token = jwtService.generateToken(customUserDetail);
+        usersSession.saveToCacheAuth(uuid,authentication);
+        usersSession.saveToCachePrincipal(uuid,new PrincipalSimple(users));
         return token;
 
     }
@@ -61,7 +59,7 @@ public class AuthService implements AuthInterface{
 //        GenerateJWT
         String uuid = UUID.randomUUID().toString();
         UsersEntity users = (UsersEntity) usersService.find(" e.userId = "+ userId);
-        String token =  jwtService.generateToken(new CustomUserDetail(users),uuid);
+        String token =  jwtService.generateToken(new CustomUserDetail());
         if(token == null || token.equals("")){
             return "failed to return token";
         }
