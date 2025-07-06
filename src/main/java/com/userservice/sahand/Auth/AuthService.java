@@ -4,13 +4,13 @@ import com.userservice.sahand.Persons.PersonsEntity;
 import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Persons.PersonsInterface;
 import com.userservice.sahand.UserSession.UserSessionInterface;
-import com.userservice.sahand.UserSession.UserSessionSimple;
-import com.userservice.sahand.UserSession.UsersSession;
+import com.userservice.sahand.UserSession.Principal;
 import com.userservice.sahand.Users.*;
-import com.userservice.sahand.Utils.Remote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,16 +33,21 @@ public class AuthService implements AuthInterface{
 
     @Override
     public String login(LoginForm loginForm) throws Exception{
-        authenticationManager.
+        Authentication authentication =  authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
         UsersEntity users = usersService.findUsername(loginForm.getUsername());
         if(users == null){
             return null;
         }
-        UserSessionSimple userSessionSimple = new UserSessionSimple(users);
         String uuid = UUID.randomUUID().toString();
-        usersSession.saveToCacheSession(uuid, userSessionSimple);
-        return jwtService.generateToken(new CustomUserDetail(users),uuid);
+        String token = jwtService.generateToken(new CustomUserDetail(users),uuid);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Principal principal = new Principal(users);
+        CustomUserDetail userDetail = (CustomUserDetail) authentication.getPrincipal();
+        userDetail.setUuid(uuid);
+
+        return token;
+
     }
 
     @Override
@@ -60,12 +65,7 @@ public class AuthService implements AuthInterface{
         if(token == null || token.equals("")){
             return "failed to return token";
         }
-//        FillUserSession
-        boolean res  = usersSession.saveToCacheSession(uuid,new UserSessionSimple(users));
-        if(!res){
-            return "failed to save user session";
-        }
-        return "successfully registered user" ;
+        return token;
     }
 
     @Override

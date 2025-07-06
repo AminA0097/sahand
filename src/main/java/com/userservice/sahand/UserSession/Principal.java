@@ -5,13 +5,13 @@ import com.userservice.sahand.Users.UsersEntity;
 
 import java.util.Set;
 
-public class UserSessionSimple {
+public class Principal {
     public String username;
     public long userid;
     public long roleId;
     public Set<ActionsEntity> actions;
 
-    public UserSessionSimple(UsersEntity e) {
+    public Principal(UsersEntity e) {
         this.username = e.getUserName();
         this.userid = e.getUserId();
         this.roleId = e.getRole().getRoleId();
