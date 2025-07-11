@@ -33,6 +33,30 @@ public class UsersForm extends BasesForm {
     @RelatedManyToMany(EntityName = ActionsEntity.class,M2mTable = "core_users_actions")
     private Set<Long> actions;
 
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
+    }
+
+    public String getPersonTitle() {
+        return personTitle;
+    }
+
+    public void setPersonTitle(String personTitle) {
+        this.personTitle = personTitle;
+    }
+
+    public Long getRole() {
+        return role;
+    }
+
+    public void setRole(Long role) {
+        this.role = role;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -79,22 +103,6 @@ public class UsersForm extends BasesForm {
 
     public void setUserStatus(Long userStatus) {
         this.userStatus = userStatus;
-    }
-
-    public Long getPerson() {
-        return person;
-    }
-
-    public void setPerson(Long person) {
-        this.person = person;
-    }
-
-    public Long getRole() {
-        return role;
-    }
-
-    public void setRole(Long role) {
-        this.role = role;
     }
 
     public Set<Long> getActions() {

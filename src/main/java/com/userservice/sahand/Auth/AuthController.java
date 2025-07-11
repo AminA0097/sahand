@@ -2,11 +2,14 @@ package com.userservice.sahand.Auth;
 
 import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Users.UsersForm;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Authentication Controller",description = "Authentication Methods!")
 public class AuthController {
     @Autowired
     AuthService authService;
@@ -16,6 +19,7 @@ public class AuthController {
         return authService.login(loginForm);
     }
     @PostMapping("/signup")
+    @Operation(summary = "SignUp With UserForm",description = "Return UserId,Before Have To SignUp Person")
     public String signUp(@RequestBody UsersForm usersForm) throws Exception {
         return authService.signUp(usersForm);
 //        Amin

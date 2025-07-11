@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/auth/signup", "/auth/login", "/auth/signupPerson", "/auth/signUp/person").permitAll()
                 .requestMatchers(HttpMethod.GET, "/auth/test").permitAll()
                 .requestMatchers(HttpMethod.POST, "/action/add", "/combo/add", "/roles/add").permitAll()
+                .requestMatchers("/v3/api-docs/**","/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
         );
         http.authenticationProvider(authenticationProvider());
