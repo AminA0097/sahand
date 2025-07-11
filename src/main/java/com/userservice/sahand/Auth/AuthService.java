@@ -6,12 +6,15 @@ import com.userservice.sahand.Persons.PersonsInterface;
 import com.userservice.sahand.UserSession.UserSessionInterface;
 import com.userservice.sahand.UserSession.PrincipalSimple;
 import com.userservice.sahand.Users.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -30,20 +33,27 @@ public class AuthService implements AuthInterface{
     private PasswordEncoder passwordEncoder;
     @Autowired
     private PersonsInterface personsInterface;
+    @Autowired
+    UserDetailServiceImpl userDetailService;
 
     @Override
-    public String login(LoginForm loginForm) throws Exception{
+    public String login(LoginForm loginForm,HttpServletRequest req) throws Exception{
         Authentication authentication =  authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
-        UsersEntity users = usersService.findUsername(loginForm.getUsername());
-        if(users == null){
-            return null;
-        }
-        CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
+        CustomUserDetail customUserDetail = (CustomUserDetail)
+                userDetailService.loadUserByUsername(loginForm.getUsername());
+
         String uuid = UUID.randomUUID().toString();
+        customUserDetail.setUuid(uuid);
+
         String token = jwtService.generateToken(customUserDetail);
-        usersSession.saveToCacheAuth(uuid,authentication);
-        usersSession.saveToCachePrincipal(uuid,new PrincipalSimple(users));
+
+        UsernamePasswordAuthenticationToken newAuthentication = new UsernamePasswordAuthenticationToken(
+                customUserDetail, null, customUserDetail.getAuthorities()
+        );
+        newAuthentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+        SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+
         return token;
 
     }

@@ -11,28 +11,26 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDetailServiceImpl {
+public class UserDetailServiceImpl implements UserDetailsService {
 
     private final UsersService usersService;
+
     @Autowired
     public UserDetailServiceImpl(UsersService usersService) {
         this.usersService = usersService;
     }
 
-    public UserDetailsService getUserDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                UsersEntity usersEntity = usersService.findUsername(username);
-                if (usersEntity == null) {
-                    throw new UsernameNotFoundException("User not found: " + username);
-                }
-                CustomUserDetail customUserDetail = new CustomUserDetail();
-                customUserDetail.setUsername(usersEntity.getUserName());
-                customUserDetail.setPassword(usersEntity.getPassword());
-                customUserDetail.setRole(usersEntity.getRole().getRoleName());
-                return customUserDetail;
-            }
-        };
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UsersEntity usersEntity = usersService.findUsername(username);
+        if (usersEntity == null) {
+            throw new UsernameNotFoundException("User not found: " + username);
+        }
+        CustomUserDetail customUserDetail = new CustomUserDetail();
+        customUserDetail.setUsername(usersEntity.getUserName());
+        customUserDetail.setPassword(usersEntity.getPassword());
+        customUserDetail.setRole(usersEntity.getRole().getRoleName());
+        return customUserDetail;
     }
 }
+

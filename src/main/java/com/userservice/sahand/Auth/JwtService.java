@@ -51,9 +51,10 @@ public class JwtService {
     }
     private String buildToken(
             Map<String, Object> extraClims,
-            UserDetails userDetails,
+            CustomUserDetail userDetails,
             long expiration
     ) {
+        extraClims.put("uuid", userDetails.getUuid());
         return Jwts
                 .builder()
                 .setClaims(extraClims)
@@ -63,13 +64,13 @@ public class JwtService {
                 .signWith(getSignInkey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(CustomUserDetail userDetails) {
 
         return generateToken(new HashMap<>(),userDetails);
     }
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails
+            CustomUserDetail userDetails
     ) {
 
         return buildToken(extraClaims, userDetails, expiration);

@@ -13,6 +13,7 @@ public class CustomUserDetail implements UserDetails {
     private String username;
     private String password;
     private String role;
+    private String uuid;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -63,5 +64,13 @@ public class CustomUserDetail implements UserDetails {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

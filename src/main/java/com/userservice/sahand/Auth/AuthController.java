@@ -4,8 +4,12 @@ import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Users.UsersForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -15,8 +19,9 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginForm loginForm) throws Exception {
-        return authService.login(loginForm);
+    public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletRequest req) throws Exception {
+        String token =  authService.login(loginForm,req);
+        return ResponseEntity.ok(Map.of("token", token));
     }
     @PostMapping("/signup")
     @Operation(summary = "SignUp With UserForm",description = "Return UserId,Before Have To SignUp Person")

@@ -7,4 +7,5 @@ public interface UserSessionInterface {
     public boolean saveToCacheAuth(String uuid, Authentication authentication) throws Exception;
     public Authentication checkExist(String uuid);
     public PrincipalSimple checkExistUserSession(String uuid);
+    public String getUuid()throws Exception;
 }

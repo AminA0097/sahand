@@ -39,7 +39,11 @@ public class JwtFilter extends OncePerRequestFilter {
         String jwt;
         String username;
         String uuid;
-
+        String path = request.getServletPath();
+        if (path.startsWith("/auth/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -56,7 +60,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
             }
             else{
-                CustomUserDetail userDetail = (CustomUserDetail) userDetailService.getUserDetailsService().loadUserByUsername(username);
+                CustomUserDetail userDetail = (CustomUserDetail) userDetailService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetail, null, userDetail.getAuthorities());
                 authentication.setDetails(
