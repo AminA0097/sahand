@@ -5,5 +5,5 @@ import com.userservice.sahand.Persons.PersonsEntity;
 import org.springframework.http.ResponseEntity;
 
 public interface ChatsInterface extends BasesInterface<ChatsEntity> {
-    public String addChat()throws Exception;
+    public boolean addChat()throws Exception;
 }

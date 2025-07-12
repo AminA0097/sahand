@@ -28,12 +28,15 @@ public  class UsersService extends BasesService<UsersEntity> implements UsersInt
         return user == null ? null : user;
     }
     @Override
+    @Transactional
     public UsersEntity findUsername(String username) throws UsernameNotFoundException {
-        List<UsersEntity> user =  entityManager.
-                createQuery("select u from UsersEntity u " +
+        List<UsersEntity> user = entityManager
+                .createQuery("select distinct u from UsersEntity u " +
+                                "left join fetch u.actions " +
                                 "where u.userName = :username and u.deleted = false and u.enabled = true",
                         UsersEntity.class)
-                .setParameter("username", username).getResultList();
+                .setParameter("username", username)
+                .getResultList();
         return user.isEmpty() ? null : user.get(0);
     }
 

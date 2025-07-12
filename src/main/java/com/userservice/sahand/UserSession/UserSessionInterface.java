@@ -8,4 +8,5 @@ public interface UserSessionInterface {
     public Authentication checkExist(String uuid);
     public PrincipalSimple checkExistUserSession(String uuid);
     public String getUuid()throws Exception;
+    public boolean checkAccess(PrincipalSimple principalSimple, long actionId) throws Exception;
 }

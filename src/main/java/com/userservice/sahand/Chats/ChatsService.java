@@ -15,9 +15,10 @@ public class ChatsService extends BasesService<ChatsEntity> implements ChatsInte
     @Autowired
     JwtService jwtService;
     @Override
-    public String addChat() throws Exception {
+    public boolean addChat() throws Exception {
         String uuid = userSessionInterface.getUuid();
         PrincipalSimple principalSimple = userSessionInterface.checkExistUserSession(uuid);
-        return principalSimple.getRoleName();
+        return userSessionInterface.checkAccess(principalSimple,8l);
+
     }
 }

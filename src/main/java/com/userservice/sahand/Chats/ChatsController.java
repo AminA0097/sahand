@@ -16,9 +16,7 @@ public class ChatsController {
     @Autowired
     ChatsInterface chatsInterface;
     @GetMapping("/test")
-    public Map test() throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        map.put("uuid",chatsInterface.addChat());
-        return map;
+    public boolean test() throws Exception {
+        return chatsInterface.addChat();
     }
 }

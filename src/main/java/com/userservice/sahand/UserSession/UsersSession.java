@@ -1,5 +1,6 @@
 package com.userservice.sahand.UserSession;
 
+import com.userservice.sahand.Actions.ActionsEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,8 @@ import com.google.common.cache.Cache;
 import com.userservice.sahand.Auth.CustomUserDetail;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -56,5 +59,16 @@ public class UsersSession implements UserSessionInterface {
             throw new Exception("Invalid authentication");
         }
         return ((CustomUserDetail) auth.getPrincipal()).getUuid();
+    }
+
+    @Override
+    public boolean checkAccess(PrincipalSimple principalSimple, long actionId) throws Exception {
+        Set<ActionsEntity> userActions = principalSimple.getActions();
+        for (ActionsEntity action : userActions) {
+            if (action.getId() == actionId) {
+                return true;
+            }
+        }
+        return false;
     }
 }
