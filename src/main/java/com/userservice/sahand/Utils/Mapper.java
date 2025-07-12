@@ -14,8 +14,10 @@ public class Mapper {
         Field[] formFields = form.getClass().getDeclaredFields();
         for (Field field : entityfields) {
             field.setAccessible(true);
-            String fieldName = field.getName();
+            String EFieldName = field.getName();
             for (Field formField : formFields) {
+                String fFieldName = formField.getName();
+                if (!EFieldName.equals(fFieldName)) continue;
                 formField.setAccessible(true);
 //               Related Filed
                 if(formField.isAnnotationPresent(RelatedFiled.class)){
@@ -23,6 +25,9 @@ public class Mapper {
                     Class<?> relatedClass = relatedFiled.EntityName();
                     Object id = formField.get(form);
                     relatedClass.getMethods();
+
+                }
+                else if(formField.isAnnotationPresent(M2MFiled.class)){
 
                 }
 //                Simple Filed

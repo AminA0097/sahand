@@ -69,6 +69,6 @@ public class UsersSession implements UserSessionInterface {
                 return true;
             }
         }
-        return false;
+        throw new Exception("Invalid action");
     }
 }

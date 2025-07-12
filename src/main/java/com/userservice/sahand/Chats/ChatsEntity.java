@@ -20,7 +20,7 @@ public class ChatsEntity extends BasesEntity {
     @Id
     @Column(name = "FLD_CHAT_ID")
     @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_CHAT_SEQ")
-    private long chatId;
+    private Long chatId;
 
     @Column(name = "FLD_CHAT_TITLE")
     private String chatTitle;
@@ -38,6 +38,46 @@ public class ChatsEntity extends BasesEntity {
             joinColumns = @JoinColumn(name = "FLD_CHAT_ID"),
             inverseJoinColumns = @JoinColumn(name = "FLD_RECEIVER_ID"))
     private List<UsersEntity> receivers;
+
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
+    }
+
+    public String getChatTitle() {
+        return chatTitle;
+    }
+
+    public void setChatTitle(String chatTitle) {
+        this.chatTitle = chatTitle;
+    }
+
+    public String getChatDescription() {
+        return chatDescription;
+    }
+
+    public void setChatDescription(String chatDescription) {
+        this.chatDescription = chatDescription;
+    }
+
+    public UsersEntity getJoinSender() {
+        return joinSender;
+    }
+
+    public void setJoinSender(UsersEntity joinSender) {
+        this.joinSender = joinSender;
+    }
+
+    public List<UsersEntity> getReceivers() {
+        return receivers;
+    }
+
+    public void setReceivers(List<UsersEntity> receivers) {
+        this.receivers = receivers;
+    }
 
     @Override
     public Long getId() {

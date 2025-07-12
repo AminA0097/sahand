@@ -80,7 +80,9 @@ public class AuthService implements AuthInterface{
             if(personsEntity == null){
                 personsForm.setPersonId(null);
             }
-            return "failed to register person";
+            else {
+                return "failed to register person";
+            }
         }
         return personsInterface.save(personsForm);
     }

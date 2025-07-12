@@ -2,27 +2,39 @@ package com.userservice.sahand.Chats;
 
 import com.userservice.sahand.Bases.BasesForm;
 import com.userservice.sahand.Users.UsersEntity;
+import com.userservice.sahand.Utils.M2MFiled;
 
 import java.util.List;
+import java.util.Set;
 
 public class ChatsForm extends BasesForm {
-    private long chatId;
-    private List<UsersEntity> recipients;
+    private Long chatId;
+    @M2MFiled(EntityName = UsersEntity.class)
+    private Set<Long> receivers;
+    private Long joinSender;
 
-    public long getChatId() {
+    public Long getChatId() {
         return chatId;
     }
 
-    public void setChatId(long chatId) {
+    public void setChatId(Long chatId) {
         this.chatId = chatId;
     }
 
-    public List<UsersEntity> getRecipients() {
-        return recipients;
+    public Set<Long> getReceivers() {
+        return receivers;
     }
 
-    public void setRecipients(List<UsersEntity> recipients) {
-        this.recipients = recipients;
+    public void setReceivers(Set<Long> receivers) {
+        this.receivers = receivers;
+    }
+
+    public Long getJoinSender() {
+        return joinSender;
+    }
+
+    public void setJoinSender(Long joinSender) {
+        this.joinSender = joinSender;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.userservice.sahand.Bases.BasesForm;
 import com.userservice.sahand.Bases.BasesService;
 import com.userservice.sahand.UserSession.PrincipalSimple;
 import com.userservice.sahand.UserSession.UserSessionInterface;
+import com.userservice.sahand.Users.UsersEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,18 @@ public class ChatsService extends BasesService<ChatsEntity> implements ChatsInte
     @Autowired
     JwtService jwtService;
     @Override
-    public boolean addChat() throws Exception {
+    public boolean sendMsg(ChatsForm chatsForm) throws Exception {
         String uuid = userSessionInterface.getUuid();
         PrincipalSimple principalSimple = userSessionInterface.checkExistUserSession(uuid);
-        return userSessionInterface.checkAccess(principalSimple,8l);
-
+        userSessionInterface.checkAccess(principalSimple,8l);
+        if(chatsForm.getChatId() == -1){
+            chatsForm.setChatId(null);
+        }
+        chatsForm.setJoinSender(principalSimple.getUserid());
+        String chatId = super.save(chatsForm);
+        if (chatId != null || !chatId.equals("-1")) {
+            return true;
+        }
+        return false;
     }
 }
