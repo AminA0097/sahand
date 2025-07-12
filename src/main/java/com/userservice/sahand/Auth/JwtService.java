@@ -54,7 +54,6 @@ public class JwtService {
             CustomUserDetail userDetails,
             long expiration
     ) {
-        extraClims.put("uuid", userDetails.getUuid());
         return Jwts
                 .builder()
                 .setClaims(extraClims)
@@ -64,9 +63,10 @@ public class JwtService {
                 .signWith(getSignInkey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-    public String generateToken(CustomUserDetail userDetails) {
-
-        return generateToken(new HashMap<>(),userDetails);
+    public String generateToken(CustomUserDetail userDetails, String uuid) {
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("uuid", uuid);
+        return generateToken(extraClaims,userDetails);
     }
     public String generateToken(
             Map<String, Object> extraClaims,

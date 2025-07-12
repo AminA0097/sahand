@@ -55,7 +55,6 @@ public class UsersSession implements UserSessionInterface {
         if (auth == null || !(auth.getPrincipal() instanceof CustomUserDetail)) {
             throw new Exception("Invalid authentication");
         }
-        CustomUserDetail userDetail = (CustomUserDetail) auth.getPrincipal();
-        return userDetail.getUuid();
+        return "";
     }
 }

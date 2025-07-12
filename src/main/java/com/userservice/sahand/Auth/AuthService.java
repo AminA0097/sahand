@@ -40,22 +40,13 @@ public class AuthService implements AuthInterface{
     public String login(LoginForm loginForm,HttpServletRequest req) throws Exception{
         Authentication authentication =  authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
-        CustomUserDetail customUserDetail = (CustomUserDetail)
-                userDetailService.loadUserByUsername(loginForm.getUsername());
-
+        CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
         String uuid = UUID.randomUUID().toString();
-        customUserDetail.setUuid(uuid);
-
-        String token = jwtService.generateToken(customUserDetail);
-
-        UsernamePasswordAuthenticationToken newAuthentication = new UsernamePasswordAuthenticationToken(
-                customUserDetail, null, customUserDetail.getAuthorities()
-        );
-        newAuthentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
-        SecurityContextHolder.getContext().setAuthentication(newAuthentication);
-
+        String token = jwtService.generateToken(customUserDetail,uuid);
+        UsersEntity users = usersService.findUsername(loginForm.getUsername());
+        usersSession.saveToCacheAuth(uuid,authentication);
+        usersSession.saveToCachePrincipal(uuid,new PrincipalSimple(users));
         return token;
-
     }
 
     @Override
@@ -69,7 +60,7 @@ public class AuthService implements AuthInterface{
 //        GenerateJWT
         String uuid = UUID.randomUUID().toString();
         UsersEntity users = (UsersEntity) usersService.find(" e.userId = "+ userId);
-        String token =  jwtService.generateToken(new CustomUserDetail());
+        String token =  jwtService.generateToken(new CustomUserDetail(),uuid);
         if(token == null || token.equals("")){
             return "failed to return token";
         }
