@@ -53,15 +53,20 @@ public class JwtFilter extends OncePerRequestFilter {
             if (authFromCache != null) {
                 SecurityContextHolder.getContext().setAuthentication(authFromCache);
             }
-            else{
-                CustomUserDetail userDetail = (CustomUserDetail) userDetailService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetail, null, userDetail.getAuthorities());
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            else {
+                log.error("Session Not Found!");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
             }
+//            else{
+//                CustomUserDetail userDetail = (CustomUserDetail) userDetailService.loadUserByUsername(username);
+//                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+//                        userDetail, null, userDetail.getAuthorities());
+//                authentication.setDetails(
+//                        new WebAuthenticationDetailsSource().buildDetails(request)
+//                );
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            }
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

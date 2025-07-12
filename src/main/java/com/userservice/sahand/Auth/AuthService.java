@@ -44,7 +44,13 @@ public class AuthService implements AuthInterface{
         String uuid = UUID.randomUUID().toString();
         String token = jwtService.generateToken(customUserDetail,uuid);
         UsersEntity users = usersService.findUsername(loginForm.getUsername());
-        usersSession.saveToCacheAuth(uuid,authentication);
+        customUserDetail.setUuid(uuid);
+        Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(
+                customUserDetail,
+                authentication.getCredentials(),
+                customUserDetail.getAuthorities()
+        );
+        usersSession.saveToCacheAuth(uuid,updatedAuthentication);
         usersSession.saveToCachePrincipal(uuid,new PrincipalSimple(users));
         return token;
     }

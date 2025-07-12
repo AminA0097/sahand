@@ -13,9 +13,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UsersSession implements UserSessionInterface {
     private final static  Cache<String, PrincipalSimple> cachePrincipal =
-            CacheBuilder.newBuilder().expireAfterAccess(5, TimeUnit.MINUTES).build();
+            CacheBuilder.newBuilder().expireAfterAccess(15, TimeUnit.MINUTES).build();
     private final static  Cache<String,Authentication> cacheAuthentication =
-            CacheBuilder.newBuilder().expireAfterAccess(5, TimeUnit.MINUTES).build();
+            CacheBuilder.newBuilder().expireAfterAccess(15, TimeUnit.MINUTES).build();
 
     @Override
     public boolean saveToCachePrincipal(String uuid, PrincipalSimple principal) throws Exception {
@@ -55,6 +55,6 @@ public class UsersSession implements UserSessionInterface {
         if (auth == null || !(auth.getPrincipal() instanceof CustomUserDetail)) {
             throw new Exception("Invalid authentication");
         }
-        return "";
+        return ((CustomUserDetail) auth.getPrincipal()).getUuid();
     }
 }

@@ -39,13 +39,11 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable());
-
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.securityContext(context -> context.requireExplicitSave(false));
         http.authorizeHttpRequests(authReq -> authReq
                 .requestMatchers(HttpMethod.POST, "/auth/signup", "/auth/login", "/auth/signupPerson", "/auth/signUp/person").permitAll()
-                .requestMatchers(HttpMethod.GET, "/auth/test").permitAll()
+                .requestMatchers(HttpMethod.GET, "/auth/test").hasRole("SimpleRole")
                 .requestMatchers(HttpMethod.POST, "/action/add", "/combo/add", "/roles/add").permitAll()
                 .requestMatchers("/v3/api-docs/**","/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers(HttpMethod.GET,"msg/test").permitAll()
