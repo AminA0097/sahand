@@ -5,6 +5,7 @@ import com.userservice.sahand.Users.UsersEntity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "CHATS_ENTITY")
@@ -37,7 +38,7 @@ public class ChatsEntity extends BasesEntity {
             name = "M2M_FOR_CHATS",
             joinColumns = @JoinColumn(name = "FLD_CHAT_ID"),
             inverseJoinColumns = @JoinColumn(name = "FLD_RECEIVER_ID"))
-    private List<UsersEntity> receivers;
+    private Set<UsersEntity> receivers;
 
     public Long getChatId() {
         return chatId;
@@ -71,11 +72,11 @@ public class ChatsEntity extends BasesEntity {
         this.joinSender = joinSender;
     }
 
-    public List<UsersEntity> getReceivers() {
+    public Set<UsersEntity> getReceivers() {
         return receivers;
     }
 
-    public void setReceivers(List<UsersEntity> receivers) {
+    public void setReceivers(Set<UsersEntity> receivers) {
         this.receivers = receivers;
     }
 

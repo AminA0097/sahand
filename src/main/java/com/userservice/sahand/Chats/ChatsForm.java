@@ -3,14 +3,18 @@ package com.userservice.sahand.Chats;
 import com.userservice.sahand.Bases.BasesForm;
 import com.userservice.sahand.Users.UsersEntity;
 import com.userservice.sahand.Utils.M2MFiled;
+import com.userservice.sahand.Utils.RelatedFiled;
 
 import java.util.List;
 import java.util.Set;
 
 public class ChatsForm extends BasesForm {
     private Long chatId;
+
     @M2MFiled(EntityName = UsersEntity.class)
     private Set<Long> receivers;
+
+    @RelatedFiled(EntityName = UsersEntity.class)
     private Long joinSender;
 
     public Long getChatId() {

@@ -21,6 +21,7 @@ public class Mapper {
                 formField.setAccessible(true);
 //               Related Filed
                 if(formField.isAnnotationPresent(RelatedFiled.class)){
+                    System.out.println(fFieldName);
                     RelatedFiled relatedFiled = formField.getAnnotation(RelatedFiled.class);
                     Class<?> relatedClass = relatedFiled.EntityName();
                     Object id = formField.get(form);
@@ -28,7 +29,7 @@ public class Mapper {
 
                 }
                 else if(formField.isAnnotationPresent(M2MFiled.class)){
-
+                    System.out.println(fFieldName);
                 }
 //                Simple Filed
                 else{
