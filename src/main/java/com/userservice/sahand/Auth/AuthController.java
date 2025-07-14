@@ -4,8 +4,11 @@ import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Users.UsersForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,8 +24,17 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletRequest req) throws Exception {
+    public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletRequest req,
+                                   HttpServletResponse res) throws Exception {
         String token =  authService.login(loginForm,req);
+        ResponseCookie cookie = ResponseCookie.from("token11231", token)
+                // .httpOnly(true) // این خط را حذف یا کامنت کنید
+                .secure(true)
+                .path("/")
+                .maxAge(60)
+                .sameSite("Strict")
+                .build();
+        res.setHeader("Set-Cookie", cookie.toString());
         return ResponseEntity.ok(Map.of("token", token));
     }
     @PostMapping("/signup")
