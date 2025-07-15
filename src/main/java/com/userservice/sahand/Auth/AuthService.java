@@ -7,7 +7,9 @@ import com.userservice.sahand.UserSession.UserSessionInterface;
 import com.userservice.sahand.UserSession.PrincipalSimple;
 import com.userservice.sahand.Users.*;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,7 +39,7 @@ public class AuthService implements AuthInterface{
     UserDetailServiceImpl userDetailService;
 
     @Override
-    public String login(LoginForm loginForm,HttpServletRequest req) throws Exception{
+    public String login(LoginForm loginForm, HttpServletResponse res) throws Exception{
         Authentication authentication =  authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
         CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
@@ -52,6 +54,7 @@ public class AuthService implements AuthInterface{
         );
         usersSession.saveToCacheAuth(uuid,updatedAuthentication);
         usersSession.saveToCachePrincipal(uuid,new PrincipalSimple(users));
+
         return token;
     }
 

@@ -49,7 +49,9 @@ public class SecurityConfig {
                 http
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authReq -> authReq
-                        .requestMatchers(HttpMethod.POST, "/auth/signup", "/auth/login", "/auth/signupPerson", "/auth/signUp/person").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/signUp/person").hasRole("SimpleAdmin")
+                        .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/auth/checktoken").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/test").hasRole("SimpleRole")
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
@@ -71,7 +73,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOriginPatterns(List.of("*")); // یا فقط "http://localhost:3000"
+        configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("Authorization"));

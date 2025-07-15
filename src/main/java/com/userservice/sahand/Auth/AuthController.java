@@ -26,15 +26,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletRequest req,
                                    HttpServletResponse res) throws Exception {
-        String token =  authService.login(loginForm,req);
-        ResponseCookie cookie = ResponseCookie.from("token11231", token)
-                // .httpOnly(true) // این خط را حذف یا کامنت کنید
-                .secure(true)
-                .path("/")
-                .maxAge(60)
-                .sameSite("Strict")
-                .build();
-        res.setHeader("Set-Cookie", cookie.toString());
+        String token =  authService.login(loginForm,res);
+//        ResponseCookie cookie = ResponseCookie.from("token11231", token)
+//                .httpOnly(true)
+//                .secure(true)
+//                .path("/")
+//                .maxAge(1000 * 60 * 15)
+//                .sameSite("Lax")
+//                .build();
+//        res.setHeader("Set-Cookie", cookie.toString());
         return ResponseEntity.ok(Map.of("token", token));
     }
     @PostMapping("/signup")
