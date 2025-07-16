@@ -14,7 +14,7 @@ public class ChatsForm extends BasesForm {
     @M2MFiled(EntityName = UsersEntity.class)
     private Set<Long> receivers;
 
-    @RelatedFiled(EntityName = UsersEntity.class)
+    @RelatedFiled(EntityName = UsersEntity.class,FieldName = "userId")
     private Long joinSender;
 
     public Long getChatId() {

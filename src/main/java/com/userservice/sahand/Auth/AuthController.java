@@ -29,9 +29,7 @@ public class AuthController {
         String token =  authService.login(loginForm,res);
         if(token != null) {
             return ResponseEntity.ok(Map.of(
-                    "token", token,
-                    "userId", loginForm.getUsername(),
-                    "username", loginForm.getUsername()
+                    "token", token
             ));
         }
         else {

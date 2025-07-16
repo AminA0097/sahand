@@ -14,7 +14,7 @@ import java.util.Set;
 public class UsersForm extends BasesForm {
     private Long personId;
     private String personTitle;
-    @RelatedFiled(EntityName = PersonsEntity.class)
+    @RelatedFiled(EntityName = PersonsEntity.class,FieldName = "personId")
     @WhatFiled(type = WhatFiled.whatTypes.ManyToOne)
     public Long getPersonId() {
         return personId;
@@ -30,7 +30,7 @@ public class UsersForm extends BasesForm {
     }
 
     private Long roleId;
-    @RelatedFiled(EntityName = RolesEntity.class)
+    @RelatedFiled(EntityName = RolesEntity.class,FieldName = "roleId")
     @WhatFiled(type = WhatFiled.whatTypes.ManyToOne)
     public Long getRoleId() {
         return roleId;
@@ -87,7 +87,7 @@ public class UsersForm extends BasesForm {
         this.userAccess = userAccess;
     }
     private Long userStatusId;
-    @RelatedFiled(EntityName = CoreComboEntity.class)
+    @RelatedFiled(EntityName = CoreComboEntity.class,FieldName = "coreComboId")
     @WhatFiled(type = WhatFiled.whatTypes.ManyToOne)
     public Long getUserStatusId() {
         return userStatusId;
@@ -97,7 +97,7 @@ public class UsersForm extends BasesForm {
     }
 
     private Set<Long> actions;
-    @RelatedFiled(EntityName = ActionsEntity.class)
+    @RelatedFiled(EntityName = ActionsEntity.class,FieldName = "actionId")
     @WhatFiled(type = WhatFiled.whatTypes.ManyToMany)
     public Set<Long> getActions() {
         return actions;

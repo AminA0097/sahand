@@ -2,6 +2,7 @@ package com.userservice.sahand.Utils;
 
 import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.Bases.BasesForm;
+import com.userservice.sahand.Bases.BasesInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
@@ -27,14 +28,31 @@ public class Mapper {
             Method method = (Method)iterator.next();
             WhatFiled whatField = method.getAnnotation(WhatFiled.class);
             if(whatField.type().isManyToOne()){
-                setMethod = basesEntity.getClass().getMethod(method.getName());
                 Long id = (Long) method.invoke(form);
-                System.out.println(id);
+                RelatedFiled relatedFiled = method.getAnnotation(RelatedFiled.class);
+                setMethod =  basesEntity.getClass().getMethod(
+                        getSetterMethod(method.getName()),relatedFiled.EntityName());
+                BasesInterface basesInterface = (BasesInterface) Remote.getRemote(Class.forName(relatedFiled.EntityName().getName().replace("Entity","Interface")));
+                BasesEntity entity;
+                String filter = relatedFiled.FieldName() + " = " + id.toString();
+                entity = basesInterface.find(filter);
+                setMethod.invoke(basesEntity, entity);
+                if (whatField.type().isManyToMany()) {
+
+                }
             }
         }
         return true;
     }
-
+    public static String getSetterMethod(String methodName){
+        if(methodName.startsWith("get")){
+            return methodName.replaceFirst("[g]","s");
+        }
+        if(methodName.startsWith("is")){
+            return methodName.replace("is","set");
+        }
+        return null;
+    }
     public static boolean fillFormToForm(BasesForm fromForm , BasesForm toForm) throws Exception {
         Field[] toFormFields = toForm.getClass().getDeclaredFields();
         Field[] fromFormFields = fromForm.getClass().getDeclaredFields();

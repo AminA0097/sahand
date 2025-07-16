@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private long expiration = 1000 * 60 * 15;
+    private long expiration =  60 * 15 * 100;
     private String secret = "Ece72f7qGgGHtL3iDzu4G9dTG8JEehJxq7Vdn7ElDuo";
     public String extractUserName(String jwt) {
         return extractClaim(jwt, Claims::getSubject);
