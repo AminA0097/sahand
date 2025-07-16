@@ -59,21 +59,21 @@ public class AuthService implements AuthInterface {
     }
 
     @Override
-    public String signUpUsers(UsersForm usersForm) throws Exception {
+    public ResponseEntity<?> signUpUsers(UsersForm usersForm) throws Exception {
 //        SubmitUser
         usersForm.setPassword(passwordEncoder.encode(usersForm.getPassword()));
         String userId = usersService.userRegistration(usersForm);
-        if (userId == null || userId.equals("-1")) {
-            return "failed to register user";
+        if (userId == null || userId.equals("user already exists")) {
+            return sendResponse("failed", "user already exists");
         }
 //        GenerateJWT
         String uuid = UUID.randomUUID().toString();
         UsersEntity users = (UsersEntity) usersService.find(" e.userId = " + userId);
         String token = jwtService.generateToken(new CustomUserDetail(), uuid);
         if (token == null || token.equals("")) {
-            return "failed to return token";
+            return sendResponse("failed", "Failed to get token but user registration done");
         }
-        return token;
+        return sendResponse("done", token);
     }
 
     @Override

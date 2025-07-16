@@ -43,7 +43,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     @Operation(summary = "SignUp With UserForm", description = "Return UserId,Before Have To SignUp Person")
-    public String signUp(@RequestBody UsersForm usersForm) throws Exception {
+    public ResponseEntity<?> signUpUsers(@RequestBody UsersForm usersForm) throws Exception {
         return authService.signUpUsers(usersForm);
 //        Amin
     }

@@ -40,7 +40,7 @@ public class UsersService extends BasesService<UsersEntity> implements UsersInte
     @Transactional
     public String userRegistration(UsersForm usersForm) throws Exception {
         if (findUsername(usersForm.getUserName()) != null) {
-            return "-1";
+            return "user already exists";
         }
         ;
         if (usersForm.getUserId() == -1) {

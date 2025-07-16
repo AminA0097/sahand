@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface AuthInterface {
     public String login(LoginForm loginForm, HttpServletResponse req) throws Exception;
 
-    public String signUpUsers(UsersForm usersForm) throws Exception;
+    public ResponseEntity<?> signUpUsers(UsersForm usersForm) throws Exception;
 
     public ResponseEntity<?> signUpPersons(PersonsForm personsForm) throws Exception;
 
