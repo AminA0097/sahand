@@ -45,14 +45,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable());
-            http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-                http
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        http
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authReq -> authReq
-                        .requestMatchers(HttpMethod.POST,"/auth/signup").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/msg/test").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/auth/checktoken").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/signup").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/signUp/person").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/msg/test").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/auth/checktoken").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/test").hasRole("SimpleRole")
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()

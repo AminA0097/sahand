@@ -3,22 +3,22 @@ package com.userservice.sahand.Auth;
 import com.userservice.sahand.Persons.PersonsEntity;
 import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Persons.PersonsInterface;
-import com.userservice.sahand.UserSession.UserSessionInterface;
 import com.userservice.sahand.UserSession.PrincipalSimple;
-import com.userservice.sahand.Users.*;
-import jakarta.servlet.http.HttpServletRequest;
+import com.userservice.sahand.UserSession.UserSessionInterface;
+import com.userservice.sahand.Users.UsersEntity;
+import com.userservice.sahand.Users.UsersForm;
+import com.userservice.sahand.Users.UsersInterface;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -59,7 +59,7 @@ public class AuthService implements AuthInterface {
     }
 
     @Override
-    public String signUp(UsersForm usersForm) throws Exception {
+    public String signUpUsers(UsersForm usersForm) throws Exception {
 //        SubmitUser
         usersForm.setPassword(passwordEncoder.encode(usersForm.getPassword()));
         String userId = usersService.userRegistration(usersForm);
@@ -77,15 +77,28 @@ public class AuthService implements AuthInterface {
     }
 
     @Override
-    public String signUpPersons(PersonsForm personsForm) throws Exception {
+    public ResponseEntity<?> signUpPersons(PersonsForm personsForm) throws Exception {
         if (personsForm.getId() == -1) {
             PersonsEntity personsEntity = (PersonsEntity) personsInterface.find(" e.nationalNumber= '" + personsForm.getNationalNumber() + "'");
             if (personsEntity == null) {
                 personsForm.setPersonId(null);
             } else {
-                return "failed to register person";
+                return sendResponse("failed", "This person already exists");
             }
         }
-        return personsInterface.save(personsForm);
+        String id = personsInterface.save(personsForm);
+        if (id == null || id.equals("-1")) {
+            return sendResponse("failed", "Failed to save person");
+        }
+        return sendResponse("success", "Saved person successfully", id);
+    }
+
+    @Override
+    public ResponseEntity<?> sendResponse(String status, String... messages) throws Exception {
+        Map<String, Object> body = Map.of(
+                "status", status,
+                "message", List.of(messages)
+        );
+        return ResponseEntity.ok(body);
     }
 }

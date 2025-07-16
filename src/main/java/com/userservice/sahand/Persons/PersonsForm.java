@@ -1,14 +1,14 @@
 package com.userservice.sahand.Persons;
 
 import com.userservice.sahand.Bases.BasesForm;
+import com.userservice.sahand.Utils.WhatFiled;
 
 public class PersonsForm extends BasesForm {
-    private Long personId;
-    private String firstName;
-    private String lastName;
-    private String companyName;
+
+
     private String nationalNumber;
 
+    @WhatFiled
     public String getNationalNumber() {
         return nationalNumber;
     }
@@ -17,6 +17,9 @@ public class PersonsForm extends BasesForm {
         this.nationalNumber = nationalNumber;
     }
 
+    private Long personId;
+
+    @WhatFiled(type = WhatFiled.whatTypes.Long)
     public Long getPersonId() {
         return personId;
     }
@@ -25,6 +28,9 @@ public class PersonsForm extends BasesForm {
         this.personId = personId;
     }
 
+    private String firstName;
+
+    @WhatFiled()
     public String getFirstName() {
         return firstName;
     }
@@ -33,6 +39,9 @@ public class PersonsForm extends BasesForm {
         this.firstName = firstName;
     }
 
+    private String lastName;
+
+    @WhatFiled()
     public String getLastName() {
         return lastName;
     }
@@ -41,6 +50,9 @@ public class PersonsForm extends BasesForm {
         this.lastName = lastName;
     }
 
+    private String companyName;
+
+    @WhatFiled()
     public String getCompanyName() {
         return companyName;
     }
@@ -48,8 +60,9 @@ public class PersonsForm extends BasesForm {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+
     @Override
-    public Long getId(){
+    public Long getId() {
         return this.personId;
     }
 }

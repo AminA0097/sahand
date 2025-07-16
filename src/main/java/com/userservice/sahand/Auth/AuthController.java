@@ -4,14 +4,10 @@ import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Users.UsersForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -48,12 +44,12 @@ public class AuthController {
     @PostMapping("/signup")
     @Operation(summary = "SignUp With UserForm", description = "Return UserId,Before Have To SignUp Person")
     public String signUp(@RequestBody UsersForm usersForm) throws Exception {
-        return authService.signUp(usersForm);
+        return authService.signUpUsers(usersForm);
 //        Amin
     }
 
     @PostMapping("/signUp/person")
-    public String signUpPerson(@RequestBody PersonsForm personsForm) throws Exception {
+    public ResponseEntity<?> signUpPerson(@RequestBody PersonsForm personsForm) throws Exception {
         return authService.signUpPersons(personsForm);
 //        Amin
     }
