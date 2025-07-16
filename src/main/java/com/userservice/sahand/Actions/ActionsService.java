@@ -9,7 +9,7 @@ public class ActionsService extends BasesService<ActionsEntity> implements Actio
     @Override
     @Transactional
     public String setEntity(ActionsForm actionsForm) throws Exception {
-        if(actionsForm.getId() == -1){
+        if (actionsForm.getId() == -1) {
             actionsForm.setActionId(null);
         }
         return super.save(actionsForm);

@@ -17,7 +17,7 @@ import jakarta.persistence.*;
 public class ActionsEntity extends BasesEntity {
     @Id
     @Column(name = "FLD_ACTION_ID")
-    @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_ACTION_SEQ")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "CORE_ACTION_SEQ")
     private Long actionId;
 
     @Column(name = "ACTION_NAME")

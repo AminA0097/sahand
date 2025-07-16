@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ActionsController {
     @Autowired
     ActionsInterface actionsInterface;
+
     @PostMapping("/add")
-    public String addAction(@RequestBody ActionsForm actonsForm) throws Exception{
+    public String addAction(@RequestBody ActionsForm actonsForm) throws Exception {
         return actionsInterface.setEntity(actonsForm);
     }
 }

@@ -86,5 +86,6 @@ public abstract class BasesEntity {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
     public abstract Long getId();
 }

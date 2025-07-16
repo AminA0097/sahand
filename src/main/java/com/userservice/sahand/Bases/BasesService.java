@@ -17,13 +17,15 @@ import java.util.List;
 public abstract class BasesService<T> implements BasesInterface<T> {
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public List<?> getList(String filter, int start, int end) throws Exception {
-        Class <?> interfaceClass = Remote.getClass(this.getClass(),"Interface");
-        Class <?> simpleClass = Remote.getClass(this.getClass(),"Simple");
+        Class<?> interfaceClass = Remote.getClass(this.getClass(), "Interface");
+        Class<?> simpleClass = Remote.getClass(this.getClass(), "Simple");
 //        Class <?> formClass = Remote.getClass(this.getClass(),"Form");
         return List.of();
     }
+
     @Override
     public List<String> getConstraint() {
         List<String> constraints = new ArrayList<>();
@@ -42,11 +44,10 @@ public abstract class BasesService<T> implements BasesInterface<T> {
             basesEntityInject.setCreatedData(new Date());
             basesEntityInject.setEnabled(true);
 
-            try{
+            try {
                 entityManager.persist(basesEntityInject);
                 entityManager.flush();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 return e.getMessage();
             }
             return basesEntityInject.getId().toString();
@@ -66,11 +67,11 @@ public abstract class BasesService<T> implements BasesInterface<T> {
 
     @Override
     public BasesEntity find(String filter) throws Exception {
-        Class <?> entityClassName = Remote.getClass(this.getClass(),"Entity");
-        String selectPart = "select e from "+entityClassName.getSimpleName() + " e";
-        String jpql = selectPart + " where " +filter;
-        TypedQuery<BasesEntity> query =  entityManager.createQuery(jpql,BasesEntity.class);
-        if(query.getResultList().size() == 0){
+        Class<?> entityClassName = Remote.getClass(this.getClass(), "Entity");
+        String selectPart = "select e from " + entityClassName.getSimpleName() + " e";
+        String jpql = selectPart + " where " + filter;
+        TypedQuery<BasesEntity> query = entityManager.createQuery(jpql, BasesEntity.class);
+        if (query.getResultList().size() == 0) {
             return null;
         }
         return query.getResultList().get(0);

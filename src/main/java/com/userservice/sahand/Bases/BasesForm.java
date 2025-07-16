@@ -3,8 +3,9 @@ package com.userservice.sahand.Bases;
 import jakarta.persistence.MappedSuperclass;
 
 import java.util.Date;
+
 @MappedSuperclass
-public abstract  class BasesForm {
+public abstract class BasesForm {
     private String createdBy;
     private String updatedBy;
     private Boolean deleted;

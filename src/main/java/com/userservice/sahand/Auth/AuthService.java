@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class AuthService implements AuthInterface{
+public class AuthService implements AuthInterface {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -39,12 +39,12 @@ public class AuthService implements AuthInterface{
     UserDetailServiceImpl userDetailService;
 
     @Override
-    public String login(LoginForm loginForm, HttpServletResponse res) throws Exception{
-        Authentication authentication =  authenticationManager.
+    public String login(LoginForm loginForm, HttpServletResponse res) throws Exception {
+        Authentication authentication = authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
         CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
         String uuid = UUID.randomUUID().toString();
-        String token = jwtService.generateToken(customUserDetail,uuid);
+        String token = jwtService.generateToken(customUserDetail, uuid);
         UsersEntity users = usersService.findUsername(loginForm.getUsername());
         customUserDetail.setUuid(uuid);
         Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(
@@ -52,8 +52,8 @@ public class AuthService implements AuthInterface{
                 authentication.getCredentials(),
                 customUserDetail.getAuthorities()
         );
-        usersSession.saveToCacheAuth(uuid,updatedAuthentication);
-        usersSession.saveToCachePrincipal(uuid,new PrincipalSimple(users));
+        usersSession.saveToCacheAuth(uuid, updatedAuthentication);
+        usersSession.saveToCachePrincipal(uuid, new PrincipalSimple(users));
 
         return token;
     }
@@ -62,15 +62,15 @@ public class AuthService implements AuthInterface{
     public String signUp(UsersForm usersForm) throws Exception {
 //        SubmitUser
         usersForm.setPassword(passwordEncoder.encode(usersForm.getPassword()));
-        String userId =  usersService.userRegistration(usersForm);
-        if(userId == null || userId.equals("-1")){
+        String userId = usersService.userRegistration(usersForm);
+        if (userId == null || userId.equals("-1")) {
             return "failed to register user";
         }
 //        GenerateJWT
         String uuid = UUID.randomUUID().toString();
-        UsersEntity users = (UsersEntity) usersService.find(" e.userId = "+ userId);
-        String token =  jwtService.generateToken(new CustomUserDetail(),uuid);
-        if(token == null || token.equals("")){
+        UsersEntity users = (UsersEntity) usersService.find(" e.userId = " + userId);
+        String token = jwtService.generateToken(new CustomUserDetail(), uuid);
+        if (token == null || token.equals("")) {
             return "failed to return token";
         }
         return token;
@@ -78,12 +78,11 @@ public class AuthService implements AuthInterface{
 
     @Override
     public String signUpPersons(PersonsForm personsForm) throws Exception {
-        if(personsForm.getId() == -1){
+        if (personsForm.getId() == -1) {
             PersonsEntity personsEntity = (PersonsEntity) personsInterface.find(" e.nationalNumber= '" + personsForm.getNationalNumber() + "'");
-            if(personsEntity == null){
+            if (personsEntity == null) {
                 personsForm.setPersonId(null);
-            }
-            else {
+            } else {
                 return "failed to register person";
             }
         }

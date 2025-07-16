@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatsController {
     @Autowired
     ChatsInterface chatsInterface;
+
     @GetMapping("/test")
     public boolean writeMsg(@RequestBody ChatsForm chatsForm) throws Exception {
         return chatsInterface.sendMsg(chatsForm);

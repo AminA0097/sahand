@@ -1,12 +1,6 @@
 package com.userservice.sahand.Users;
 
-import com.userservice.sahand.Auth.SignUpForm;
 import com.userservice.sahand.Bases.BasesService;
-import com.userservice.sahand.Persons.PersonsEntity;
-import com.userservice.sahand.Persons.PersonsForm;
-import com.userservice.sahand.Persons.PersonsInterface;
-import com.userservice.sahand.Utils.Mapper;
-import com.userservice.sahand.Utils.Remote;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public  class UsersService extends BasesService<UsersEntity> implements UsersInterface {
+public class UsersService extends BasesService<UsersEntity> implements UsersInterface {
     @Autowired
     EntityManager entityManager;
+
     @Override
     public UsersEntity findUserId(String userId) throws UsernameNotFoundException {
         UsersEntity user = entityManager.
@@ -27,6 +22,7 @@ public  class UsersService extends BasesService<UsersEntity> implements UsersInt
                         UsersEntity.class).setParameter("userId", userId).getResultList().get(0);
         return user == null ? null : user;
     }
+
     @Override
     @Transactional
     public UsersEntity findUsername(String username) throws UsernameNotFoundException {
@@ -43,11 +39,15 @@ public  class UsersService extends BasesService<UsersEntity> implements UsersInt
     @Override
     @Transactional
     public String userRegistration(UsersForm usersForm) throws Exception {
-        if(findUsername(usersForm.getUserName()) != null){
+        if (findUsername(usersForm.getUserName()) != null) {
             return "-1";
-        };
+        }
+        ;
+        if (usersForm.getUserId() == -1) {
+            usersForm.setUserId(null);
+        }
         String id = super.save(usersForm);
-        if(id != null){
+        if (id != null) {
             return id;
         }
         return "-1";

@@ -37,12 +37,50 @@ public class Mapper {
                 String filter = relatedFiled.FieldName() + " = " + id.toString();
                 entity = basesInterface.find(filter);
                 setMethod.invoke(basesEntity, entity);
-                if (whatField.type().isManyToMany()) {
-
-                }
             }
+            else if (whatField.type().isManyToMany()) {
+                Set<Long> ids = (Set<Long>) method.invoke(form);
+                RelatedFiled relatedFiled = method.getAnnotation(RelatedFiled.class);
+                setMethod = basesEntity.getClass().getMethod(
+                        getSetterMethod(method.getName()), Set.class
+                );
+                BasesInterface basesInterface = (BasesInterface) Remote.getRemote(
+                        Class.forName(relatedFiled.EntityName().getName().replace("Entity", "Interface"))
+                );
+                Set<BasesEntity> relatedEntities = new HashSet<>();
+                for (Long id : ids) {
+                    String filter = relatedFiled.FieldName() + " = " + id.toString();
+                    BasesEntity entity = basesInterface.find(filter);
+                    if (entity != null) {
+                        relatedEntities.add(entity);
+                    }
+                }
+
+                setMethod.invoke(basesEntity, relatedEntities);
+            }
+            else{
+                WhatFiled.whatTypes types = whatField.type();
+                Class<?> _class = whatClass(types.name());
+                setMethod = basesEntity.getClass().getMethod(
+                        getSetterMethod(method.getName()),_class);
+                Object value = method.invoke(form);
+                setMethod.invoke(basesEntity, value);
+            }
+
         }
         return true;
+    }
+    public static Class<?> whatClass(String what) {
+        switch (what) {
+            case "String":
+                return String.class;
+            case "Long":
+                return Long.class;
+            case "Boolean":
+                return boolean.class;
+            default:
+                return null;
+        }
     }
     public static String getSetterMethod(String methodName){
         if(methodName.startsWith("get")){

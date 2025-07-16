@@ -20,7 +20,7 @@ import java.util.Set;
 public class ChatsEntity extends BasesEntity {
     @Id
     @Column(name = "FLD_CHAT_ID")
-    @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_CHAT_SEQ")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "CORE_CHAT_SEQ")
     private Long chatId;
 
     @Column(name = "FLD_CHAT_TITLE")

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthInterface {
     public String login(LoginForm loginForm, HttpServletResponse req) throws Exception;
+
     public String signUp(UsersForm usersForm) throws Exception;
 
     public String signUpPersons(PersonsForm personsForm) throws Exception;

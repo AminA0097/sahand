@@ -23,7 +23,7 @@ public class UsersEntity extends BasesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_USER_SEQ")
     @Column(name = "FLD_USER_ID")
-    private long userId;
+    private Long userId;
 
     @Column(name = "FLD_USER_NAME")
     private String userName;
@@ -63,11 +63,11 @@ public class UsersEntity extends BasesEntity {
         return this.userId;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

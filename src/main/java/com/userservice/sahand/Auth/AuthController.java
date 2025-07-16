@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "Authentication Controller",description = "Authentication Methods!")
+@Tag(name = "Authentication Controller", description = "Authentication Methods!")
 public class AuthController {
     @Autowired
     AuthService authService;
@@ -26,13 +26,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletRequest req,
                                    HttpServletResponse res) throws Exception {
-        String token =  authService.login(loginForm,res);
-        if(token != null) {
+        String token = authService.login(loginForm, res);
+        if (token != null) {
             return ResponseEntity.ok(Map.of(
                     "token", token
             ));
-        }
-        else {
+        } else {
             return ResponseEntity.status(401).build();
         }
 //        ResponseCookie cookie = ResponseCookie.from("token11231", token)
@@ -45,17 +44,20 @@ public class AuthController {
 //        res.setHeader("Set-Cookie", cookie.toString());
 
     }
+
     @PostMapping("/signup")
-    @Operation(summary = "SignUp With UserForm",description = "Return UserId,Before Have To SignUp Person")
+    @Operation(summary = "SignUp With UserForm", description = "Return UserId,Before Have To SignUp Person")
     public String signUp(@RequestBody UsersForm usersForm) throws Exception {
         return authService.signUp(usersForm);
 //        Amin
     }
+
     @PostMapping("/signUp/person")
     public String signUpPerson(@RequestBody PersonsForm personsForm) throws Exception {
         return authService.signUpPersons(personsForm);
 //        Amin
     }
+
     @GetMapping("/test")
     public String test() throws Exception {
         return "Test Page!";
