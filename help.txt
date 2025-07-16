@@ -1,0 +1,3 @@
+Authcontroller:
+:signuppersons => ... !BASESSERVICE: :save
+:signupusers => ...   !USERESSERVICE::userregistration !BASESSERVICE: :save
