@@ -15,13 +15,13 @@ public class UsersSimple {
     private Set<ActionsEntity> actions;
 
     public UsersSimple(UsersEntity e) {
-        this.firstName = e.getPerson().getFirstName();
-        this.lastName = e.getPerson().getLastName();
-        this.companyName = e.getPerson().getCompanyName();
+        this.firstName = e.getPersonId().getFirstName();
+        this.lastName = e.getPersonId().getLastName();
+        this.companyName = e.getPersonId().getCompanyName();
         this.userName = e.getUserName();
         this.password = e.getPassword();
-        this.roleId = e.getRole().getRoleId();
-        this.roleName = e.getRole().getRoleName();
+        this.roleId = e.getRoleId().getRoleId();
+        this.roleName = e.getRoleId().getRoleName();
         this.actions = e.getActions();
     }
 

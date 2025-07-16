@@ -27,6 +27,16 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletRequest req,
                                    HttpServletResponse res) throws Exception {
         String token =  authService.login(loginForm,res);
+        if(token != null) {
+            return ResponseEntity.ok(Map.of(
+                    "token", token,
+                    "userId", loginForm.getUsername(),
+                    "username", loginForm.getUsername()
+            ));
+        }
+        else {
+            return ResponseEntity.status(401).build();
+        }
 //        ResponseCookie cookie = ResponseCookie.from("token11231", token)
 //                .httpOnly(true)
 //                .secure(true)
@@ -35,7 +45,7 @@ public class AuthController {
 //                .sameSite("Lax")
 //                .build();
 //        res.setHeader("Set-Cookie", cookie.toString());
-        return ResponseEntity.ok(Map.of("token", token));
+
     }
     @PostMapping("/signup")
     @Operation(summary = "SignUp With UserForm",description = "Return UserId,Before Have To SignUp Person")

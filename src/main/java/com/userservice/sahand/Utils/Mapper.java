@@ -5,36 +5,31 @@ import com.userservice.sahand.Bases.BasesForm;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Method;
+import java.util.*;
 
 public class Mapper {
     public static boolean copyFormToEntity(BasesForm form, BasesEntity basesEntity) throws Exception{
-        Field[] entityfields = basesEntity.getClass().getDeclaredFields();
-        Field[] formFields = form.getClass().getDeclaredFields();
-        for (Field field : entityfields) {
-            field.setAccessible(true);
-            String EFieldName = field.getName();
-            for (Field formField : formFields) {
-                String fFieldName = formField.getName();
-                if (!EFieldName.equals(fFieldName)) continue;
-                formField.setAccessible(true);
-//               Related Filed
-                if(formField.isAnnotationPresent(RelatedFiled.class)){
-                    System.out.println(fFieldName);
-                    RelatedFiled relatedFiled = formField.getAnnotation(RelatedFiled.class);
-                    Class<?> relatedClass = relatedFiled.EntityName();
-                    Object id = formField.get(form);
-                    relatedClass.getMethods();
+        Method[] methods = form.getClass().getMethods();
+        Set methodSet = new HashSet();
+        for (Method method : methods) {
+            if(!method.getName().startsWith("get") && !method.getName().startsWith("is")){
+                continue;
+            }
+            if(!method.isAnnotationPresent(WhatFiled.class)){
+                continue;
+            }
+            methodSet.add(method);
+        }
 
-                }
-                else if(formField.isAnnotationPresent(M2MFiled.class)){
-                    System.out.println(fFieldName);
-                }
-//                Simple Filed
-                else{
-                    field.set(basesEntity, formField.get(form));
-                }
+        for(Iterator iterator = methodSet.iterator(); iterator.hasNext();){
+            Method setMethod;
+            Method method = (Method)iterator.next();
+            WhatFiled whatField = method.getAnnotation(WhatFiled.class);
+            if(whatField.type().isManyToOne()){
+                setMethod = basesEntity.getClass().getMethod(method.getName());
+                Long id = (Long) method.invoke(form);
+                System.out.println(id);
             }
         }
         return true;

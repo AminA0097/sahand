@@ -41,6 +41,7 @@ public  class UsersService extends BasesService<UsersEntity> implements UsersInt
     }
 
     @Override
+    @Transactional
     public String userRegistration(UsersForm usersForm) throws Exception {
         if(findUsername(usersForm.getUserName()) != null){
             return "-1";

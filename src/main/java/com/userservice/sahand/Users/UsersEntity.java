@@ -40,11 +40,11 @@ public class UsersEntity extends BasesEntity {
 
     @ManyToOne
     @JoinColumn(name = "FLD_STATUS")
-    private CoreComboEntity userStatus;
+    private CoreComboEntity userStatusId;
 
     @ManyToOne
     @JoinColumn(name = "FLD_PERSON_ID")
-    private PersonsEntity person;
+    private PersonsEntity personId;
 
     @ManyToMany
     @JoinTable(
@@ -55,7 +55,13 @@ public class UsersEntity extends BasesEntity {
 
     @ManyToOne
     @JoinColumn(name = "FLD_ROLE_ID")
-    private RolesEntity role;
+    private RolesEntity roleId;
+
+
+    @Override
+    public Long getId() {
+        return this.userId;
+    }
 
     public long getUserId() {
         return userId;
@@ -97,20 +103,20 @@ public class UsersEntity extends BasesEntity {
         this.userAccess = userAccess;
     }
 
-    public CoreComboEntity getUserStatus() {
-        return userStatus;
+    public CoreComboEntity getUserStatusId() {
+        return userStatusId;
     }
 
-    public void setUserStatus(CoreComboEntity userStatus) {
-        this.userStatus = userStatus;
+    public void setUserStatusId(CoreComboEntity userStatusId) {
+        this.userStatusId = userStatusId;
     }
 
-    public PersonsEntity getPerson() {
-        return person;
+    public PersonsEntity getPersonId() {
+        return personId;
     }
 
-    public void setPerson(PersonsEntity person) {
-        this.person = person;
+    public void setPersonId(PersonsEntity personId) {
+        this.personId = personId;
     }
 
     public Set<ActionsEntity> getActions() {
@@ -121,16 +127,11 @@ public class UsersEntity extends BasesEntity {
         this.actions = actions;
     }
 
-    public RolesEntity getRole() {
-        return role;
+    public RolesEntity getRoleId() {
+        return roleId;
     }
 
-    public void setRole(RolesEntity role) {
-        this.role = role;
-    }
-
-    @Override
-    public Long getId() {
-        return this.userId;
+    public void setRoleId(RolesEntity roleId) {
+        this.roleId = roleId;
     }
 }

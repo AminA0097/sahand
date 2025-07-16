@@ -29,7 +29,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         CustomUserDetail customUserDetail = new CustomUserDetail();
         customUserDetail.setUsername(usersEntity.getUserName());
         customUserDetail.setPassword(usersEntity.getPassword());
-        customUserDetail.setRole(usersEntity.getRole().getRoleName());
+        customUserDetail.setRole(usersEntity.getRoleId().getRoleName());
         return customUserDetail;
     }
 }

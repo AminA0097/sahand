@@ -41,6 +41,7 @@ public abstract class BasesService<T> implements BasesInterface<T> {
             basesEntityInject.setCreatedBy("Amin");
             basesEntityInject.setCreatedData(new Date());
             basesEntityInject.setEnabled(true);
+
             try{
                 entityManager.persist(basesEntityInject);
                 entityManager.flush();

@@ -49,8 +49,9 @@ public class SecurityConfig {
                 http
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authReq -> authReq
-                        .requestMatchers(HttpMethod.POST,"/auth/signUp/person").hasRole("SimpleAdmin")
+                        .requestMatchers(HttpMethod.POST,"/auth/signup").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/msg/test").permitAll()
                         .requestMatchers(HttpMethod.GET,"/auth/checktoken").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/test").hasRole("SimpleRole")
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()

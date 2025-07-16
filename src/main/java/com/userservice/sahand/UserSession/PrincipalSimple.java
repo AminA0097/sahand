@@ -15,9 +15,9 @@ public class PrincipalSimple {
     public PrincipalSimple(UsersEntity e) {
         this.username = e.getUserName();
         this.userid = e.getUserId();
-        this.roleId = e.getRole().getRoleId();
+        this.roleId = e.getRoleId().getRoleId();
         this.actions = e.getActions();
-        this.roleName = e.getRole().getRoleName();
+        this.roleName = e.getRoleId().getRoleName();
     }
 
     public String getRoleName() {

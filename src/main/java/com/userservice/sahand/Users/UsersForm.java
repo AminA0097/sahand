@@ -7,56 +7,42 @@ import com.userservice.sahand.Persons.PersonsEntity;
 import com.userservice.sahand.Roles.RolesEntity;
 import com.userservice.sahand.Utils.RelatedFiled;
 import com.userservice.sahand.Utils.RelatedManyToMany;
+import com.userservice.sahand.Utils.WhatFiled;
 
 import java.util.Set;
 
 public class UsersForm extends BasesForm {
-    @RelatedFiled(EntityName = PersonsEntity.class)
     private Long personId;
     private String personTitle;
-
-    @RelatedFiled(EntityName = RolesEntity.class)
-    private Long role;
-    private Long userId;
-
-    private String userName;
-
-    private String password;
-
-    private boolean isSysAdmin;
-
-    private String userAccess;
-
-    @RelatedFiled(EntityName = CoreComboEntity.class)
-    private Long userStatus;
-
-    @RelatedManyToMany(EntityName = ActionsEntity.class,M2mTable = "core_users_actions")
-    private Set<Long> actions;
-
+    @RelatedFiled(EntityName = PersonsEntity.class)
+    @WhatFiled(type = WhatFiled.whatTypes.ManyToOne)
     public Long getPersonId() {
         return personId;
     }
-
     public void setPersonId(Long personId) {
         this.personId = personId;
     }
-
     public String getPersonTitle() {
         return personTitle;
     }
-
     public void setPersonTitle(String personTitle) {
         this.personTitle = personTitle;
     }
 
-    public Long getRole() {
-        return role;
+    private Long roleId;
+    @RelatedFiled(EntityName = RolesEntity.class)
+    @WhatFiled(type = WhatFiled.whatTypes.ManyToOne)
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setRole(Long role) {
-        this.role = role;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
+
+    private Long userId;
+    @WhatFiled(type = WhatFiled.whatTypes.Long)
     public Long getUserId() {
         return userId;
     }
@@ -64,7 +50,8 @@ public class UsersForm extends BasesForm {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-
+    private String userName;
+    @WhatFiled()
     public String getUserName() {
         return userName;
     }
@@ -72,7 +59,8 @@ public class UsersForm extends BasesForm {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
+    private String password;
+    @WhatFiled()
     public String getPassword() {
         return password;
     }
@@ -80,7 +68,8 @@ public class UsersForm extends BasesForm {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    private boolean isSysAdmin;
+    @WhatFiled(type = WhatFiled.whatTypes.Boolean)
     public boolean isSysAdmin() {
         return isSysAdmin;
     }
@@ -88,7 +77,8 @@ public class UsersForm extends BasesForm {
     public void setSysAdmin(boolean sysAdmin) {
         isSysAdmin = sysAdmin;
     }
-
+    private String userAccess;
+    @WhatFiled()
     public String getUserAccess() {
         return userAccess;
     }
@@ -96,15 +86,19 @@ public class UsersForm extends BasesForm {
     public void setUserAccess(String userAccess) {
         this.userAccess = userAccess;
     }
-
-    public Long getUserStatus() {
-        return userStatus;
+    private Long userStatusId;
+    @RelatedFiled(EntityName = CoreComboEntity.class)
+    @WhatFiled(type = WhatFiled.whatTypes.ManyToOne)
+    public Long getUserStatusId() {
+        return userStatusId;
+    }
+    public void setUserStatusId(Long userStatusId) {
+        this.userStatusId = userStatusId;
     }
 
-    public void setUserStatus(Long userStatus) {
-        this.userStatus = userStatus;
-    }
-
+    private Set<Long> actions;
+    @RelatedFiled(EntityName = ActionsEntity.class)
+    @WhatFiled(type = WhatFiled.whatTypes.ManyToMany)
     public Set<Long> getActions() {
         return actions;
     }

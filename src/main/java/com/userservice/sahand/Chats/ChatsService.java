@@ -3,9 +3,13 @@ package com.userservice.sahand.Chats;
 import com.userservice.sahand.Auth.JwtService;
 import com.userservice.sahand.Bases.BasesForm;
 import com.userservice.sahand.Bases.BasesService;
+import com.userservice.sahand.Persons.PersonsEntity;
+import com.userservice.sahand.Persons.PersonsInterface;
+import com.userservice.sahand.Persons.PersonsService;
 import com.userservice.sahand.UserSession.PrincipalSimple;
 import com.userservice.sahand.UserSession.UserSessionInterface;
 import com.userservice.sahand.Users.UsersEntity;
+import com.userservice.sahand.Utils.Remote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,8 @@ public class ChatsService extends BasesService<ChatsEntity> implements ChatsInte
         if(chatsForm.getChatId() == -1){
             chatsForm.setChatId(null);
         }
+        PersonsInterface remote = (PersonsInterface) Remote.getRemote(PersonsInterface.class);
+        PersonsEntity personsEntity = (PersonsEntity) remote.find("e.personId = 15 ");
         chatsForm.setJoinSender(principalSimple.getUserid());
         String chatId = super.save(chatsForm);
         if (chatId != null || !chatId.equals("-1")) {
