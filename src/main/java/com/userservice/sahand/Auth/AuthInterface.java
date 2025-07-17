@@ -12,7 +12,7 @@ public interface AuthInterface {
 
     public ResponseEntity<?> signUpPersons(PersonsForm personsForm) throws Exception;
 
-    public ResponseEntity<?> getUserInfo(String userName) throws Exception;
+    public UserInfoSimple getUserInfo(String userName) throws Exception;
 
     public ResponseEntity<?> sendResponse(String status, String... messages) throws Exception;
 

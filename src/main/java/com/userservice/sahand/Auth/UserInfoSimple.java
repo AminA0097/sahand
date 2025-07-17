@@ -1,11 +1,14 @@
 package com.userservice.sahand.Auth;
 
+import com.userservice.sahand.Bases.BasesSimple;
 import com.userservice.sahand.Users.UsersEntity;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserInfoForm {
+public class UserInfoSimple extends BasesSimple {
+    private Long formId;
+
     private Long userId;
     private String userName;
     private boolean isSysAdmin;
@@ -26,7 +29,7 @@ public class UserInfoForm {
     private String companyName;
     private String nationalNumber;
 
-    public UserInfoForm(UsersEntity e) {
+    public UserInfoSimple(UsersEntity e) {
         this.userId = e.getId();
         this.userName = e.getUserName();
         this.isSysAdmin = e.isSysAdmin();
@@ -52,6 +55,14 @@ public class UserInfoForm {
         this.companyName = e.getPersonId().getCompanyName();
         this.nationalNumber = e.getPersonId().getNationalNumber();
 
+    }
+
+    public Long getFormId() {
+        return formId;
+    }
+
+    public void setFormId(Long formId) {
+        this.formId = formId;
     }
 
     public Long getUserId() {
@@ -173,5 +184,6 @@ public class UserInfoForm {
     public void setNationalNumber(String nationalNumber) {
         this.nationalNumber = nationalNumber;
     }
+    
 }
 

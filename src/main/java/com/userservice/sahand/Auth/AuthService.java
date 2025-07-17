@@ -115,7 +115,7 @@ public class AuthService implements AuthInterface {
     }
 
     @Override
-    public ResponseEntity<?> getUserInfo(String userName) throws Exception {
-        return null;
+    public UserInfoSimple getUserInfo(String userName) throws Exception {
+        return (UserInfoSimple) usersService.fetchSimple(" e.userName = '" + userName + "'");
     }
 }

@@ -37,7 +37,7 @@ public class AuthController {
     }
 
     @GetMapping("/getuserinfo")
-    public ResponseEntity<?> getUserInfo(@RequestParam String userName) throws Exception {
+    public UserInfoSimple getUserInfo(@RequestParam String userName) throws Exception {
         return authService.getUserInfo(userName);
     }
 

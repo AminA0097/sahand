@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -75,5 +74,11 @@ public abstract class BasesService<T> implements BasesInterface<T> {
             return null;
         }
         return query.getResultList().get(0);
+    }
+
+    @Override
+    public BasesSimple fetchSimple(String filter) throws Exception {
+        Class<?> entityClassName = Remote.getClass(this.getClass(), "Entity");
+        return null;
     }
 }
