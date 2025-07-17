@@ -1,32 +1,28 @@
-package com.userservice.sahand.UserSession;
+package com.userservice.sahand.Auth;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.userservice.sahand.Actions.ActionsEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.Cache;
-import com.userservice.sahand.Auth.CustomUserDetail;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class UsersSession implements UserSessionInterface {
-    private final static  Cache<String, PrincipalSimple> cachePrincipal =
+    private final static Cache<String, PrincipalSimple> cachePrincipal =
             CacheBuilder.newBuilder().expireAfterAccess(15, TimeUnit.MINUTES).build();
-    private final static  Cache<String,Authentication> cacheAuthentication =
+    private final static Cache<String, Authentication> cacheAuthentication =
             CacheBuilder.newBuilder().expireAfterAccess(15, TimeUnit.MINUTES).build();
 
     @Override
     public boolean saveToCachePrincipal(String uuid, PrincipalSimple principal) throws Exception {
         try {
-            cachePrincipal.put(uuid,principal);
+            cachePrincipal.put(uuid, principal);
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -36,8 +32,7 @@ public class UsersSession implements UserSessionInterface {
         try {
             cacheAuthentication.put(uuid, authentication);
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -46,6 +41,7 @@ public class UsersSession implements UserSessionInterface {
     public PrincipalSimple checkExistUserSession(String uuid) {
         return cachePrincipal.getIfPresent(uuid);
     }
+
     @Override
     public Authentication checkExist(String uuid) {
         return cacheAuthentication.getIfPresent(uuid);

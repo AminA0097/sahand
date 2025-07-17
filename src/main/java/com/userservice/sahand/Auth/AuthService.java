@@ -3,8 +3,6 @@ package com.userservice.sahand.Auth;
 import com.userservice.sahand.Persons.PersonsEntity;
 import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Persons.PersonsInterface;
-import com.userservice.sahand.UserSession.PrincipalSimple;
-import com.userservice.sahand.UserSession.UserSessionInterface;
 import com.userservice.sahand.Users.UsersEntity;
 import com.userservice.sahand.Users.UsersForm;
 import com.userservice.sahand.Users.UsersInterface;
@@ -12,8 +10,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,14 +39,22 @@ public class AuthService implements AuthInterface {
     UserDetailServiceImpl userDetailService;
 
     @Override
-    public String login(LoginForm loginForm, HttpServletResponse res) throws Exception {
-        Authentication authentication = authenticationManager.
-                authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
+    public ResponseEntity<?> login(LoginForm loginForm, HttpServletResponse res) throws Exception {
+        Authentication authentication;
+        String token;
+        try {
+            authentication = authenticationManager.
+                    authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
+        } catch (BadCredentialsException e) {
+            return sendResponse("failed", "BadCredentialsException");
+        } catch (AuthenticationException e) {
+            return sendResponse("failed", "AuthenticationException");
+        }
         CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
         String uuid = UUID.randomUUID().toString();
-        String token = jwtService.generateToken(customUserDetail, uuid);
-        UsersEntity users = usersService.findUsername(loginForm.getUsername());
         customUserDetail.setUuid(uuid);
+
+        UsersEntity users = usersService.findUsername(loginForm.getUsername());
         Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(
                 customUserDetail,
                 authentication.getCredentials(),
@@ -54,8 +62,12 @@ public class AuthService implements AuthInterface {
         );
         usersSession.saveToCacheAuth(uuid, updatedAuthentication);
         usersSession.saveToCachePrincipal(uuid, new PrincipalSimple(users));
-
-        return token;
+        try {
+            token = jwtService.generateToken(customUserDetail, uuid);
+        } catch (Exception e) {
+            return sendResponse("failed", "generate token failed");
+        }
+        return sendResponse("Done!", token);
     }
 
     @Override
@@ -90,7 +102,7 @@ public class AuthService implements AuthInterface {
         if (id == null || id.equals("-1")) {
             return sendResponse("failed", "Failed to save person");
         }
-        return sendResponse("success", "Saved person successfully", id);
+        return sendResponse("success", id);
     }
 
     @Override
@@ -100,5 +112,10 @@ public class AuthService implements AuthInterface {
                 "message", List.of(messages)
         );
         return ResponseEntity.ok(body);
+    }
+
+    @Override
+    public ResponseEntity<?> getUserInfo(String userName) throws Exception {
+        return null;
     }
 }

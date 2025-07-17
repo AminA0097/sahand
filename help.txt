@@ -1,3 +1,7 @@
 Authcontroller:
 :signuppersons => ... !BASESSERVICE: :save
-:signupusers => ...   !USERESSERVICE::userregistration !BASESSERVICE: :save
+:signupusers => ...   !USERESSERVICE: :userregistration !BASESSERVICE: :save
+:login => ... !AUTHSERVICE: :login
+----------------------------------------------------------
+
+

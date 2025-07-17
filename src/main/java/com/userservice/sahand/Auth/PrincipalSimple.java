@@ -1,4 +1,4 @@
-package com.userservice.sahand.UserSession;
+package com.userservice.sahand.Auth;
 
 import com.userservice.sahand.Actions.ActionsEntity;
 import com.userservice.sahand.Users.UsersEntity;

@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/auth")
 @Tag(name = "Authentication Controller", description = "Authentication Methods!")
@@ -22,23 +20,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletRequest req,
                                    HttpServletResponse res) throws Exception {
-        String token = authService.login(loginForm, res);
-        if (token != null) {
-            return ResponseEntity.ok(Map.of(
-                    "token", token
-            ));
-        } else {
-            return ResponseEntity.status(401).build();
-        }
-//        ResponseCookie cookie = ResponseCookie.from("token11231", token)
-//                .httpOnly(true)
-//                .secure(true)
-//                .path("/")
-//                .maxAge(1000 * 60 * 15)
-//                .sameSite("Lax")
-//                .build();
-//        res.setHeader("Set-Cookie", cookie.toString());
-
+        return authService.login(loginForm, res);
     }
 
     @PostMapping("/signup")
@@ -51,7 +33,12 @@ public class AuthController {
     @PostMapping("/signUp/person")
     public ResponseEntity<?> signUpPerson(@RequestBody PersonsForm personsForm) throws Exception {
         return authService.signUpPersons(personsForm);
-//        Amin
+
+    }
+
+    @GetMapping("/getuserinfo")
+    public ResponseEntity<?> getUserInfo(@RequestParam String userName) throws Exception {
+        return authService.getUserInfo(userName);
     }
 
     @GetMapping("/test")

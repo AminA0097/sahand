@@ -1,14 +1,11 @@
 package com.userservice.sahand.Chats;
 
 import com.userservice.sahand.Auth.JwtService;
-import com.userservice.sahand.Bases.BasesForm;
+import com.userservice.sahand.Auth.PrincipalSimple;
+import com.userservice.sahand.Auth.UserSessionInterface;
 import com.userservice.sahand.Bases.BasesService;
 import com.userservice.sahand.Persons.PersonsEntity;
 import com.userservice.sahand.Persons.PersonsInterface;
-import com.userservice.sahand.Persons.PersonsService;
-import com.userservice.sahand.UserSession.PrincipalSimple;
-import com.userservice.sahand.UserSession.UserSessionInterface;
-import com.userservice.sahand.Users.UsersEntity;
 import com.userservice.sahand.Utils.Remote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +16,13 @@ public class ChatsService extends BasesService<ChatsEntity> implements ChatsInte
     UserSessionInterface userSessionInterface;
     @Autowired
     JwtService jwtService;
+
     @Override
     public boolean sendMsg(ChatsForm chatsForm) throws Exception {
         String uuid = userSessionInterface.getUuid();
         PrincipalSimple principalSimple = userSessionInterface.checkExistUserSession(uuid);
-        userSessionInterface.checkAccess(principalSimple,8l);
-        if(chatsForm.getChatId() == -1){
+        userSessionInterface.checkAccess(principalSimple, 8l);
+        if (chatsForm.getChatId() == -1) {
             chatsForm.setChatId(null);
         }
         PersonsInterface remote = (PersonsInterface) Remote.getRemote(PersonsInterface.class);
