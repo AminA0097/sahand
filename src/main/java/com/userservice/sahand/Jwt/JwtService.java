@@ -1,12 +1,13 @@
-package com.userservice.sahand.Auth;
+package com.userservice.sahand.Jwt;
 
+import com.userservice.sahand.Auth.CustomUserDetail;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import io.jsonwebtoken.Jwts;
 
 import java.security.Key;
 import java.util.Date;
@@ -18,13 +19,16 @@ import java.util.function.Function;
 public class JwtService {
     private long expiration = 1000 * 60 * 15;
     private String secret = "Ece72f7qGgGHtL3iDzu4G9dTG8JEehJxq7Vdn7ElDuo";
+
     public String extractUserName(String jwt) {
         return extractClaim(jwt, Claims::getSubject);
     }
-    private <T> T extractClaim(String jwt, Function<Claims,T> claimsResolver) {
+
+    private <T> T extractClaim(String jwt, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllCalims(jwt);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllCalims(String jwt) {
         return
                 Jwts.parserBuilder()
@@ -33,6 +37,7 @@ public class JwtService {
                         .parseClaimsJws(jwt)
                         .getBody();
     }
+
     private Key getSignInkey() {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
@@ -46,9 +51,11 @@ public class JwtService {
     private boolean isTokenExpired(String jwt) {
         return extractExpiration(jwt).before(new Date());
     }
+
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
+
     private String buildToken(
             Map<String, Object> extraClims,
             CustomUserDetail userDetails,
@@ -63,11 +70,13 @@ public class JwtService {
                 .signWith(getSignInkey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
     public String generateToken(CustomUserDetail userDetails, String uuid) {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("uuid", uuid);
-        return generateToken(extraClaims,userDetails);
+        return generateToken(extraClaims, userDetails);
     }
+
     public String generateToken(
             Map<String, Object> extraClaims,
             CustomUserDetail userDetails
@@ -75,6 +84,7 @@ public class JwtService {
 
         return buildToken(extraClaims, userDetails, expiration);
     }
+
     public String extractUUID(String jwt) {
         return (String) Jwts.parser().setSigningKey(getSignInkey()).parseClaimsJws(jwt).getBody().get("uuid");
     }

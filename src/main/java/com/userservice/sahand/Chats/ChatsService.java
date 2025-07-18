@@ -1,11 +1,11 @@
 package com.userservice.sahand.Chats;
 
-import com.userservice.sahand.Auth.JwtService;
-import com.userservice.sahand.Auth.PrincipalSimple;
-import com.userservice.sahand.Auth.UserSessionInterface;
 import com.userservice.sahand.Bases.BasesService;
+import com.userservice.sahand.Jwt.JwtService;
 import com.userservice.sahand.Persons.PersonsEntity;
 import com.userservice.sahand.Persons.PersonsInterface;
+import com.userservice.sahand.UsersSerssion.PrincipalSimple;
+import com.userservice.sahand.UsersSerssion.UserSessionInterface;
 import com.userservice.sahand.Utils.Remote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

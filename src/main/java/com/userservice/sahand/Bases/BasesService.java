@@ -39,14 +39,7 @@ public abstract class BasesService<T> implements BasesInterface<T> {
         }
         return res;
     }
-
-    @Override
-    public List<String> getConstraint() {
-        List<String> constraints = new ArrayList<>();
-        constraints.add("e.deleted@eq1;");
-        return constraints;
-    }
-
+    
     @Override
     @Transactional
     public String save(BasesForm basesForm) throws Exception {

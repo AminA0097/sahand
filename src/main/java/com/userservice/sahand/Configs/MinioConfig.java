@@ -1,4 +1,4 @@
-package com.userservice.sahand.Bases;
+package com.userservice.sahand.Configs;
 
 import io.minio.MinioClient;
 import org.springframework.boot.context.properties.ConfigurationProperties;

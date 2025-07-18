@@ -1,5 +1,7 @@
-package com.userservice.sahand.Auth;
+package com.userservice.sahand.Configs;
 
+import com.userservice.sahand.Auth.UserDetailServiceImpl;
+import com.userservice.sahand.Jwt.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
