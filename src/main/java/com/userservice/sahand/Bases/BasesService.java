@@ -1,10 +1,7 @@
 package com.userservice.sahand.Bases;
 
 import com.userservice.sahand.Users.UsersEntity;
-import com.userservice.sahand.Utils.Mapper;
-import com.userservice.sahand.Utils.QueryDsl;
-import com.userservice.sahand.Utils.Remote;
-import com.userservice.sahand.Utils.SimpleQuery;
+import com.userservice.sahand.Utils.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -23,7 +20,17 @@ public abstract class BasesService<T> implements BasesInterface<T> {
     private EntityManager entityManager;
 
     @Override
-    public List getList(String filter, int pageNo, int pageSize, String order, String sort) throws Exception {
+    public List getList(FilterRequest filterRequest) throws Exception {
+        String order = filterRequest.getOrder() != null ? filterRequest.getOrder() : null;
+        String sort = filterRequest.getSort() != null ? filterRequest.getSort() : null;
+        Integer pageNo = (filterRequest.getPageNo() == null || filterRequest.getPageNo() < 0) ? 0 : filterRequest.getPageNo();
+        Integer pageSize = (filterRequest.getPageSize() == null || filterRequest.getPageSize() <= 0) ? 10 :
+                (filterRequest.getPageSize() > 25 ? 25 : filterRequest.getPageSize());
+        return fetch(filterRequest.getFilters(), pageNo, pageSize, order, sort);
+    }
+
+    @Override
+    public List fetch(String filter, int pageNo, int pageSize, String order, String sort) throws Exception {
         Class<?> entityClass = Remote.getClass(this.getClass(), "Entity");
         Class<?> simpleClass = Remote.getClass(this.getClass(), "Simple");
         QueryDsl queryDsl = new QueryDsl();
@@ -37,7 +44,7 @@ public abstract class BasesService<T> implements BasesInterface<T> {
             res.add(constructor.newInstance(users));
 
         }
-        return res;
+        return List.of();
     }
 
     @Override

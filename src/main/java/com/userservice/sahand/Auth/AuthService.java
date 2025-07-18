@@ -120,11 +120,6 @@ public class AuthService implements AuthInterface {
 
     @Override
     public List getUsersInfo(FilterRequest filterRequest) throws Exception {
-        String order = filterRequest.getOrder() != null ? filterRequest.getOrder() : null;
-        String sort = filterRequest.getSort() != null ? filterRequest.getSort() : null;
-        Integer pageNo = (filterRequest.getPageNo() == null || filterRequest.getPageNo() < 0) ? 0 : filterRequest.getPageNo();
-        Integer pageSize = (filterRequest.getPageSize() == null || filterRequest.getPageSize() <= 0) ? 10 :
-                (filterRequest.getPageSize() > 25 ? 25 : filterRequest.getPageSize());
-        return usersService.getList(filterRequest.getFilters(), pageNo, pageSize, order, sort);
+        return usersService.getList(filterRequest);
     }
 }
