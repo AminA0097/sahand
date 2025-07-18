@@ -2,10 +2,12 @@ package com.userservice.sahand.Auth;
 
 import com.userservice.sahand.Bases.BasesSimple;
 import com.userservice.sahand.Users.UsersEntity;
+import com.userservice.sahand.Utils.SimpleQuery;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@SimpleQuery(Query = "select e from UsersEntity e")
 public class UserInfoSimple extends BasesSimple {
     private Long formId;
 
@@ -184,6 +186,6 @@ public class UserInfoSimple extends BasesSimple {
     public void setNationalNumber(String nationalNumber) {
         this.nationalNumber = nationalNumber;
     }
-    
+
 }
 

@@ -2,8 +2,11 @@ package com.userservice.sahand.Auth;
 
 import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Users.UsersForm;
+import com.userservice.sahand.Utils.FilterRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 public interface AuthInterface {
     public ResponseEntity<?> login(LoginForm loginForm, HttpServletResponse req) throws Exception;
@@ -12,7 +15,7 @@ public interface AuthInterface {
 
     public ResponseEntity<?> signUpPersons(PersonsForm personsForm) throws Exception;
 
-    public UserInfoSimple getUserInfo(String userName) throws Exception;
+    public List getUsersInfo(FilterRequest filterRequest) throws Exception;
 
     public ResponseEntity<?> sendResponse(String status, String... messages) throws Exception;
 

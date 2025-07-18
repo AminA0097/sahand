@@ -6,6 +6,7 @@ import com.userservice.sahand.Persons.PersonsInterface;
 import com.userservice.sahand.Users.UsersEntity;
 import com.userservice.sahand.Users.UsersForm;
 import com.userservice.sahand.Users.UsersInterface;
+import com.userservice.sahand.Utils.FilterRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -115,7 +116,12 @@ public class AuthService implements AuthInterface {
     }
 
     @Override
-    public UserInfoSimple getUserInfo(String userName) throws Exception {
-        return (UserInfoSimple) usersService.fetchSimple(" e.userName = '" + userName + "'");
+    public List getUsersInfo(FilterRequest filterRequest) throws Exception {
+        String order = filterRequest.getOrder() != null ? filterRequest.getOrder() : null;
+        String sort = filterRequest.getSort() != null ? filterRequest.getSort() : null;
+        Integer pageNo = (filterRequest.getPageNo() == null || filterRequest.getPageNo() < 0) ? 0 : filterRequest.getPageNo();
+        Integer pageSize = (filterRequest.getPageSize() == null || filterRequest.getPageSize() <= 0) ? 10 :
+                (filterRequest.getPageSize() > 25 ? 25 : filterRequest.getPageSize());
+        return usersService.getList(filterRequest.getFilters(), pageNo, pageSize, order, sort);
     }
 }

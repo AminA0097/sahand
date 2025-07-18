@@ -1,6 +1,7 @@
 package com.userservice.sahand.Bases;
 
 import com.userservice.sahand.Utils.Mapper;
+import com.userservice.sahand.Utils.QueryDsl;
 import com.userservice.sahand.Utils.Remote;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -18,10 +19,9 @@ public abstract class BasesService<T> implements BasesInterface<T> {
     private EntityManager entityManager;
 
     @Override
-    public List<?> getList(String filter, int start, int end) throws Exception {
-        Class<?> interfaceClass = Remote.getClass(this.getClass(), "Interface");
-        Class<?> simpleClass = Remote.getClass(this.getClass(), "Simple");
-//        Class <?> formClass = Remote.getClass(this.getClass(),"Form");
+    public List getList(String filter, int pageNo, int pageSize, String order, String sort) throws Exception {
+        Class<?> entityClass = Remote.getClass(this.getClass(), "Entity");
+        QueryDsl queryDsl = new QueryDsl();
         return List.of();
     }
 
@@ -76,9 +76,4 @@ public abstract class BasesService<T> implements BasesInterface<T> {
         return query.getResultList().get(0);
     }
 
-    @Override
-    public BasesSimple fetchSimple(String filter) throws Exception {
-        Class<?> entityClassName = Remote.getClass(this.getClass(), "Entity");
-        return null;
-    }
 }

@@ -1,13 +1,16 @@
 package com.userservice.sahand.Utils;
+
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.PathBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
+
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -16,10 +19,13 @@ public class QueryDsl<T> {
     private static final Pattern FILTER_PATTERN = Pattern.compile("^e\\.([a-zA-Z0-9_.]+)@(.+)$");
     private static final Set<String> SUPPORTED_OP = Set.of("eq", "ne", "in", "gt", "lt");
 
-    public BooleanBuilder createFilter(Class<T> entityClass, String filter) throws Exception {
+    public BooleanBuilder createFilter(Class<T> entityClass, List<SubFilter> filters) throws Exception {
         PathBuilder<T> pathBuilder = new PathBuilder<>(entityClass, "e");
         BooleanBuilder builder = new BooleanBuilder();
-        String finalFilter = validateFilter(filter);
+        for (SubFilter filter : filters) {
+
+        }
+        String finalFilter = validateFilter("filter");
         String[] filterArray = finalFilter.split(";");
 
         for (String filterItem : filterArray) {
@@ -54,6 +60,7 @@ public class QueryDsl<T> {
         }
         return builder;
     }
+
     private Path<?> buildNestedPath(PathBuilder<?> root, Class<?> rootClass, String fieldPath) throws Exception {
         String[] parts = fieldPath.split("\\.");
         Path<?> path = root;
@@ -76,6 +83,7 @@ public class QueryDsl<T> {
         }
         return path;
     }
+
     private Field findFieldByPath(Class<?> clazz, String fieldPath) throws Exception {
         String[] parts = fieldPath.split("\\.");
         Class<?> currentClass = clazz;

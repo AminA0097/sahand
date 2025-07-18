@@ -3,5 +3,6 @@ Authcontroller:
 :signupusers => ...   !USERESSERVICE: :userregistration !BASESSERVICE: :save
 :login => ... !AUTHSERVICE: :login
 ----------------------------------------------------------
+Filter Pattern
 
 

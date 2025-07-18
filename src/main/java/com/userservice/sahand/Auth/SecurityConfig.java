@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/msg/test").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/checktoken").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/test").hasRole("SimpleRole")
+                        .requestMatchers(HttpMethod.POST, "auth/getuserinfo").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )

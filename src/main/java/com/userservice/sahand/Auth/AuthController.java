@@ -2,6 +2,7 @@ package com.userservice.sahand.Auth;
 
 import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Users.UsersForm;
+import com.userservice.sahand.Utils.FilterRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -36,9 +39,9 @@ public class AuthController {
 
     }
 
-    @GetMapping("/getuserinfo")
-    public UserInfoSimple getUserInfo(@RequestParam String userName) throws Exception {
-        return authService.getUserInfo(userName);
+    @PostMapping("/getuserinfo")
+    public List getUserInfo(@RequestBody FilterRequest filterRequest) throws Exception {
+        return authService.getUsersInfo(filterRequest);
     }
 
     @GetMapping("/test")
