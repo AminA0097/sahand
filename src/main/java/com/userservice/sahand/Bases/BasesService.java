@@ -39,7 +39,7 @@ public abstract class BasesService<T> implements BasesInterface<T> {
         }
         return res;
     }
-    
+
     @Override
     @Transactional
     public String save(BasesForm basesForm) throws Exception {
@@ -73,6 +73,7 @@ public abstract class BasesService<T> implements BasesInterface<T> {
     }
 
     @Override
+    @Transactional
     public BasesEntity find(String filter) throws Exception {
         Class<?> entityClassName = Remote.getClass(this.getClass(), "Entity");
         String selectPart = "select e from " + entityClassName.getSimpleName() + " e";

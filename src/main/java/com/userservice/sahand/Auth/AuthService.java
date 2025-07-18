@@ -58,7 +58,7 @@ public class AuthService implements AuthInterface {
         String uuid = UUID.randomUUID().toString();
         customUserDetail.setUuid(uuid);
 
-        UsersEntity users = usersService.findUsername(loginForm.getUsername());
+        UsersEntity users = (UsersEntity) usersService.find("userName = 'admin' and deleted = false and enabled = true");
         Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(
                 customUserDetail,
                 authentication.getCredentials(),
