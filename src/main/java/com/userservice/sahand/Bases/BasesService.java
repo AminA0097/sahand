@@ -1,5 +1,7 @@
 package com.userservice.sahand.Bases;
 
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.userservice.sahand.Users.UsersEntity;
 import com.userservice.sahand.Utils.*;
 import jakarta.persistence.EntityManager;
@@ -37,6 +39,8 @@ public abstract class BasesService<T> implements BasesInterface<T> {
         List res = new ArrayList<>();
         SimpleQuery simpleQuery = simpleClass.getAnnotation(SimpleQuery.class);
         String query = simpleQuery.Query();
+        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
+
         List<UsersEntity> _res = entityManager.createQuery(query).getResultList();
         for (Iterator iterator = _res.iterator(); iterator.hasNext(); ) {
             UsersEntity users = (UsersEntity) iterator.next();
