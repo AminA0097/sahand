@@ -29,7 +29,7 @@ public class UsersSimple extends BasesSimple {
     private String roleTitle;
 
 
-    private String personId;
+    private Long personId;
     private String firstName;
     private String lastName;
     private String companyName;
@@ -68,7 +68,7 @@ public class UsersSimple extends BasesSimple {
         }
 
         if (e.getPersonId() != null) {
-            this.personId = e.getPersonId().getId() != null ? e.getPersonId().getId().toString() : "";
+            this.personId = e.getPersonId().getId() != null ? e.getPersonId().getId() : -1;
             this.firstName = e.getPersonId().getFirstName();
             this.lastName = e.getPersonId().getLastName();
             this.companyName = e.getPersonId().getCompanyName();
@@ -157,11 +157,11 @@ public class UsersSimple extends BasesSimple {
         this.roleTitle = roleTitle;
     }
 
-    public String getPersonId() {
+    public Long getPersonId() {
         return personId;
     }
 
-    public void setPersonId(String personId) {
+    public void setPersonId(Long personId) {
         this.personId = personId;
     }
 

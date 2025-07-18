@@ -1,8 +1,10 @@
 package com.userservice.sahand.Bases;
 
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.userservice.sahand.Users.UsersEntity;
 import com.userservice.sahand.Utils.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -10,45 +12,51 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 @Service
 public abstract class BasesService<T> implements BasesInterface<T> {
     @PersistenceContext
     private EntityManager entityManager;
+    private static final Pattern FILTER_PATTERN = Pattern.compile("^e\\.([a-zA-Z0-9_.]+)@(.+)$");
+    private static final Set<String> SUPPORTED_OP = Set.of("eq", "ne", "in", "gt", "lt");
 
     @Override
     public List getList(FilterRequest filterRequest) throws Exception {
+        Class<?> simpleClass = Remote.getClass(this.getClass(), "Simple");
         String order = filterRequest.getOrder() != null ? filterRequest.getOrder() : null;
         String sort = filterRequest.getSort() != null ? filterRequest.getSort() : null;
-        Integer pageNo = (filterRequest.getPageNo() == null || filterRequest.getPageNo() < 0) ? 0 : filterRequest.getPageNo();
+        Integer pageNo = (filterRequest.getPageNo() == null || filterRequest.getPageNo() < 0) ? 1 : filterRequest.getPageNo();
         Integer pageSize = (filterRequest.getPageSize() == null || filterRequest.getPageSize() <= 0) ? 10 :
                 (filterRequest.getPageSize() > 25 ? 25 : filterRequest.getPageSize());
-        return fetch(filterRequest.getFilters(), pageNo, pageSize, order, sort);
+        return fetch(simpleClass, filterRequest.getFilters(), pageNo, pageSize, order, sort);
     }
 
     @Override
-    public List fetch(String filter, int pageNo, int pageSize, String order, String sort) throws Exception {
+    public List fetch(Class<?> simpleClass, String filter,
+                      int pageNo, int pageSize, String order, String sort) throws Exception {
         Class<?> entityClass = Remote.getClass(this.getClass(), "Entity");
-        Class<?> simpleClass = Remote.getClass(this.getClass(), "Simple");
-        QueryDsl queryDsl = new QueryDsl();
         List res = new ArrayList<>();
         SimpleQuery simpleQuery = simpleClass.getAnnotation(SimpleQuery.class);
         String query = simpleQuery.Query();
-        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
-
-        List<UsersEntity> _res = entityManager.createQuery(query).getResultList();
-        for (Iterator iterator = _res.iterator(); iterator.hasNext(); ) {
-            UsersEntity users = (UsersEntity) iterator.next();
-            Constructor<?> constructor = simpleClass.getConstructor(entityClass);
-            res.add(constructor.newInstance(users));
-
+        if (query == null) {
+            throw new Exception("Query is not supported");
         }
-        return List.of();
+        PathBuilder<?> entityPath = new PathBuilder<>(entityClass, "e");
+        JPAQueryFactory _query = new JPAQueryFactory(entityManager);
+        QueryDsl<?> queryDsl = new QueryDsl<>();
+
+        BooleanBuilder builder = queryDsl.createQueryDsl(_query, entityPath, entityClass, filter);
+        JPAQuery<?> q = _query.select(entityPath).from(entityPath).where(builder);
+        List<?> results = q.offset((long) pageNo * pageSize).limit(pageSize).fetch();
+
+        List _res = new ArrayList();
+
+        return _res;
     }
 
     @Override

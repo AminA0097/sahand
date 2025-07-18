@@ -6,7 +6,7 @@ import com.userservice.sahand.Utils.FilterRequest;
 import java.util.List;
 
 public interface BasesInterface<T> {
-    public List fetch(String filter, int pageNo, int pageSize, String order, String sort) throws Exception;
+    public List fetch(Class<?> simpleClass, String filter, int pageNo, int pageSize, String order, String sort) throws Exception;
 
     public List getList(FilterRequest filterRequest) throws Exception;
 
