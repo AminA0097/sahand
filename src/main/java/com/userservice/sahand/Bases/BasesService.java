@@ -1,16 +1,20 @@
 package com.userservice.sahand.Bases;
 
+import com.userservice.sahand.Users.UsersEntity;
 import com.userservice.sahand.Utils.Mapper;
 import com.userservice.sahand.Utils.QueryDsl;
 import com.userservice.sahand.Utils.Remote;
+import com.userservice.sahand.Utils.SimpleQuery;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -21,8 +25,19 @@ public abstract class BasesService<T> implements BasesInterface<T> {
     @Override
     public List getList(String filter, int pageNo, int pageSize, String order, String sort) throws Exception {
         Class<?> entityClass = Remote.getClass(this.getClass(), "Entity");
+        Class<?> simpleClass = Remote.getClass(this.getClass(), "Simple");
         QueryDsl queryDsl = new QueryDsl();
-        return List.of();
+        List res = new ArrayList<>();
+        SimpleQuery simpleQuery = simpleClass.getAnnotation(SimpleQuery.class);
+        String query = simpleQuery.Query();
+        List<UsersEntity> _res = entityManager.createQuery(query).getResultList();
+        for (Iterator iterator = _res.iterator(); iterator.hasNext(); ) {
+            UsersEntity users = (UsersEntity) iterator.next();
+            Constructor<?> constructor = simpleClass.getConstructor(entityClass);
+            res.add(constructor.newInstance(users));
+
+        }
+        return res;
     }
 
     @Override
