@@ -43,16 +43,16 @@ public class AuthService implements AuthInterface {
     UserDetailServiceImpl userDetailService;
 
     @Override
-    public ResponseEntity<?> login(LoginForm loginForm, HttpServletResponse res) throws Exception {
+    public String login(LoginForm loginForm, HttpServletResponse res) throws Exception {
         Authentication authentication;
         String token;
         try {
             authentication = authenticationManager.
                     authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
         } catch (BadCredentialsException e) {
-            return sendResponse("failed", "BadCredentialsException");
+            return "";
         } catch (AuthenticationException e) {
-            return sendResponse("failed", "AuthenticationException");
+            return "";
         }
         CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
         String uuid = UUID.randomUUID().toString();
@@ -68,10 +68,10 @@ public class AuthService implements AuthInterface {
         usersSession.saveToCachePrincipal(uuid, new PrincipalSimple(users));
         try {
             token = jwtService.generateToken(customUserDetail, uuid);
+            return token;
         } catch (Exception e) {
-            return sendResponse("failed", "generate token failed");
+            return "";
         }
-        return sendResponse("Done!", token);
     }
 
     @Override

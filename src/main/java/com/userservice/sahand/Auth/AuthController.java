@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,7 +24,14 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletRequest req,
                                    HttpServletResponse res) throws Exception {
-        return authService.login(loginForm, res);
+        String token = authService.login(loginForm, res);
+        if (token != null) {
+            return ResponseEntity.ok(Map.of(
+                    "token", token
+            ));
+        } else {
+            return ResponseEntity.status(401).build();
+        }
     }
 
     @PostMapping("/signup")

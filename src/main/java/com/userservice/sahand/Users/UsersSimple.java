@@ -16,6 +16,7 @@ public class UsersSimple extends BasesSimple {
     private String userName;
     private boolean isSysAdmin;
     private String userAccess;
+    private String passWord;
 
 
     private String userStatusId;
@@ -41,6 +42,7 @@ public class UsersSimple extends BasesSimple {
         this.userName = (e.getUserName() == null || e.getUserName().isEmpty()) ? null : e.getUserName();
         this.isSysAdmin = e.isSysAdmin();
         this.userAccess = e.getUserAccess();
+        this.passWord = e.getPassword();
 
         if (e.getUserStatusId() != null) {
             this.userStatusId = e.getUserStatusId().getCoreComboId() != null
@@ -76,6 +78,14 @@ public class UsersSimple extends BasesSimple {
         }
     }
 
+
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
+    }
 
     public Long getUserId() {
         return userId;

@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/signup").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/signUp/person").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/msg/test").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/msg/test").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/checktoken").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/test").hasRole("SimpleRole")
                         .requestMatchers(HttpMethod.POST, "auth/getuserinfo").permitAll()

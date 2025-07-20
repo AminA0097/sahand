@@ -1,10 +1,10 @@
 package com.userservice.sahand.Chats;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/msg")
@@ -15,5 +15,14 @@ public class ChatsController {
     @GetMapping("/test")
     public boolean writeMsg(@RequestBody ChatsForm chatsForm) throws Exception {
         return chatsInterface.sendMsg(chatsForm);
+    }
+
+    @PostMapping("/test")
+    public ResponseEntity<?> test() throws Exception {
+        Map<String, Object> body = Map.of(
+                "status", "status",
+                "message", "List.of(messages)"
+        );
+        return ResponseEntity.status(200).body(body);
     }
 }

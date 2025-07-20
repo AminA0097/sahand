@@ -1,18 +1,13 @@
 package com.userservice.sahand.Bases;
 
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.PathBuilder;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.userservice.sahand.Utils.*;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +17,8 @@ import java.util.regex.Pattern;
 public abstract class BasesService<T> implements BasesInterface<T> {
     @PersistenceContext
     private EntityManager entityManager;
+    @Autowired
+    private FilterUtil filterUtil;
     private static final Pattern FILTER_PATTERN = Pattern.compile("^e\\.([a-zA-Z0-9_.]+)@(.+)$");
     private static final Set<String> SUPPORTED_OP = Set.of("eq", "ne", "in", "gt", "lt");
 
@@ -40,23 +37,45 @@ public abstract class BasesService<T> implements BasesInterface<T> {
     public List fetch(Class<?> simpleClass, String filter,
                       int pageNo, int pageSize, String order, String sort) throws Exception {
         Class<?> entityClass = Remote.getClass(this.getClass(), "Entity");
-        List res = new ArrayList<>();
         SimpleQuery simpleQuery = simpleClass.getAnnotation(SimpleQuery.class);
         String query = simpleQuery.Query();
         if (query == null) {
             throw new Exception("Query is not supported");
         }
-        PathBuilder<?> entityPath = new PathBuilder<>(entityClass, "e");
-        JPAQueryFactory _query = new JPAQueryFactory(entityManager);
-        QueryDsl<?> queryDsl = new QueryDsl<>();
 
-        BooleanBuilder builder = queryDsl.createQueryDsl(_query, entityPath, entityClass, filter);
-        JPAQuery<?> q = _query.select(entityPath).from(entityPath).where(builder);
-        List<?> results = q.offset((long) pageNo * pageSize).limit(pageSize).fetch();
+        String Query = "select new " + simpleClass.getName() + "(e) from ";
+        query = Query + query.replace("select e from", "");
+        StringBuilder queryBuilder = new StringBuilder(query);
+        StringBuilder filterResult = new StringBuilder();
+        if (query.contains("where")) {
+            queryBuilder.append(" and ");
+        } else {
+            queryBuilder.append(" where ");
+        }
+        queryBuilder.append(" (e.deleted = false)");
+        if (filter != null) {
+            filterResult = filterUtil.createFilter(filter);
+            queryBuilder.append(filterResult.toString());
+        }
+        if (order == null) {
+            queryBuilder.append(" order by ");
 
-        List _res = new ArrayList();
+        }
+        if (order.length() == 0) {
+            for (Field field : entityClass.getDeclaredFields()) {
+                if (field.isAnnotationPresent(Id.class)) {
+                    String idFieldName = field.getName();
+                    queryBuilder.append(" order by e." + idFieldName);
+                    break;
+                }
+            }
+        }
+        Query _query = entityManager.createQuery(queryBuilder.toString());
+        _query.setFirstResult(pageNo * pageSize);
+        _query.setMaxResults(pageSize);
+        List res = _query.getResultList();
 
-        return _res;
+        return res;
     }
 
     @Override
