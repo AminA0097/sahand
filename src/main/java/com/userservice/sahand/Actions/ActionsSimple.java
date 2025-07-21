@@ -1,14 +1,18 @@
 package com.userservice.sahand.Actions;
 
-public class ActionSimple {
+import com.userservice.sahand.Bases.BasesSimple;
+import com.userservice.sahand.Utils.SimpleQuery;
+
+@SimpleQuery(Query = " (e.actionId,e.actionName) from ActionsEntity e")
+public class ActionsSimple extends BasesSimple {
     private long actionId;
     private String actionName;
 
-    public ActionSimple(ActionsEntity e) {
-        this.actionId = e.getActionId();
-        this.actionName = e.getActionName();
+    public ActionsSimple(long actionId, String actionName) {
+        this.actionId = actionId;
+        this.actionName = actionName;
     }
-
+    
     public long getActionId() {
         return actionId;
     }

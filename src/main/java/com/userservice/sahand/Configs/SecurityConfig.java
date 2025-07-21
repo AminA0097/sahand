@@ -58,6 +58,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/auth/checktoken").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/test").hasRole("SimpleRole")
                         .requestMatchers(HttpMethod.POST, "auth/getuserinfo").permitAll()
+                        .requestMatchers(HttpMethod.POST, "action/getall").permitAll()
+                        .requestMatchers(HttpMethod.POST, "roles/getall").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )

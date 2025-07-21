@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@SimpleQuery(Query = "select e from UsersEntity e ")
+@SimpleQuery(Query = "(e) from UsersEntity e ")
 public class UsersSimple extends BasesSimple {
 
 

@@ -5,11 +5,13 @@ import com.userservice.sahand.Utils.*;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -43,9 +45,8 @@ public abstract class BasesService<T> implements BasesInterface<T> {
             throw new Exception("Query is not supported");
         }
 
-        String Query = "select new " + simpleClass.getName() + "(e) from ";
-        query = Query + query.replace("select e from", "");
-        StringBuilder queryBuilder = new StringBuilder(query);
+        String _Query = "select new " + simpleClass.getName() + query;
+        StringBuilder queryBuilder = new StringBuilder(_Query);
         StringBuilder filterResult = new StringBuilder();
         if (query.contains("where")) {
             queryBuilder.append(" and ");
@@ -74,7 +75,6 @@ public abstract class BasesService<T> implements BasesInterface<T> {
         _query.setFirstResult(pageNo * pageSize);
         _query.setMaxResults(pageSize);
         List res = _query.getResultList();
-
         return res;
     }
 
@@ -123,4 +123,12 @@ public abstract class BasesService<T> implements BasesInterface<T> {
         return query.getResultList().get(0);
     }
 
+    @Override
+    public ResponseEntity<?> sendResponse(String status, String... messages) throws Exception {
+        Map<String, Object> body = Map.of(
+                "status", status,
+                "message", List.of(messages)
+        );
+        return ResponseEntity.ok(body);
+    }
 }

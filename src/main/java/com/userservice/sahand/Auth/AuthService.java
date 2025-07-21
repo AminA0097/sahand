@@ -12,7 +12,6 @@ import com.userservice.sahand.UsersSerssion.UserSessionInterface;
 import com.userservice.sahand.Utils.FilterRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -75,47 +73,38 @@ public class AuthService implements AuthInterface {
     }
 
     @Override
-    public ResponseEntity<?> signUpUsers(UsersForm usersForm) throws Exception {
+    public String signUpUsers(UsersForm usersForm) throws Exception {
 //        SubmitUser
         usersForm.setPassword(passwordEncoder.encode(usersForm.getPassword()));
         String userId = usersService.userRegistration(usersForm);
         if (userId == null || userId.equals("user already exists")) {
-            return sendResponse("failed", "user already exists");
+            return "failed";
         }
 //        GenerateJWT
         String uuid = UUID.randomUUID().toString();
         UsersEntity users = (UsersEntity) usersService.find(" e.userId = " + userId);
         String token = jwtService.generateToken(new CustomUserDetail(), uuid);
         if (token == null || token.equals("")) {
-            return sendResponse("failed", "Failed to get token but user registration done");
+            return "failed";
         }
-        return sendResponse("done", token);
+        return token;
     }
 
     @Override
-    public ResponseEntity<?> signUpPersons(PersonsForm personsForm) throws Exception {
+    public String signUpPersons(PersonsForm personsForm) throws Exception {
         if (personsForm.getId() == -1) {
             PersonsEntity personsEntity = (PersonsEntity) personsInterface.find(" e.nationalNumber= '" + personsForm.getNationalNumber() + "'");
             if (personsEntity == null) {
                 personsForm.setPersonId(null);
             } else {
-                return sendResponse("failed", "This person already exists");
+                return "failed";
             }
         }
         String id = personsInterface.save(personsForm);
         if (id == null || id.equals("-1")) {
-            return sendResponse("failed", "Failed to save person");
+            return "failed";
         }
-        return sendResponse("success", id);
-    }
-
-    @Override
-    public ResponseEntity<?> sendResponse(String status, String... messages) throws Exception {
-        Map<String, Object> body = Map.of(
-                "status", status,
-                "message", List.of(messages)
-        );
-        return ResponseEntity.ok(body);
+        return id;
     }
 
     @Override

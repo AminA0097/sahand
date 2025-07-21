@@ -36,13 +36,13 @@ public class AuthController {
 
     @PostMapping("/signup")
     @Operation(summary = "SignUp With UserForm", description = "Return UserId,Before Have To SignUp Person")
-    public ResponseEntity<?> signUpUsers(@RequestBody UsersForm usersForm) throws Exception {
+    public String signUpUsers(@RequestBody UsersForm usersForm) throws Exception {
         return authService.signUpUsers(usersForm);
 //        Amin
     }
 
     @PostMapping("/signUp/person")
-    public ResponseEntity<?> signUpPerson(@RequestBody PersonsForm personsForm) throws Exception {
+    public String signUpPerson(@RequestBody PersonsForm personsForm) throws Exception {
         return authService.signUpPersons(personsForm);
 
     }

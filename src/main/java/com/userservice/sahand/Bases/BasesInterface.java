@@ -2,6 +2,7 @@ package com.userservice.sahand.Bases;
 
 
 import com.userservice.sahand.Utils.FilterRequest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -13,5 +14,7 @@ public interface BasesInterface<T> {
     public String save(BasesForm basesForm) throws Exception;
 
     BasesEntity find(String filter) throws Exception;
+
+    public ResponseEntity<?> sendResponse(String status, String... messages) throws Exception;
 }
 
