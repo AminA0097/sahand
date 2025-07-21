@@ -3,14 +3,14 @@ package com.userservice.sahand.Roles;
 import com.userservice.sahand.Bases.BasesSimple;
 import com.userservice.sahand.Utils.SimpleQuery;
 
-@SimpleQuery(Query = " (e.roleId,e.roleName) from RolesEntity e")
+@SimpleQuery(Query = " (e.roleId,e.roleNameTitle) from RolesEntity e")
 public class RolesSimple extends BasesSimple {
     private long roleId;
     private String roleName;
 
-    public RolesSimple(long roleId, String roleName) {
+    public RolesSimple(long roleId, String roleNameTitle) {
         this.roleId = roleId;
-        this.roleName = roleName;
+        this.roleName = roleNameTitle;
     }
 
     public long getRoleId() {

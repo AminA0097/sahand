@@ -16,10 +16,10 @@ spring:
 #      name: admin
 #      password: admin
 minio:
-  url: http://localhost:9000
-  access-key: Amin
-  secret-key: "@Amin0076"
-  bucket: SahandBucket
+  url: http://localhost:9000/
+  access-key: minioSahand
+  secret-key: minioSahandSecret
+  bucket: Sahand
 logging:
   level:
     org:

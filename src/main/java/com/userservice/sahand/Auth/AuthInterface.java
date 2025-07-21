@@ -15,4 +15,6 @@ public interface AuthInterface {
     public String signUpPersons(PersonsForm personsForm) throws Exception;
 
     public List getUsersInfo(FilterRequest filterRequest) throws Exception;
+
+    public boolean verifyToken(VerifyToken verifyToken) throws Exception;
 }

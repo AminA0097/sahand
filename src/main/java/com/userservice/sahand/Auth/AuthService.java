@@ -111,4 +111,9 @@ public class AuthService implements AuthInterface {
     public List getUsersInfo(FilterRequest filterRequest) throws Exception {
         return usersService.getList(filterRequest);
     }
+
+    @Override
+    public boolean verifyToken(VerifyToken verifyToken) throws Exception {
+        return false;
+    }
 }

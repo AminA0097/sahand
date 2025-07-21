@@ -19,7 +19,7 @@ import java.util.Map;
 @Tag(name = "Authentication Controller", description = "Authentication Methods!")
 public class AuthController {
     @Autowired
-    AuthService authService;
+    AuthInterface authService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm loginForm, HttpServletRequest req,
@@ -55,5 +55,10 @@ public class AuthController {
     @GetMapping("/test")
     public String test() throws Exception {
         return "Test Page!";
+    }
+
+    @PostMapping("/verifytoken")
+    public boolean verifyToken(@RequestBody VerifyToken verifyToken) throws Exception {
+        return authService.verifyToken(verifyToken);
     }
 }
