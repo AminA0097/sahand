@@ -1,5 +1,4 @@
-FROM openjdk:21-jdk-slim
-WORKDIR /app
-COPY target/sahand-1404.03.27.jar /app/app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+FROM eclipse-temurin:21-jdk-alpine
+VOLUME /tmp
+COPY target/sahand-1404.03.27.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]

@@ -2,46 +2,37 @@ version: '3.8'
 
 services:
   app:
-    build: .
-    ports:
-      - "8080:8080"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sahand-app
     depends_on:
-      - postgres
       - minio
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/SAHAND
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: "@Amin0076"
-      MINIO_ENDPOINT: http://minio:9000
-      MINIO_ACCESS_KEY: minioSahand
-      MINIO_SECRET_KEY: minioSahandSecret
-    restart: unless-stopped
-
-  postgres:
-    image: postgres:14
-    environment:
-      POSTGRES_DB: SAHAND
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "@Amin0076"
+      - DB_HOST=host.docker.internal
+      - MINIO_HOST=host.docker.internal
     ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    restart: unless-stopped
+      - "8080:8080"
+    networks:
+      - backend
 
   minio:
     image: minio/minio
-    environment:
-      MINIO_ROOT_USER: minioSahand
-      MINIO_ROOT_PASSWORD: minioSahandSecret
+    container_name: sahand-minio
+    command: server --console-address ":9001" /data
     ports:
-      - "9000:9000"
-      - "9001:9001"
-    command: server /data --console-address ":9001"
+      - "9000:9000"  # S3 API
+      - "9001:9001"  # Console
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
     volumes:
       - miniodata:/data
-    restart: unless-stopped
+    networks:
+      - backend
 
 volumes:
-  pgdata:
   miniodata:
+
+networks:
+  backend:
