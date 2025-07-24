@@ -1,4 +1,5 @@
-FROM eclipse-temurin:21-jdk-alpine
-VOLUME /tmp
-COPY target/sahand-1404.03.27.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM openjdk:21-jdk-slim
+WORKDIR /app
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
