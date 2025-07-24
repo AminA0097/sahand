@@ -1,27 +1,36 @@
 version: '3.8'
-
 services:
   postgres:
     image: postgres:15
+    container_name: postgres_container
+    restart: always
     environment:
       POSTGRES_DB: mydb
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
     ports:
-      - "5432:5432"
+      - "5433:5432"
+    networks:
+      - spring-net
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  app:
+  spring-app:
     build: .
+    container_name: spring_app_container
     depends_on:
       - postgres
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: pass
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
     ports:
       - "8080:8080"
+    networks:
+      - spring-net
+
+networks:
+  spring-net:
 
 volumes:
   pgdata:
