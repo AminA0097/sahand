@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   sahanddb:
     image: postgres:15
