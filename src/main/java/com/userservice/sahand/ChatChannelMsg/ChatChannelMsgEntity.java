@@ -34,8 +34,9 @@ public class ChatChannelMsgEntity extends BasesEntity {
     @Column(name = "FLD_MSG_TYPE")
     private String type;
 
-    @Column(name = "FLD_DOC_ID")
-    private DocumentsEntity docId;
+    @ManyToOne
+    @JoinColumn(name = "FLD_DOC_ID")
+    private DocumentsEntity documentsEntity;
 
     @Override
     public Long getId() {
