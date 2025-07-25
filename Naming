@@ -1,0 +1,18 @@
+Columns start with FLD_ + field name
+Letters must be capitalized
+Use underscore _ between words
+Example:
+private String fieldOne;
+@Column(name = "FLD_FIELD_ONE")
+
+Method Names Should Start With A Lowercase Letter For The First Word,
+And The First Letter Of Each Subsequent Word Should be Uppercase (camelCase)
+Example:
+findUsername();
+
+Classes in Java should be named using PascalCase (each word starts with a capital letter).
+Example:
+UsersEntity
+
+Database table names are usually all uppercase with underscores separating words.
+

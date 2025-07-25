@@ -4,7 +4,6 @@ import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.Users.UsersEntity;
 import jakarta.persistence.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -39,6 +38,28 @@ public class ChatsEntity extends BasesEntity {
             joinColumns = @JoinColumn(name = "FLD_CHAT_ID"),
             inverseJoinColumns = @JoinColumn(name = "FLD_RECEIVER_ID"))
     private Set<UsersEntity> receivers;
+
+    @Column(name = "FLD_CHAT_SEEN")
+    private boolean chatSeen;
+
+    @Column(name = "FLD_CHAT_RECEIVED")
+    private boolean chatReceived;
+
+    public boolean isChatReceived() {
+        return chatReceived;
+    }
+
+    public void setChatReceived(boolean chatReceived) {
+        this.chatReceived = chatReceived;
+    }
+
+    public boolean isChatSeen() {
+        return chatSeen;
+    }
+
+    public void setChatSeen(boolean chatSeen) {
+        this.chatSeen = chatSeen;
+    }
 
     public Long getChatId() {
         return chatId;

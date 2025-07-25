@@ -1,6 +1,6 @@
 package com.userservice.sahand.ChatChannel;
 
-import com.userservice.sahand.ChatContainer.ChatContainerEntity;
+import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.Users.UsersEntity;
 import jakarta.persistence.*;
 
@@ -16,9 +16,9 @@ import java.util.Set;
         pkColumnValue = "ChatChannelEntitySeq",
         allocationSize = 1
 )
-public class ChatChannelEntity extends ChatContainerEntity {
+public class ChatChannelEntity extends BasesEntity {
     @Id
-    @Column(name = "FLD_CHAT_ID")
+    @Column(name = "FLD_CHAT_CHANNEL_ID")
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "CORE_CHAT_CHANNEL_SEQ")
     private Long ChatChannelId;
 
@@ -28,16 +28,16 @@ public class ChatChannelEntity extends ChatContainerEntity {
     @Column(name = "FLD_CHAT_CHANNEL_DESCRIPTION")
     private String ChatChannelDescription;
 
-    @ManyToOne
-    @JoinColumn(name = "FLD_CHAT_CHANNEL_ADMIN")
-    private UsersEntity ChatChannelAdmin;
+    @ManyToMany
+    @JoinTable(
+            name = "M2M_FOR_CHAT_CHANNEL_ADMIN",
+            joinColumns = @JoinColumn(name = "FLD_USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "FLD_CHAT_GROUP_ID"))
+    private Set<UsersEntity> ChatChannelAdmin;
 
     @ManyToOne
     @JoinColumn(name = "FLD_CHAT_CHANNEL_OWNER")
     private UsersEntity ChatChannelOwner;
-
-    @Column(name = "FLD_CHAT_CHANNEL_COUNT")
-    private String ChatChannelMemberCount;
 
     @ManyToMany
     @JoinTable(
@@ -45,6 +45,7 @@ public class ChatChannelEntity extends ChatContainerEntity {
             joinColumns = @JoinColumn(name = "FLD_USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "FLD_CHAT_GROUP_ID"))
     private Set<UsersEntity> ChatChannelMembers;
+
 
     @Override
     public Long getId() {
@@ -75,11 +76,11 @@ public class ChatChannelEntity extends ChatContainerEntity {
         ChatChannelDescription = chatChannelDescription;
     }
 
-    public UsersEntity getChatChannelAdmin() {
+    public Set<UsersEntity> getChatChannelAdmin() {
         return ChatChannelAdmin;
     }
 
-    public void setChatChannelAdmin(UsersEntity chatChannelAdmin) {
+    public void setChatChannelAdmin(Set<UsersEntity> chatChannelAdmin) {
         ChatChannelAdmin = chatChannelAdmin;
     }
 
@@ -91,13 +92,6 @@ public class ChatChannelEntity extends ChatContainerEntity {
         ChatChannelOwner = chatChannelOwner;
     }
 
-    public String getChatChannelMemberCount() {
-        return ChatChannelMemberCount;
-    }
-
-    public void setChatChannelMemberCount(String chatChannelMemberCount) {
-        ChatChannelMemberCount = chatChannelMemberCount;
-    }
 
     public Set<UsersEntity> getChatChannelMembers() {
         return ChatChannelMembers;
