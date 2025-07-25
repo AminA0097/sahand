@@ -1,32 +1,52 @@
 version: '3.8'
+
 services:
-  postgres:
+  sahanddb:
     image: postgres:15
-    container_name: postgres_container
+    container_name: sahanddb
     restart: always
     environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: "_sahanddb"
+      POSTGRES_USER: "_sahanddb_username"
+      POSTGRES_PASSWORD: "_sahanddb_password_"
     ports:
       - "5433:5432"
     networks:
       - spring-net
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - /d/Bimeh/volumes/pgdata:/var/lib/postgresql/data
 
   sahandapp:
     build: .
     container_name: sahandapp
     depends_on:
-      - postgres
+      - sahanddb
+      - sahandminio
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mydb
-      - SPRING_DATASOURCE_USERNAME=myuser
-      - SPRING_DATASOURCE_PASSWORD=mypassword
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://sahanddb:5432/_sahanddb
+      - SPRING_DATASOURCE_USERNAME=_sahanddb_username
+      - SPRING_DATASOURCE_PASSWORD=_sahanddb_password_
+      - MINIO_URL=http://sahandminio:9000
+      - MINIO_ACCESS_KEY=_minio_accesskey_
+      - MINIO_SECRET_KEY=_minio_secretkey_
     ports:
       - "8080:8080"
+    networks:
+      - spring-net
+
+  sahandminio:
+    image: minio/minio
+    container_name: sahandminio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: "_minioa_username"
+      MINIO_ROOT_PASSWORD: "_minioa_password_"
+    command: server --console-address ":9001" /data
+    volumes:
+      - /d/Bimeh/volumes/miniodata:/data
     networks:
       - spring-net
 
@@ -35,3 +55,4 @@ networks:
 
 volumes:
   pgdata:
+  minio-data:

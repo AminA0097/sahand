@@ -10,13 +10,13 @@ import jakarta.persistence.*;
         table = "CORE_SEQ",
         pkColumnName = "TABLE_NAME",
         valueColumnName = "SEQ_COUNT",
-        pkColumnValue = "PersonsEntitySeq",
+        pkColumnValue = "RolesEntitySeq",
         allocationSize = 1
 )
 public class RolesEntity extends BasesEntity {
     @Id
     @Column(name = "FLD_ROLE_ID")
-    @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_ROLE_SEQ")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "CORE_ROLE_SEQ")
     private Long roleId;
 
     @Column(name = "ROLE_NAME")
