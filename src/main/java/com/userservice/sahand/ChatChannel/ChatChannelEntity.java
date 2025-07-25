@@ -1,6 +1,6 @@
 package com.userservice.sahand.ChatChannel;
 
-import com.userservice.sahand.Bases.BasesEntity;
+import com.userservice.sahand.ChatContainer.ChatContainerEntity;
 import com.userservice.sahand.Users.UsersEntity;
 import jakarta.persistence.*;
 
@@ -16,7 +16,7 @@ import java.util.Set;
         pkColumnValue = "ChatChannelEntitySeq",
         allocationSize = 1
 )
-public class ChatChannelEntity extends BasesEntity {
+public class ChatChannelEntity extends ChatContainerEntity {
     @Id
     @Column(name = "FLD_CHAT_ID")
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "CORE_CHAT_CHANNEL_SEQ")
@@ -29,11 +29,11 @@ public class ChatChannelEntity extends BasesEntity {
     private String ChatChannelDescription;
 
     @ManyToOne
-    @Column(name = "FLD_CHAT_CHANNEL_ADMIN")
+    @JoinColumn(name = "FLD_CHAT_CHANNEL_ADMIN")
     private UsersEntity ChatChannelAdmin;
 
     @ManyToOne
-    @Column(name = "FLD_CHAT_CHANNEL_OWNER")
+    @JoinColumn(name = "FLD_CHAT_CHANNEL_OWNER")
     private UsersEntity ChatChannelOwner;
 
     @Column(name = "FLD_CHAT_CHANNEL_COUNT")
@@ -41,7 +41,7 @@ public class ChatChannelEntity extends BasesEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "CORE_CHAT_CHANNEL_MEMEBERS",
+            name = "M2M_FOR_CHAT_CHANNEL_MEMEBERS",
             joinColumns = @JoinColumn(name = "FLD_USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "FLD_CHAT_GROUP_ID"))
     private Set<UsersEntity> ChatChannelMembers;
