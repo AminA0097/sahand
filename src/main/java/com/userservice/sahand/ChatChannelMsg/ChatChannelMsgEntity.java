@@ -2,6 +2,7 @@ package com.userservice.sahand.ChatChannelMsg;
 
 import com.userservice.sahand.Bases.BasesEntity;
 import com.userservice.sahand.ChatChannel.ChatChannelEntity;
+import com.userservice.sahand.Documents.DocumentsEntity;
 import com.userservice.sahand.Users.UsersEntity;
 import jakarta.persistence.*;
 
@@ -23,12 +24,18 @@ public class ChatChannelMsgEntity extends BasesEntity {
     private Long ChatChannelMsgId;
 
     @ManyToOne
-    @JoinColumn(name = "FLD_CHAT_ID")
+    @JoinColumn(name = "FLD_CHANNEL_ID")
     private ChatChannelEntity ChatChannel;
 
     @ManyToOne
     @JoinColumn(name = "FLD_CHANNEL_MSG_SENDER_ID")
     private UsersEntity sender;
+
+    @Column(name = "FLD_MSG_TYPE")
+    private String type;
+
+    @Column(name = "FLD_DOC_ID")
+    private DocumentsEntity docId;
 
     @Override
     public Long getId() {
