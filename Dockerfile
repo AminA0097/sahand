@@ -1,9 +1,3 @@
-FROM openjdk:21-jdk-slim
-
-WORKDIR /app
-
+FROM openjdk:17
 COPY target/*.jar app.jar
-
-ENV SPRING_PROFILES_ACTIVE=prod
-
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
