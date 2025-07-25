@@ -44,6 +44,7 @@ public class AuthController {
     @PostMapping("/signUp/person")
     public String signUpPerson(@RequestBody PersonsForm personsForm) throws Exception {
         return authService.signUpPersons(personsForm);
+//        return "Docker";
 
     }
 
