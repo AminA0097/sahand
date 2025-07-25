@@ -1,57 +1,34 @@
 version: '3.8'
 services:
-  sahanddb:
+  postgres:
     image: postgres:15
-    container_name: sahanddb
-    restart: always
     environment:
-      POSTGRES_DB: "_sahanddb"
-      POSTGRES_USER: "_sahanddb_username"
-      POSTGRES_PASSWORD: "_sahanddb_password_"
+      POSTGRES_DB: messenger
+      POSTGRES_USER: amin
+      POSTGRES_PASSWORD: secret
     ports:
-      - "5433:5432"
-    networks:
-      - spring-net
-    volumes:
-      - /d/Bimeh/volumes/pgdata:/var/lib/postgresql/data
+      - "5432:5432"
 
-  sahandapp:
-    build: .
-    container_name: sahandapp
-    depends_on:
-      - sahanddb
-      - sahandminio
+  kafka:
+    image: bitnami/kafka:latest
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://sahanddb:5432/_sahanddb
-      - SPRING_DATASOURCE_USERNAME=_sahanddb_username
-      - SPRING_DATASOURCE_PASSWORD=_sahanddb_password_
-      - MINIO_URL=http://sahandminio:9000
-      - MINIO_ACCESS_KEY=_minio_accesskey_
-      - MINIO_SECRET_KEY=_minio_secretkey_
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    ports:
+      - "2181:2181"
+
+  backend:
+    build: .
     ports:
       - "8080:8080"
-    networks:
-      - spring-net
-
-  sahandminio:
-    image: minio/minio
-    container_name: sahandminio
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    environment:
-      MINIO_ROOT_USER: "_minioa_username"
-      MINIO_ROOT_PASSWORD: "_minioa_password_"
-    command: server --console-address ":9001" /data
-    volumes:
-      - /d/Bimeh/volumes/miniodata:/data
-    networks:
-      - spring-net
-
-networks:
-  spring-net:
-
-volumes:
-  pgdata:
-  minio-data:
+    depends_on:
+      - kafka
+      - postgres
