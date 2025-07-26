@@ -131,4 +131,18 @@ public abstract class BasesService<T> implements BasesInterface<T> {
         );
         return ResponseEntity.ok(body);
     }
+
+    @Override
+    @Transactional
+    public String saveEntity(BasesEntity basesEntity) throws Exception {
+        basesEntity.setUpdatedBy("Amin");
+        basesEntity.setUpdatedData(new Date());
+        try {
+            entityManager.merge(basesEntity);
+            entityManager.flush();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        return basesEntity.getId().toString();
+    }
 }

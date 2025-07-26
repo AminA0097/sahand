@@ -1,5 +1,6 @@
 package com.userservice.sahand.Users;
 
+import com.userservice.sahand.Bases.BasesDel;
 import com.userservice.sahand.Bases.BasesService;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -50,5 +51,23 @@ public class UsersService extends BasesService<UsersEntity> implements UsersInte
             return id;
         }
         return "-1";
+    }
+
+    @Override
+    @Transactional
+    public boolean delUser(BasesDel userId) throws Exception {
+        if (userId.getId().equals("-1")) {
+            return false;
+        }
+        UsersEntity users = findUserId(userId.getId());
+        if (users == null) {
+            return false;
+        }
+        users.setDeleted(true);
+        String id = super.saveEntity(users);
+        if (id != null) {
+            return true;
+        }
+        return false;
     }
 }

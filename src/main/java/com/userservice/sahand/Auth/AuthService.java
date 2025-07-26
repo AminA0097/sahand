@@ -42,6 +42,11 @@ public class AuthService implements AuthInterface {
 
     @Override
     public String login(LoginForm loginForm, HttpServletResponse res) throws Exception {
+        UsersEntity users = (UsersEntity) usersService.find(" e.userName = '" + loginForm.getUsername() + "'" +
+                " and e.deleted = false and e.enabled = true");
+        if (users == null) {
+            throw new BadCredentialsException("Invalid username");
+        }
         Authentication authentication;
         String token;
         try {
@@ -56,7 +61,6 @@ public class AuthService implements AuthInterface {
         String uuid = UUID.randomUUID().toString();
         customUserDetail.setUuid(uuid);
 
-        UsersEntity users = (UsersEntity) usersService.find("userName = '" + loginForm.getUsername() + "'");
         Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(
                 customUserDetail,
                 authentication.getCredentials(),

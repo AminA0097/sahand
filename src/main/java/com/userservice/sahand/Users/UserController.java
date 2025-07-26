@@ -1,5 +1,6 @@
 package com.userservice.sahand.Users;
 
+import com.userservice.sahand.Bases.BasesDel;
 import com.userservice.sahand.Utils.FilterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +21,10 @@ public class UserController {
     @PostMapping("/getAll")
     public List getUserInfo(@RequestBody FilterRequest filterRequest) throws Exception {
         return usersInterface.getList(filterRequest);
+    }
+
+    @PostMapping("del")
+    public boolean delUser(@RequestBody BasesDel userId) throws Exception {
+        return usersInterface.delUser(userId);
     }
 }

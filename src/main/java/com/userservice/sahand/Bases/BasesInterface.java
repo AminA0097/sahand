@@ -13,6 +13,8 @@ public interface BasesInterface<T> {
 
     public String save(BasesForm basesForm) throws Exception;
 
+    public String saveEntity(BasesEntity basesEntity) throws Exception;
+
     BasesEntity find(String filter) throws Exception;
 
     public ResponseEntity<?> sendResponse(String status, String... messages) throws Exception;

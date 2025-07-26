@@ -52,7 +52,7 @@ public class AuthController {
         return "Test Page!";
     }
 
-    @PostMapping("/verifytoken")
+    @PostMapping("/verifyToken")
     public PrincipalSimple verifyToken() throws Exception {
         return authService.verifyToken();
     }
