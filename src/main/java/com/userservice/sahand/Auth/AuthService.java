@@ -9,7 +9,6 @@ import com.userservice.sahand.Users.UsersForm;
 import com.userservice.sahand.Users.UsersInterface;
 import com.userservice.sahand.UsersSerssion.PrincipalSimple;
 import com.userservice.sahand.UsersSerssion.UserSessionInterface;
-import com.userservice.sahand.Utils.FilterRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,7 +56,7 @@ public class AuthService implements AuthInterface {
         String uuid = UUID.randomUUID().toString();
         customUserDetail.setUuid(uuid);
 
-        UsersEntity users = (UsersEntity) usersService.find("userName = 'admin' and deleted = false and enabled = true");
+        UsersEntity users = (UsersEntity) usersService.find("userName = '" + loginForm.getUsername() + "'");
         Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(
                 customUserDetail,
                 authentication.getCredentials(),
@@ -108,12 +108,13 @@ public class AuthService implements AuthInterface {
     }
 
     @Override
-    public List getUsersInfo(FilterRequest filterRequest) throws Exception {
-        return usersService.getList(filterRequest);
-    }
-
-    @Override
-    public boolean verifyToken(VerifyToken verifyToken) throws Exception {
-        return false;
+    public PrincipalSimple verifyToken() throws Exception {
+        List res = new ArrayList<>();
+        String uuid = usersSession.getUuid();
+        PrincipalSimple principalSimple = usersSession.checkExistUserSession(uuid);
+        if (principalSimple == null) {
+            return null;
+        }
+        return principalSimple;
     }
 }

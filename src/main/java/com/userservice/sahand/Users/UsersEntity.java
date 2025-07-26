@@ -21,8 +21,8 @@ import java.util.Set;
 )
 public class UsersEntity extends BasesEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator = "CORE_USER_SEQ")
-    @Column(name = "FLD_USER_ID")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "CORE_USER_SEQ")
+    @Column(name = "FLD_USFER_ID")
     private Long userId;
 
     @Column(name = "FLD_USER_NAME")
@@ -49,8 +49,8 @@ public class UsersEntity extends BasesEntity {
     @ManyToMany
     @JoinTable(
             name = "CORE_USERS_ACTIONS",
-    joinColumns = @JoinColumn(name = "FLD_USER_ID"),
-    inverseJoinColumns = @JoinColumn(name = "FLD_ACTION_ID"))
+            joinColumns = @JoinColumn(name = "FLD_USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "FLD_ACTION_ID"))
     private Set<ActionsEntity> actions;
 
     @ManyToOne

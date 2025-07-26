@@ -23,6 +23,6 @@ public class ChatsController {
                 "status", "status",
                 "message", "List.of(messages)"
         );
-        return ResponseEntity.status(200).body(body);
+        return ResponseEntity.ok("200");
     }
 }

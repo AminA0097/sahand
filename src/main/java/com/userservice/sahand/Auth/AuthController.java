@@ -2,7 +2,7 @@ package com.userservice.sahand.Auth;
 
 import com.userservice.sahand.Persons.PersonsForm;
 import com.userservice.sahand.Users.UsersForm;
-import com.userservice.sahand.Utils.FilterRequest;
+import com.userservice.sahand.UsersSerssion.PrincipalSimple;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -48,18 +47,13 @@ public class AuthController {
 
     }
 
-    @PostMapping("/getuserinfo")
-    public List getUserInfo(@RequestBody FilterRequest filterRequest) throws Exception {
-        return authService.getUsersInfo(filterRequest);
-    }
-
     @GetMapping("/test")
     public String test() throws Exception {
         return "Test Page!";
     }
 
     @PostMapping("/verifytoken")
-    public boolean verifyToken(@RequestBody VerifyToken verifyToken) throws Exception {
-        return authService.verifyToken(verifyToken);
+    public PrincipalSimple verifyToken() throws Exception {
+        return authService.verifyToken();
     }
 }

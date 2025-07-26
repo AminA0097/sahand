@@ -2,13 +2,11 @@ package com.userservice.sahand.UsersSerssion;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.userservice.sahand.Actions.ActionsEntity;
 import com.userservice.sahand.Auth.CustomUserDetail;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -60,12 +58,14 @@ public class UsersSession implements UserSessionInterface {
 
     @Override
     public boolean checkAccess(PrincipalSimple principalSimple, long actionId) throws Exception {
-        Set<ActionsEntity> userActions = principalSimple.getActions();
-        for (ActionsEntity action : userActions) {
-            if (action.getId() == actionId) {
-                return true;
-            }
-        }
-        throw new Exception("Invalid action");
+//        Set<ActionsEntity> userActions = principalSimple.getActions();
+//        for (ActionsEntity action : userActions) {
+//            if (action.getId() == actionId) {
+//                return true;
+//            }
+//        }
+//        throw new Exception("Invalid action");
+//    }
+        return false;
     }
 }
